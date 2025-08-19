@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <InvariantGlobalization>false</InvariantGlobalization>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.7">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TSC.Expopunto.Application\TSC.Expopunto.Application.csproj" />
+    <ProjectReference Include="..\TSC.Expopunto.Common\TSC.Expopunto.Common.csproj" />
+    <ProjectReference Include="..\TSC.Expopunto.External\TSC.Expopunto.External.csproj" />
+    <ProjectReference Include="..\TSC.Expopunto.Persistence\TSC.Expopunto.Persistence.csproj" />
+  </ItemGroup>
+
+</Project>
