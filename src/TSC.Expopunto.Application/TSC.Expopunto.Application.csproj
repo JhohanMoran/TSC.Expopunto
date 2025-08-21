@@ -22,6 +22,7 @@
     <Folder Include="DataBase\Cliente\Queries\" />
     <Folder Include="DataBase\Comprobante\Commands\" />
     <Folder Include="DataBase\Comprobante\Queries\" />
+    <Folder Include="DataBase\TipoDocumento\Queries\" />
   </ItemGroup>
 
 </Project>
