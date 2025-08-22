@@ -13,9 +13,24 @@ namespace TSC.Expopunto.Application.DataBase.Usuario.Queries
 
         public async Task<List<UsuariosTodos>> ListarTodos()
         {
-            var response = await _dapperService.QueryAsync<UsuariosTodos>("uspUsuarioListados");
+            var parameters = new
+            {
+                Opcion = 1
+            };
+            var response = await _dapperService.QueryAsync<UsuariosTodos>("uspUsuarioListados", parameters);
             return response.ToList();
         }
 
+        public async Task<UsuariosTodos> GetUsuario(int idUsuario)
+        {
+            var parameters = new
+            {
+                Opcion = 2,
+                IdUsuario = idUsuario
+            };
+
+            var response = await _dapperService.QueryFirstOrDefaultAsync<UsuariosTodos>("uspUsuarioListados", parameters);
+            return response;
+        }
     }
 }
