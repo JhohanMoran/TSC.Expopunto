@@ -1,9 +1,11 @@
-﻿using TSC.Expopunto.Application.DataBase.Usuario.Queries.Models;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
+using TSC.Expopunto.Application.DataBase.Usuario.Queries.Models;
 
 namespace TSC.Expopunto.Application.DataBase.Usuario.Queries
 {
     public interface IUsuarioQuery
     {
         Task<List<UsuariosTodos>> ListarTodos();
+        Task<UsuariosTodos> GetUsuario(int idUsuario);
     }
 }
