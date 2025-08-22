@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using System.Runtime.InteropServices;
 using TSC.Expopunto.Application.DataBase.Usuario.Commands;
 using TSC.Expopunto.Application.DataBase.Usuario.Queries;
 using TSC.Expopunto.Application.Exceptions;
@@ -30,6 +31,20 @@ namespace TSC.Expopunto.Api.Controllers
             return StatusCode(
                 StatusCodes.Status201Created,
                 ResponseApiService.Response(StatusCodes.Status201Created, data, "Exitoso"));
+        }
+
+        [HttpPost("update")]
+        public async Task<IActionResult> Update(
+            [FromBody] UsuarioModel model
+        )
+        {
+            model.opcion = (int)OperationType.Update;
+            var data = await _usuarioCommand.ProcesarAsync(model);
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+                );
         }
 
         [HttpPost("actualizar")]
