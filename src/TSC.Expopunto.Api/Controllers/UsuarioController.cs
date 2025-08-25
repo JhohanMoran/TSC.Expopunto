@@ -2,7 +2,6 @@
 using System.Runtime.InteropServices;
 using TSC.Expopunto.Application.DataBase.Usuario.Commands;
 using TSC.Expopunto.Application.DataBase.Usuario.Queries;
-using TSC.Expopunto.Application.DataBase.Usuario.Queries.Models;
 using TSC.Expopunto.Application.Exceptions;
 using TSC.Expopunto.Application.Features;
 using TSC.Expopunto.Common;
@@ -22,8 +21,8 @@ namespace TSC.Expopunto.Api.Controllers
             _usuarioQuery = usuarioQuery;
         }
 
-        [HttpPost("create")]
-        public async Task<IActionResult> Create(
+        [HttpPost("crear")]
+        public async Task<IActionResult> Crear(
             [FromBody] UsuarioModel model
         )
         {
@@ -48,11 +47,33 @@ namespace TSC.Expopunto.Api.Controllers
                 );
         }
 
-        [HttpPost("Delete")]
-        public async Task<IActionResult> Delete(
+        [HttpPost("actualizar")]
+        public async Task<IActionResult> Actualizar(
+            [FromBody] UsuarioModel model
+        )
+        {
+            model.opcion = (int)OperationType.Update;
+            var data = await _usuarioCommand.ProcesarAsync(model);
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+                );
+        }
+
+        [HttpPost("eliminar")]
+        public async Task<IActionResult> Eliminar(
            [FromBody] int idUsuario
        )
         {
+            if (idUsuario == 0)
+            {
+                return StatusCode(
+                StatusCodes.Status400BadRequest,
+                ResponseApiService.Response(StatusCodes.Status200OK, null, "El idUsuario no es válido")
+                );
+            }
+
             var model = new UsuarioModel()
             {
                 id = idUsuario,
@@ -67,10 +88,18 @@ namespace TSC.Expopunto.Api.Controllers
                 );
         }
 
-        [HttpGet("GetUsuarios")]
-        public async Task<IActionResult> GetUsuarios()
+        [HttpGet("listar-todos")]
+        public async Task<IActionResult> ListarTodos()
         {
-            var data = await _usuarioQuery.ListarTodos();
+            var data = await _usuarioQuery.ListarTodosAsync();
+
+            if (data == null || data.Count == 0)
+            {
+                return StatusCode(
+                   StatusCodes.Status204NoContent,
+                   ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No existe usuarios")
+               );
+            }
 
             return StatusCode(
                 StatusCodes.Status200OK,
@@ -78,14 +107,22 @@ namespace TSC.Expopunto.Api.Controllers
                 );
         }
 
-        [HttpGet("GetUsuario")]
-        public async Task<IActionResult> GetUsuario(
+        [HttpGet("obtener-usuario-por-id")]
+        public async Task<IActionResult> ObtenerUsuarioPorId(
          [FromQuery] int idUsuario
      )
         {
-            var data = await _usuarioQuery.GetUsuario(idUsuario);
+            if (idUsuario == 0)
+            {
+                return StatusCode(
+                StatusCodes.Status400BadRequest,
+                ResponseApiService.Response(StatusCodes.Status200OK, null, "El ID de usuario no es válido")
+                );
+            }
 
-            if(data == null)
+            var data = await _usuarioQuery.ObtenerUsuarioPorIdAsync(idUsuario);
+
+            if (data == null)
             {
                 return StatusCode(
                    StatusCodes.Status404NotFound,
