@@ -15,7 +15,10 @@ namespace TSC.Expopunto.Api.Controllers
     {
         private readonly IUsuarioCommand _usuarioCommand;
         private readonly IUsuarioQuery _usuarioQuery;
-        public UsuarioController(IUsuarioCommand usuarioCommand, IUsuarioQuery usuarioQuery)
+        public UsuarioController(
+            IUsuarioCommand usuarioCommand, 
+            IUsuarioQuery usuarioQuery
+        )
         {
             _usuarioCommand = usuarioCommand;
             _usuarioQuery = usuarioQuery;

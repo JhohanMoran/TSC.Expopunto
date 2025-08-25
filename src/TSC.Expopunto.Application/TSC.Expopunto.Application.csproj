@@ -7,6 +7,18 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="DataBase\Cliente\**" />
+    <Compile Remove="DataBase\Comprobante\**" />
+    <Compile Remove="DataBase\TipoDocumento\Queries\**" />
+    <EmbeddedResource Remove="DataBase\Cliente\**" />
+    <EmbeddedResource Remove="DataBase\Comprobante\**" />
+    <EmbeddedResource Remove="DataBase\TipoDocumento\Queries\**" />
+    <None Remove="DataBase\Cliente\**" />
+    <None Remove="DataBase\Comprobante\**" />
+    <None Remove="DataBase\TipoDocumento\Queries\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.3.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.0" />
@@ -15,14 +27,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TSC.Expopunto.Domain\TSC.Expopunto.Domain.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="DataBase\Cliente\Commands\" />
-    <Folder Include="DataBase\Cliente\Queries\" />
-    <Folder Include="DataBase\Comprobante\Commands\" />
-    <Folder Include="DataBase\Comprobante\Queries\" />
-    <Folder Include="DataBase\TipoDocumento\Queries\" />
   </ItemGroup>
 
 </Project>
