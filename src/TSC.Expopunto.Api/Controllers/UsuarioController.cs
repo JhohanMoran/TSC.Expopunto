@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using System.Runtime.InteropServices;
 using TSC.Expopunto.Application.DataBase.Usuario.Commands;
 using TSC.Expopunto.Application.DataBase.Usuario.Queries;
@@ -26,7 +27,7 @@ namespace TSC.Expopunto.Api.Controllers
             [FromBody] UsuarioModel model
         )
         {
-            model.opcion = (int)OperationType.Create;
+            model.Opcion = (int)OperationType.Create;
             var data = await _usuarioCommand.ProcesarAsync(model);
             return StatusCode(
                 StatusCodes.Status201Created,
@@ -38,7 +39,7 @@ namespace TSC.Expopunto.Api.Controllers
             [FromBody] UsuarioModel model
         )
         {
-            model.opcion = (int)OperationType.Update;
+            model.Opcion = (int)OperationType.Update;
             var data = await _usuarioCommand.ProcesarAsync(model);
 
             return StatusCode(
@@ -52,7 +53,7 @@ namespace TSC.Expopunto.Api.Controllers
             [FromBody] UsuarioModel model
         )
         {
-            model.opcion = (int)OperationType.Update;
+            model.Opcion = (int)OperationType.Update;
             var data = await _usuarioCommand.ProcesarAsync(model);
 
             return StatusCode(
@@ -63,22 +64,18 @@ namespace TSC.Expopunto.Api.Controllers
 
         [HttpPost("eliminar")]
         public async Task<IActionResult> Eliminar(
-           [FromBody] int idUsuario
+           [FromBody] UsuarioModel model
        )
         {
-            if (idUsuario == 0)
+            if (model.Id == 0)
             {
                 return StatusCode(
                 StatusCodes.Status400BadRequest,
-                ResponseApiService.Response(StatusCodes.Status200OK, null, "El idUsuario no es válido")
+                ResponseApiService.Response(StatusCodes.Status200OK, null, "El id no es válido")
                 );
             }
 
-            var model = new UsuarioModel()
-            {
-                id = idUsuario,
-                opcion = (int)OperationType.Delete
-            };
+            model.Opcion = (int)OperationType.Delete;
 
             var data = await _usuarioCommand.ProcesarAsync(model);
 
@@ -112,6 +109,7 @@ namespace TSC.Expopunto.Api.Controllers
          [FromQuery] int idUsuario
      )
         {
+
             if (idUsuario == 0)
             {
                 return StatusCode(

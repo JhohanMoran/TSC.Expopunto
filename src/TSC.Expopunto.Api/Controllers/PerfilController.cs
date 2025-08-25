@@ -28,7 +28,7 @@ namespace TSC.Expopunto.Api.Controllers
 
 
         [HttpGet("listar-perfiles-por-estado")]
-        public async Task<IActionResult> ListarPerfilesPorEstadoAsync(bool? activo)
+        public async Task<IActionResult> ListarPerfilesPorEstadoAsync([FromQuery] bool? activo)
         {
             var data = await _perfilQuery.ListarPerfilesPorEstadoAsync(activo);
 
@@ -46,7 +46,7 @@ namespace TSC.Expopunto.Api.Controllers
                 );
         }
 
-        [HttpGet("kistar-combo-perfiles")]
+        [HttpGet("listar-combo-perfiles")]
         public async Task<IActionResult> ListarComboPerfilesAsync()
         {
             var data = await _perfilQuery.ListarComboPerfilesAsync();
@@ -66,7 +66,7 @@ namespace TSC.Expopunto.Api.Controllers
         }
 
         [HttpGet("listar-perfiles-por-id")]
-        public async Task<IActionResult> ListarPerfilesPorIdAsync(int idPerfil)
+        public async Task<IActionResult> ListarPerfilesPorIdAsync([FromQuery] int idPerfil)
         {
             if (idPerfil == 0)
             {
@@ -78,6 +78,13 @@ namespace TSC.Expopunto.Api.Controllers
 
             var data = await _perfilQuery.ListarPerfilesPorIdAsync(idPerfil);
 
+            if(data == null)
+            {
+                return StatusCode(
+              StatusCodes.Status204NoContent,
+              ResponseApiService.Response(StatusCodes.Status204NoContent, data, "Perfil no encontrado")
+              );
+            }
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
@@ -119,9 +126,9 @@ namespace TSC.Expopunto.Api.Controllers
         }
 
         [HttpPost("eliminar")]
-        public async Task<IActionResult> Eliminar([FromBody] int idMenu)
+        public async Task<IActionResult> Eliminar([FromBody] PerfilModel model)
         {
-            if (idMenu == 0)
+            if (model.Id == 0)
             {
                 return StatusCode(
                 StatusCodes.Status400BadRequest,
@@ -129,11 +136,7 @@ namespace TSC.Expopunto.Api.Controllers
                 );
             }
 
-            var model = new PerfilModel()
-            {
-                Id = idMenu,
-                Opcion = (int)OperationType.Delete
-            };
+            model.Opcion = (int)OperationType.Delete;
 
             var data = await _perfilCommand.ProcesarAsync(model);
 

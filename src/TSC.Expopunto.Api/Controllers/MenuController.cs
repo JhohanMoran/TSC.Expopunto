@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Options;
 using TSC.Expopunto.Application.DataBase.Menu.Command;
 using TSC.Expopunto.Application.DataBase.Menu.Queries;
 using TSC.Expopunto.Application.DataBase.Usuario.Commands;
@@ -23,7 +24,7 @@ namespace TSC.Expopunto.Api.Controllers
         }
 
         [HttpGet("listar-menus-por-estado")]
-        public async Task<IActionResult> ListarMenusPorEstados([FromBody] bool? activo)
+        public async Task<IActionResult> ListarMenusPorEstados([FromQuery] bool? activo)
         {
             var data = await _menuQuery.ListarMenusPorEstadoAsync(activo);
 
@@ -61,7 +62,7 @@ namespace TSC.Expopunto.Api.Controllers
         }
 
         [HttpGet("listar-menus-por-id")]
-        public async Task<IActionResult> ListarMenusPorIdAsync([FromBody] int idMenu)
+        public async Task<IActionResult> ListarMenusPorIdAsync([FromQuery] int idMenu)
         {
             if (idMenu == 0)
             {
@@ -73,6 +74,13 @@ namespace TSC.Expopunto.Api.Controllers
 
             var data = await _menuQuery.ListarMenusPorIdAsync(idMenu);
 
+            if(data == null)
+            {
+                return StatusCode(
+                StatusCodes.Status204NoContent,
+                ResponseApiService.Response(StatusCodes.Status204NoContent, data, "No se encontró el menú.")
+                );
+            }
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
@@ -114,9 +122,9 @@ namespace TSC.Expopunto.Api.Controllers
         }
 
         [HttpPost("eliminar")]
-        public async Task<IActionResult> Eliminar([FromBody] int idMenu)
+        public async Task<IActionResult> Eliminar([FromBody] MenuModel model)
         {
-            if (idMenu == 0)
+            if (model.Id == 0)
             {
                 return StatusCode(
                 StatusCodes.Status400BadRequest,
@@ -124,11 +132,7 @@ namespace TSC.Expopunto.Api.Controllers
                 );
             }
 
-            var model = new MenuModel()
-            {
-                Id = idMenu,
-                Opcion = (int)OperationType.Delete
-            };
+            model.Opcion = (int)OperationType.Delete;
 
             var data = await _menuCommand.ProcesarAsync(model);
 
