@@ -19,8 +19,8 @@ namespace TSC.Expopunto.Application.DataBase.Menu.Queries
         {
             var parameters = new
             {
-                p_opcion = 1,
-                p_activo = activo
+                pOpcion = 1,
+                pActivo = activo
             };
             var response = await _dapperService.QueryAsync<MenusTodos>("uspGetMenus", parameters);
             return response.ToList();
@@ -30,8 +30,8 @@ namespace TSC.Expopunto.Application.DataBase.Menu.Queries
         {
             var parameters = new
             {
-                p_opcion = 3,
-                p_id = idMenu
+                pOpcion = 3,
+                pId = idMenu
             };
             var response = await _dapperService.QueryFirstOrDefaultAsync<MenusTodos>("uspGetMenus", parameters);
             return response;
@@ -41,14 +41,13 @@ namespace TSC.Expopunto.Application.DataBase.Menu.Queries
         {
             var parameters = new
             {
-                p_opcion = 2
+                pOpcion = 2
             };
             var response = await _dapperService.QueryAsync<MenusTodos>("uspGetMenus", parameters);
 
             var menusFormateados = FormatearMenus(response.ToList());
 
             return menusFormateados;
-            //return response.ToList();
         }
 
         public List<MenusTodos> FormatearMenus(List<MenusTodos> menus)

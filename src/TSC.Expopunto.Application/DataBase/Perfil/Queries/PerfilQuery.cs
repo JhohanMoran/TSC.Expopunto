@@ -18,7 +18,7 @@ namespace TSC.Expopunto.Application.DataBase.Perfil.Queries
         {
             var parameters = new
             {
-                p_opcion = 2
+                pOpcion = 2
             };
 
             var response = await _dapperService.QueryAsync<PerfilesTodosModel>("uspGetPerfiles", parameters);
@@ -29,8 +29,8 @@ namespace TSC.Expopunto.Application.DataBase.Perfil.Queries
         {
             var parameters = new
             {
-                p_opcion = 3,
-                p_id = idPerfil
+                pOpcion = 3,
+                pId = idPerfil
             };
 
             var response = await _dapperService.QueryFirstOrDefaultAsync<PerfilesTodosModel>("uspGetPerfiles", parameters);
@@ -41,8 +41,8 @@ namespace TSC.Expopunto.Application.DataBase.Perfil.Queries
         {
             var parameters = new
             {
-                p_opcion = 1,
-                p_activo = activo
+                pOpcion = 1,
+                pActivo = activo
             };
 
             var response = await _dapperService.QueryAsync<PerfilesTodosModel>("uspGetPerfiles", parameters);

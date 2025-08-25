@@ -19,14 +19,14 @@ namespace TSC.Expopunto.Application.DataBase.Menu.Command
         {
             var paremeters = new
             {
-                p_opcion = model.Opcion,
-                p_id = model.Id,
-                p_nombre = model.Nombre,
-                p_ruta = model.Ruta,
-                p_icono = model.Icono,
-                p_idMenuPadre = model.IdMenuPadre,
-                p_orden = model.Orden,
-                p_idUsuario = model.IdUsuario
+                pOpcion = model.Opcion,
+                pId = model.Id,
+                pNombre = model.Nombre,
+                pRuta = model.Ruta,
+                pIcono = model.Icono,
+                pIdMenuPadre = model.IdMenuPadre,
+                pOrden = model.Orden,
+                pIdUsuario = model.IdUsuario
             };
 
             var response = await _dapperSevice.ExecuteScalarAsync("uspSetMenu", paremeters);

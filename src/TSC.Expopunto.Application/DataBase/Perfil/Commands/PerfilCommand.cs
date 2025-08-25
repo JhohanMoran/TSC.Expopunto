@@ -20,11 +20,11 @@ namespace TSC.Expopunto.Application.DataBase.Perfil.Commands
             var response = await _dapperService.ExecuteScalarAsync("uspSetPerfil",
                     new
                     {
-                        p_opcion = model.Opcion,
-                        p_id = model.Id,
-                        p_nombre = model.Nombre,
-                        p_descripcion = model.Descripcion,
-                        p_idUsuario = model.IdUsuario
+                        pOpcion = model.Opcion,
+                        pId = model.Id,
+                        pNombre = model.Nombre,
+                        pDescripcion = model.Descripcion,
+                        pIdUsuario = model.IdUsuario
 
                     }
                 );

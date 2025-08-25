@@ -15,12 +15,12 @@ namespace TSC.Expopunto.Application.DataBase.Usuario.Commands
             var response = await _dapperService.ExecuteScalarAsync("uspSetUsuario",
                 new
                 {
-                    p_opcion = model.Opcion,
-                    p_id = model.Id,
-                    p_nombres = model.Nombres,
-                    p_apellidos = model.Apellidos,
-                    p_usuario = model.Usuario,
-                    p_contrasenia = model.Contrasenia
+                    pOpcion = model.Opcion,
+                    pId = model.Id,
+                    pNombres = model.Nombres,
+                    pApellidos = model.Apellidos,
+                    pUsuario = model.Usuario,
+                    pContrasenia = model.Contrasenia
                 });
 
             if (response > 1)

@@ -25,8 +25,8 @@ namespace TSC.Expopunto.Application.DataBase.Usuario.Queries
         {
             var parameters = new
             {
-                p_opcion = 2,
-                p_idUsuario = idUsuario
+                pOpcion = 2,
+                pIdUsuario = idUsuario
             };
 
             var response = await _dapperService.QueryFirstOrDefaultAsync<UsuariosTodosModel>("uspGetUsuarios", parameters);
