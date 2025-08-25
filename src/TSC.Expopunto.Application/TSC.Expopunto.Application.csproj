@@ -29,4 +29,11 @@
     <ProjectReference Include="..\TSC.Expopunto.Domain\TSC.Expopunto.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DataBase\Cliente\Commands\" />
+    <Folder Include="DataBase\Cliente\Queries\" />
+    <Folder Include="DataBase\Comprobante\Commands\" />
+    <Folder Include="DataBase\Comprobante\Queries\" />
+  </ItemGroup>
+
 </Project>
