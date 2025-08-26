@@ -10,6 +10,10 @@ using TSC.Expopunto.Application.DataBase.Accesos.Queries;
 using TSC.Expopunto.Application.DataBase.TipoDocumento.Commands;
 using TSC.Expopunto.Application.DataBase.Usuario.Commands;
 using TSC.Expopunto.Application.DataBase.Usuario.Queries;
+using TSC.Expopunto.Application.DataBase.UsuariosPerfil.Commands;
+using System.Reflection;
+using FluentValidation;
+using TSC.Expopunto.Application.DataBase.PerfilMenu.Commands;
 
 namespace TSC.Expopunto.Application
 {
@@ -37,6 +41,12 @@ namespace TSC.Expopunto.Application
             services.AddTransient<ITipoDocumentoCommand, TipoDocumentoCommand>();
 
             services.AddTransient<IAccesosQuery, AccesosQuery>();
+
+            services.AddTransient<IUsuariosPerfilCommand, UsuariosPerfilCommand>();
+
+            services.AddTransient<IPerfilMenuCommand, PerfilMenuCommand>();
+
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             return services;
         }
