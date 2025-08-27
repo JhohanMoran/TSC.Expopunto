@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using TSC.Expopunto.Application.Configuration;
+using TSC.Expopunto.Application.DataBase.TipoDocumento.Queries;
 using TSC.Expopunto.Application.DataBase.Usuario.Commands;
 using TSC.Expopunto.Application.DataBase.Usuario.Queries;
 
@@ -20,6 +21,7 @@ namespace TSC.Expopunto.Application
 
             services.AddTransient<IUsuarioCommand, UsuarioCommand>();
             services.AddTransient<IUsuarioQuery, UsuarioQuery>();
+            services .AddTransient<ITipoDocumentoQuery, TipoDocumentoQuery>();
 
             return services;
         }
