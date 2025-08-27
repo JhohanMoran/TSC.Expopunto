@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TSC.Expopunto.Application.DataBase.EntidadFinanciera.Commands;
-using TSC.Expopunto.Application.DataBase.Usuario.Commands;
+using TSC.Expopunto.Application.DataBase.EntidadFinanciera.Queries;
 using TSC.Expopunto.Application.Exceptions;
 using TSC.Expopunto.Application.Features;
 using TSC.Expopunto.Common;
@@ -14,14 +14,16 @@ namespace TSC.Expopunto.Api.Controllers
     public class EntidadFinancieraController : Controller
     {
         private readonly IEntidadFinancieraCommand _entidadFinancieraCommand;
-        public EntidadFinancieraController(IEntidadFinancieraCommand entidadFinancieraCommand)
+        private readonly IEntidadFinancieraQuery _entidadFinancieraQuery;
+        public EntidadFinancieraController(IEntidadFinancieraCommand entidadFinancieraCommand, IEntidadFinancieraQuery entidadFinancieraQuery)
         {
             _entidadFinancieraCommand = entidadFinancieraCommand;
+            _entidadFinancieraQuery = entidadFinancieraQuery;
 
         }
 
-        [HttpPost("create")]
-        public async Task<IActionResult> Create(
+        [HttpPost("crear")]
+        public async Task<IActionResult> Crear(
             [FromBody] EntidadFinancieraModel model
         )
         {
@@ -31,6 +33,106 @@ namespace TSC.Expopunto.Api.Controllers
                 StatusCodes.Status201Created,
                 ResponseApiService.Response(StatusCodes.Status201Created, data, "Exitoso"));
         }
+        [HttpPost("actualizar")]
+        public async Task<IActionResult> Actualizar(
+            [FromBody] EntidadFinancieraModel model
+        )
+        {
+            model.opcion = (int)OperationType.Update;
+            var data = await _entidadFinancieraCommand.ProcesarAsync(model);
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+                );
+
+        }
+        [HttpPost("eliminar")]
+        public async Task<IActionResult> Eliminar(
+            [FromBody] int idEntidad
+        )
+        {
+            if (idEntidad == 0)
+            {
+                return StatusCode(
+                StatusCodes.Status400BadRequest,
+                ResponseApiService.Response(StatusCodes.Status200OK, null, "El id de la Entidad no es válido")
+                );
+            }
+
+            var model = new EntidadFinancieraModel()
+            {
+                id = idEntidad,
+                opcion = (int)OperationType.Delete
+
+            };
+            var data = await _entidadFinancieraCommand.ProcesarAsync(model);
+
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+
+        }
+        [HttpPost("listar-todos")]
+        public async Task<IActionResult> ListarTodos()
+        {
+            var data = await _entidadFinancieraQuery.ListarTodosAsync();
+
+            if (data == null || data.Count ==0)
+            
+            {
+                return StatusCode(
+                    StatusCodes.Status204NoContent,
+                    ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No existe entidades")
+
+                );
+            
+            }
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+                );
+
+        }
+        [HttpPost("obtener-entidad-financiera-por-id")]
+        public async Task<IActionResult> ObtenerEntidadFinancieraPorId(
+            [FromQuery] int idEntidad
+            )
+
+        
+        {
+            if(idEntidad==0)
+            {
+
+                return StatusCode(
+                StatusCodes.Status400BadRequest,
+                ResponseApiService.Response(StatusCodes.Status200OK, null, "El Id de la Entidad no es válido")
+                );
+            }
+
+            var data = await _entidadFinancieraQuery.ObtenerEntidadFinancieraPorIdAsync(idEntidad);
+
+            if (data == null)
+            
+            {
+                return StatusCode(
+                    StatusCodes.Status404NotFound,
+                    ResponseApiService.Response(StatusCodes.Status404NotFound, data, "Entidad no encontrada")
+
+                );
+            
+            }
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+                );
+
+        }
+
 
     }
 }

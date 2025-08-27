@@ -29,7 +29,7 @@ namespace TSC.Expopunto.Application.DataBase.EntidadFinanciera.Commands
                     p_id = model.id,
                     p_codigo = model.codigo,
                     p_descripcion = model.descripcion,
-                    p_idUsuario = model.idUsuario,
+                    p_idEntidad = model.idEntidad,
                     p_activo = model.activo
                 });
 
