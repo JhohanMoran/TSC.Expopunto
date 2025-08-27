@@ -30,12 +30,12 @@ namespace TSC.Expopunto.Application.DataBase.TipoDocumento.Queries
             parameters); 
             return response.ToList();
         }
-        public async Task<TiposDocumentoTodosModel> ObtenerTipoDocumentoPorIdAsync(int id)
+        public async Task<TiposDocumentoTodosModel> ObtenerTipoDocumentoPorIdAsync(int idTipoDocumento)
         {
             var parameters = new
             {
                 pOpcion = 2,
-                pIdTipoDocumento = id
+                pIdTipoDocumento = idTipoDocumento
             };
             var response = await _dapperService.QueryFirstOrDefaultAsync<TiposDocumentoTodosModel>("uspGetTiposDocumento",
             parameters);

@@ -28,7 +28,8 @@ namespace TSC.Expopunto.Api.Controllers
         }
 
         [HttpGet("obtener-Tipo-Documento")]
-        public async Task<IActionResult> ObtenerTipoDocumento([FromQuery] int idTipoDocumento)
+        public async Task<IActionResult> ObtenerTipoDocumento(
+            [FromQuery] int idTipoDocumento)
         {
              var data = await _tipoDocumentoQuery.ObtenerTipoDocumentoPorIdAsync(idTipoDocumento);
              if (data == null)
