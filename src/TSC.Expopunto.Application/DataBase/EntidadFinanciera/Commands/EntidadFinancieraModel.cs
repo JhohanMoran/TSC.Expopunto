@@ -2,11 +2,11 @@
 {
     public class EntidadFinancieraModel
     {
-        public int opcion { get; set; }
-        public int id { get; set; }
-        public string codigo { get; set; }
-        public string descripcion { get; set; }
-        public int idEntidad { get; set; }
-        public bool activo { get; set; }
+        public int Opcion { get; set; }
+        public int Id { get; set; }
+        public string Codigo { get; set; }
+        public string Descripcion { get; set; }
+        public int IdEntidad { get; set; }
+        public bool Activo { get; set; }
     }
 }

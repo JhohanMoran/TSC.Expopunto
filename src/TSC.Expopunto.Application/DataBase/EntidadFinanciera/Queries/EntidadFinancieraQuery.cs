@@ -20,7 +20,7 @@ namespace TSC.Expopunto.Application.DataBase.EntidadFinanciera.Queries
         {
             var parameters = new
             {
-                p_opcion = 1
+                pOpcion = 1
             };
 
             var response = await _dapperService.QueryAsync<EntidadeFinancieraTodosModel>(
@@ -29,12 +29,12 @@ namespace TSC.Expopunto.Application.DataBase.EntidadFinanciera.Queries
             return response.ToList();
         }
 
-        public async Task<EntidadeFinancieraTodosModel> ObtenerEntidadFinancieraPorIdAsync(int idEntidad)
+        public async Task<EntidadeFinancieraTodosModel> ObtenerEntidadFinancieraPorIdAsync(int IdEntidad)
         {
             var parameters = new
             {
-                p_opcion = 2,
-                p_idEntidad = idEntidad
+                pOpcion = 2,
+                pIdEntidad = IdEntidad
             };
 
             var response = await _dapperService.QueryFirstOrDefaultAsync<EntidadeFinancieraTodosModel>("uspGetEntidadesFinancieras", parameters);

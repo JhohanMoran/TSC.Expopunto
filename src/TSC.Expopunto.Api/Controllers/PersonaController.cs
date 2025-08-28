@@ -1,45 +1,44 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TSC.Expopunto.Application.DataBase.EntidadFinanciera.Commands;
-using TSC.Expopunto.Application.DataBase.EntidadFinanciera.Queries;
+using TSC.Expopunto.Application.DataBase.Persona.Commands;
+using TSC.Expopunto.Application.DataBase.Persona.Queries;
 using TSC.Expopunto.Application.Exceptions;
 using TSC.Expopunto.Application.Features;
 using TSC.Expopunto.Common;
 
-
 namespace TSC.Expopunto.Api.Controllers
 {
-    [Route("api/v1/entidad-financiera")]
+    [Route("api/v1/persona")]
     [ApiController]
     [TypeFilter(typeof(ExceptionManager))]
-    public class EntidadFinancieraController : Controller
+    public class PersonaController : Controller
     {
-        private readonly IEntidadFinancieraCommand _entidadFinancieraCommand;
-        private readonly IEntidadFinancieraQuery _entidadFinancieraQuery;
-        public EntidadFinancieraController(IEntidadFinancieraCommand entidadFinancieraCommand, IEntidadFinancieraQuery entidadFinancieraQuery)
+        private readonly IPersonaCommand _personaCommand;
+        private readonly IPersonaQuery _personaQuery;
+        public PersonaController(IPersonaCommand personaCommand, PersonaQuery personaQuery)
         {
-            _entidadFinancieraCommand = entidadFinancieraCommand;
-            _entidadFinancieraQuery = entidadFinancieraQuery;
+            _personaCommand = personaCommand;
+            _personaQuery = personaQuery;
 
         }
 
         [HttpPost("crear")]
         public async Task<IActionResult> Crear(
-            [FromBody] EntidadFinancieraModel model
+            [FromBody] PersonaModel model
         )
         {
             model.Opcion = (int)OperationType.Create;
-            var data = await _entidadFinancieraCommand.ProcesarAsync(model);
+            var data = await _personaCommand.ProcesarAsync(model);
             return StatusCode(
                 StatusCodes.Status201Created,
                 ResponseApiService.Response(StatusCodes.Status201Created, data, "Exitoso"));
         }
         [HttpPost("actualizar")]
         public async Task<IActionResult> Actualizar(
-            [FromBody] EntidadFinancieraModel model
+            [FromBody] PersonaModel model
         )
         {
             model.Opcion = (int)OperationType.Update;
-            var data = await _entidadFinancieraCommand.ProcesarAsync(model);
+            var data = await _personaCommand.ProcesarAsync(model);
 
             return StatusCode(
                 StatusCodes.Status200OK,
@@ -49,24 +48,24 @@ namespace TSC.Expopunto.Api.Controllers
         }
         [HttpPost("eliminar")]
         public async Task<IActionResult> Eliminar(
-            [FromBody] int IdEntidad
+            [FromBody] int IdPersona
         )
         {
-            if (IdEntidad == 0)
+            if (IdPersona == 0)
             {
                 return StatusCode(
                 StatusCodes.Status400BadRequest,
-                ResponseApiService.Response(StatusCodes.Status200OK, null, "El id de la Entidad no es válido")
+                ResponseApiService.Response(StatusCodes.Status200OK, null, "El id de la persona no es válido")
                 );
             }
 
-            var model = new EntidadFinancieraModel()
+            var model = new PersonaModel()
             {
-                Id = IdEntidad,
+                Id = IdPersona,
                 Opcion = (int)OperationType.Delete
 
             };
-            var data = await _entidadFinancieraCommand.ProcesarAsync(model);
+            var data = await _personaCommand.ProcesarAsync(model);
 
 
             return StatusCode(
@@ -78,17 +77,17 @@ namespace TSC.Expopunto.Api.Controllers
         [HttpPost("listar-todos")]
         public async Task<IActionResult> ListarTodos()
         {
-            var data = await _entidadFinancieraQuery.ListarTodosAsync();
+            var data = await _personaQuery.ListarTodosAsync();
 
-            if (data == null || data.Count ==0)
-            
+            if (data == null || data.Count == 0)
+
             {
                 return StatusCode(
                     StatusCodes.Status204NoContent,
-                    ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No existe entidades")
+                    ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No existen personas")
 
                 );
-            
+
             }
 
             return StatusCode(
@@ -97,33 +96,33 @@ namespace TSC.Expopunto.Api.Controllers
                 );
 
         }
-        [HttpPost("obtener-entidad-financiera-por-id")]
-        public async Task<IActionResult> ObtenerEntidadFinancieraPorId(
-            [FromQuery] int IdEntidad
+        [HttpPost("obtener-persona-por-id")]
+        public async Task<IActionResult> ObtenerPersonaPorId(
+            [FromQuery] int IdPersona
             )
 
-        
+
         {
-            if(IdEntidad==0)
+            if (IdPersona == 0)
             {
 
                 return StatusCode(
                 StatusCodes.Status400BadRequest,
-                ResponseApiService.Response(StatusCodes.Status200OK, null, "El Id de la Entidad no es válido")
+                ResponseApiService.Response(StatusCodes.Status200OK, null, "El Id de la persona no es válido")
                 );
             }
 
-            var data = await _entidadFinancieraQuery.ObtenerEntidadFinancieraPorIdAsync(IdEntidad);
+            var data = await _personaQuery.ObtenerPersonaPorIdAsync(IdPersona);
 
             if (data == null)
-            
+
             {
                 return StatusCode(
                     StatusCodes.Status404NotFound,
-                    ResponseApiService.Response(StatusCodes.Status404NotFound, data, "Entidad no encontrada")
+                    ResponseApiService.Response(StatusCodes.Status404NotFound, data, "Persona no encontrada")
 
                 );
-            
+
             }
 
             return StatusCode(
@@ -132,7 +131,6 @@ namespace TSC.Expopunto.Api.Controllers
                 );
 
         }
-
-
+        
     }
 }

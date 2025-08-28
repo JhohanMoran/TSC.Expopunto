@@ -25,17 +25,17 @@ namespace TSC.Expopunto.Application.DataBase.EntidadFinanciera.Commands
             var response = await _dapperService.ExecuteScalarAsync("uspSetEntidadesFinancieras",
                 new
                 {
-                    p_opcion = model.opcion,
-                    p_id = model.id,
-                    p_codigo = model.codigo,
-                    p_descripcion = model.descripcion,
-                    p_idEntidad = model.idEntidad,
-                    p_activo = model.activo
+                    pOpcion = model.Opcion,
+                    pId = model.Id,
+                    pCodigo = model.Codigo,
+                    pDescripcion = model.Descripcion,
+                    pIdEntidad = model.IdEntidad,
+                    pActivo = model.Activo
                 });
 
             if (response > 1)
             {
-                model.id = response;
+                model.Id = response;
             }
 
             return model;
