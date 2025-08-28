@@ -4,15 +4,18 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSC.Expopunto.Application.DataBase.TipoComprobante.Queries.Models
+namespace TSC.Expopunto.Application.DataBase.TipoMoneda.Queries.Models
 {
-    public class TiposComprobanteTodosModel
+    public class TiposMonedaTodosModel
+
     {
         public int Id { get; set; }
         public string Codigo { get; set; }
         public string Descripcion { get; set; }
+
         public string Estado { get; set; }
 
         public int totalRegistros { get; set; }
+
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using TSC.Expopunto.Application.Configuration;
 using TSC.Expopunto.Application.DataBase.TipoComprobante.Queries;
 using TSC.Expopunto.Application.DataBase.TipoDocumento.Queries;
+using TSC.Expopunto.Application.DataBase.TipoMoneda.Queries;
 using TSC.Expopunto.Application.DataBase.Usuario.Commands;
 using TSC.Expopunto.Application.DataBase.Usuario.Queries;
 
@@ -25,6 +26,7 @@ namespace TSC.Expopunto.Application
             services .AddTransient<ITipoDocumentoQuery, TipoDocumentoQuery>();
 
            services.AddTransient<ITipoComprobanteQuery, TipoComprobanteQuery>();
+            services.AddTransient<ITipoMonedaQuery, TipoMonedaQuery>();
 
             return services;
         }
