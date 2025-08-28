@@ -14,6 +14,8 @@ using TSC.Expopunto.Application.DataBase.UsuariosPerfil.Commands;
 using System.Reflection;
 using FluentValidation;
 using TSC.Expopunto.Application.DataBase.PerfilMenu.Commands;
+using TSC.Expopunto.Application.DataBase.UsuariosPerfil.Queries;
+using TSC.Expopunto.Application.DataBase.PerfilMenu.Queries;
 
 namespace TSC.Expopunto.Application
 {
@@ -43,8 +45,10 @@ namespace TSC.Expopunto.Application
             services.AddTransient<IAccesosQuery, AccesosQuery>();
 
             services.AddTransient<IUsuariosPerfilCommand, UsuariosPerfilCommand>();
+            services.AddTransient<IUsuariosPerfilQuery, UsuariosPerfilQuery>();
 
             services.AddTransient<IPerfilMenuCommand, PerfilMenuCommand>();
+            services.AddTransient<IPerfilMenuQuery, PerfilMenuQuery>();
 
             services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 

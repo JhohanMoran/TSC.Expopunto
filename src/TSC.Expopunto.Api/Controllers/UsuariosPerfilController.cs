@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TSC.Expopunto.Application.DataBase.UsuariosPerfil.Commands;
+using TSC.Expopunto.Application.DataBase.UsuariosPerfil.Queries;
+using TSC.Expopunto.Application.DataBase.UsuariosPerfil.Queries.Models;
 using TSC.Expopunto.Application.Exceptions;
 using TSC.Expopunto.Application.Features;
 using TSC.Expopunto.Common;
@@ -12,9 +14,45 @@ namespace TSC.Expopunto.Api.Controllers
     public class UsuariosPerfilController : Controller
     {
         private readonly IUsuariosPerfilCommand _usuariosPerfilCommand;
-        public UsuariosPerfilController(IUsuariosPerfilCommand usuariosPerfilCommand)
+        private readonly IUsuariosPerfilQuery _usuariosPerfilQuery;
+        public UsuariosPerfilController(IUsuariosPerfilCommand usuariosPerfilCommand, IUsuariosPerfilQuery usuariosPerfilQuery)
         {
             _usuariosPerfilCommand = usuariosPerfilCommand;
+            _usuariosPerfilQuery = usuariosPerfilQuery;
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> ListarUsuariosPerfil([FromQuery] UsuariosPerfilParam param)
+        {
+            var data = await _usuariosPerfilQuery.ListarUsuariosPerfilesAsync(param);
+            if (data == null || data.Count == 0)
+            {
+                return StatusCode(
+                   StatusCodes.Status404NotFound,
+                   ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No existe usuarios perfil")
+               );
+            }
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+        }
+
+        [HttpGet("{idUsuario:int}/{idPerfil:int}")]
+        public async Task<IActionResult> ObtenerUsuariosPerfilPorPKs([FromRoute] int idUsuario, [FromRoute] int idPerfil)
+        {
+            var data = await _usuariosPerfilQuery.ObtenerUsuarioPerfilPorPKsAsync(idUsuario, idPerfil);
+            if (data == null)
+            {
+                return StatusCode(
+                   StatusCodes.Status404NotFound,
+                   ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No existe usuarios perfil")
+               );
+            }
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
         }
 
         [HttpPost("crear")]
