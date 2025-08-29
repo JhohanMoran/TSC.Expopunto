@@ -27,6 +27,10 @@ namespace TSC.Expopunto.Application
 
             services.AddTransient<IUsuarioCommand, UsuarioCommand>();
             services.AddTransient<IUsuarioQuery, UsuarioQuery>();
+            services .AddTransient<ITipoDocumentoQuery, TipoDocumentoQuery>();
+
+           services.AddTransient<ITipoComprobanteQuery, TipoComprobanteQuery>();
+            services.AddTransient<ITipoMonedaQuery, TipoMonedaQuery>();
 
             services.AddTransient<IMenuCommand, MenuCommand>();
             services.AddTransient<IMenuQuery, MenuQuery>();

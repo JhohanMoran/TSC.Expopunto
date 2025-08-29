@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TSC.Expopunto.Application.DataBase.TipoDocumento.Commands;
-using TSC.Expopunto.Application.Exceptions;
+using TSC.Expopunto.Application.DataBase.TipoDocumento.Queries;
 using TSC.Expopunto.Application.Features;
 using TSC.Expopunto.Common;
+
 
 namespace TSC.Expopunto.Api.Controllers
 {
@@ -10,28 +10,41 @@ namespace TSC.Expopunto.Api.Controllers
     [Route("api/v1/tipo-documento")]
     [ApiController]
     [TypeFilter(typeof(ExceptionManager))]
-
+    
     public class TipoDocumentoController : Controller
     {
-        private readonly ITipoDocumentoCommand _tipoDocumentoCommand;   
+        private readonly ITipoDocumentoQuery _tipoDocumentoQuery;
 
-        public TipoDocumentoController(ITipoDocumentoCommand tipoDocumentoCommand)
+        public TipoDocumentoController(ITipoDocumentoQuery tipoDocumentoQuery)
         {
-            _tipoDocumentoCommand = tipoDocumentoCommand;
+            _tipoDocumentoQuery = tipoDocumentoQuery;
         }
 
-        [HttpPost("create")]
-        public async Task<IActionResult> Create(
-            [FromBody] TipoDocumentoModel model
-        )
+        [HttpGet("listar-Tipos-Documento")]
+        public async Task<IActionResult> ListarTiposDocumento()
         {
-            model.opcion = (int)OperationType.Create;
+            var data = await _tipoDocumentoQuery.ListarTodosAsync();
+            return StatusCode(StatusCodes.Status200OK,
+            ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitosos")
+             );
+        }
 
+        [HttpGet("obtener-Tipo-Documento")]
+        public async Task<IActionResult> ObtenerTipoDocumento(
+            [FromQuery] int idTipoDocumento)
+        {
+             var data = await _tipoDocumentoQuery.ObtenerTipoDocumentoPorIdAsync(idTipoDocumento);
+             if (data == null)
+             return StatusCode(StatusCodes.Status404NotFound,
+             ResponseApiService.Response(StatusCodes.Status404NotFound, null, "No se encontró el tipo documento"));
+
+
+             return StatusCode(StatusCodes.Status200OK,
+             ResponseApiService.Response(StatusCodes.Status200OK,data, "Exitoso")
+                
             var data = await _tipoDocumentoCommand.ProcesarAsync(model);
-
-            return StatusCode(
-                StatusCodes.Status201Created,
-                ResponseApiService.Response(StatusCodes.Status201Created, data, "Exitoso"));
+                
+            );
         }
 
     }
