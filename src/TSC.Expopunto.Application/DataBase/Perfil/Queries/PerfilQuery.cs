@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TSC.Expopunto.Application.DataBase.Perfil.Queries.Models;
+﻿using TSC.Expopunto.Application.DataBase.Perfil.Queries.Models;
+using TSC.Expopunto.Domain.Models;
 
 namespace TSC.Expopunto.Application.DataBase.Perfil.Queries
 {
@@ -14,6 +10,24 @@ namespace TSC.Expopunto.Application.DataBase.Perfil.Queries
         {
             _dapperService = dapperService;
         }
+
+        public async Task<List<PerfilesTodosModel>> ListarPerfilesAsync(PerfilesListaParametros parametro)
+        {
+            var parameters = new
+            {
+                pOpcion = 1,
+                pPagina = parametro.Pagina,
+                pFilasPorPagina = parametro.FilasPorPagina,
+                pOrdenPor = parametro.OrdenarPor,
+                pOrdenDireccion = parametro.OrdenDireccion,
+
+                pFiltroNombre = parametro.Nombre
+            };
+
+            var response = await _dapperService.QueryAsync<PerfilesTodosModel>("uspGetPerfiles", parameters);
+            return response.ToList();
+        }
+
         public async Task<List<PerfilesTodosModel>> ListarComboPerfilesAsync()
         {
             var parameters = new
@@ -48,5 +62,6 @@ namespace TSC.Expopunto.Application.DataBase.Perfil.Queries
             var response = await _dapperService.QueryAsync<PerfilesTodosModel>("uspGetPerfiles", parameters);
             return response.ToList();
         }
+
     }
 }
