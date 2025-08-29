@@ -1,4 +1,6 @@
-﻿namespace TSC.Expopunto.Application.DataBase.TipoDocumento.Commands
+﻿using TSC.Expopunto.Application.DataBase.TiposDocumento.Commands;
+
+namespace TSC.Expopunto.Application.DataBase.TipoDocumento.Commands
 {
     public class TipoDocumentoCommand : ITipoDocumentoCommand
     {
