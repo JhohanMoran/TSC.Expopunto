@@ -16,18 +16,33 @@ namespace TSC.Expopunto.Api.Controllers
             _tipoMonedaQuery = tipoMonedaQuery;
         }
 
-        [HttpGet("listar-Tipos-Moneda")]
+        [HttpGet("listar-tipos-moneda")]
         public async Task<IActionResult> ListarTiposMoneda()
         {
             var data = await _tipoMonedaQuery.ListarTodosAsync();
+
+            if (data == null || data.Count == 0)
+            {
+                return StatusCode(
+                    StatusCodes.Status204NoContent,
+                    ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No exiten Tipos moneda"));
+            }
             return StatusCode(StatusCodes.Status200OK,
             ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitosos")
              );
         }
 
-        [HttpGet("obtener-Tipo-Moneda")]
-        public async Task<IActionResult> ObtenerTipoMoneda([FromQuery] int idTipoMoneda)
+        [HttpGet("obtener-tipo-moneda-por -id")]
+        public async Task<IActionResult> ObtenerTipoMoneda(
+        [FromQuery] int idTipoMoneda)
         {
+
+            if (idTipoMoneda == 0)
+            {
+                return StatusCode(
+                    StatusCodes.Status400BadRequest,
+                    ResponseApiService.Response(StatusCodes.Status200OK, null, "El ID del tipo moneda no es válido"));
+            }
             var data = await _tipoMonedaQuery.ObtenerTipoMonedaPorIdAsync(idTipoMoneda);
             if (data == null)
                 return StatusCode(StatusCodes.Status404NotFound,
