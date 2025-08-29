@@ -1,5 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using TSC.Expopunto.Application.DataBase.TipoDocumento.Commands;
+using TSC.Expopunto.Application.DataBase.TipoDocumento.Queries;
 using TSC.Expopunto.Application.Exceptions;
 using TSC.Expopunto.Application.Features;
 using TSC.Expopunto.Common;
@@ -20,18 +20,30 @@ namespace TSC.Expopunto.Api.Controllers
             _tipoDocumentoCommand = tipoDocumentoCommand;
         }
 
-        [HttpPost("create")]
-        public async Task<IActionResult> Create(
-            [FromBody] TipoDocumentoModel model
-        )
+            return StatusCode(StatusCodes.Status200OK,
+            ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitosos")
+             );
+        }
+
+        [HttpGet("obtener-Tipo-Documento")]
+        public async Task<IActionResult> ObtenerTipoDocumento(
+        [FromQuery] int idTipoDocumento)
         {
-            model.opcion = (int)OperationType.Create;
+            if (idTipoDocumento == 0)
+            {
+                return StatusCode(
+                    StatusCodes.Status400BadRequest,
+                    ResponseApiService.Response(StatusCodes.Status200OK, null, "El ID del tipo documento no es válido"));
+            }
 
-            var data = await _tipoDocumentoCommand.ProcesarAsync(model);
+            var data = await _tipoDocumentoQuery.ObtenerTipoDocumentoPorIdAsync(idTipoDocumento);
+            if (data == null)
+                return StatusCode(StatusCodes.Status404NotFound,
+                ResponseApiService.Response(StatusCodes.Status404NotFound, null, "No se encontró el tipo documento"));
 
-            return StatusCode(
-                StatusCodes.Status201Created,
-                ResponseApiService.Response(StatusCodes.Status201Created, data, "Exitoso"));
+
+            return StatusCode(StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso"));
         }
 
     }
