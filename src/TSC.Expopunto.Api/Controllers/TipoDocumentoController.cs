@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TSC.Expopunto.Application.DataBase.TipoDocumento.Queries;
+using TSC.Expopunto.Application.Exceptions;
 using TSC.Expopunto.Application.Features;
 using TSC.Expopunto.Common;
 
@@ -54,12 +55,8 @@ namespace TSC.Expopunto.Api.Controllers
              ResponseApiService.Response(StatusCodes.Status404NotFound, null, "No se encontró el tipo documento"));
 
 
-             return StatusCode(StatusCodes.Status200OK,
-             ResponseApiService.Response(StatusCodes.Status200OK,data, "Exitoso")
-                
-            var data = await _tipoDocumentoCommand.ProcesarAsync(model);
-                
-            );
+            return StatusCode(StatusCodes.Status200OK,
+            ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso"));
         }
 
     }
