@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using TSC.Expopunto.Application.Configuration;
+using TSC.Expopunto.Application.DataBase.Sede.Commands;
+using TSC.Expopunto.Application.DataBase.Sede.Queries;
 using TSC.Expopunto.Application.DataBase.TipoComprobante.Queries;
 using TSC.Expopunto.Application.DataBase.TipoDocumento.Queries;
 using TSC.Expopunto.Application.DataBase.TipoMoneda.Queries;
@@ -25,8 +27,14 @@ namespace TSC.Expopunto.Application
             services.AddTransient<IUsuarioQuery, UsuarioQuery>();
             services .AddTransient<ITipoDocumentoQuery, TipoDocumentoQuery>();
 
-           services.AddTransient<ITipoComprobanteQuery, TipoComprobanteQuery>();
+            services.AddTransient<ITipoComprobanteQuery, TipoComprobanteQuery>();
             services.AddTransient<ITipoMonedaQuery, TipoMonedaQuery>();
+
+            services.AddTransient<ISedeCommand, SedeCommand>();
+            services.AddTransient<ISedeQuery, SedeQuery>();
+
+
+
 
             return services;
         }
