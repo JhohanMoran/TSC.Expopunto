@@ -19,18 +19,35 @@ namespace TSC.Expopunto.Api.Controllers
             _tipoComprobanteQuery = tipoComprobanteQuery;
         }
 
-        [HttpGet("listar-Tipos-Comprobante")]
+    [HttpGet("listar-tipos-comprobante")]
         public async Task<IActionResult> ListarTiposComprobante()
         {
             var data = await _tipoComprobanteQuery.ListarTodosAsync();
+            
+            if (data == null || data.Count == 0)
+            {
+                return StatusCode(
+                    StatusCodes.Status204NoContent,
+                    ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No exiten Tipos Comprobantes"));
+            }
+
+
             return StatusCode(StatusCodes.Status200OK,
             ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitosos")
              );
         }
 
-        [HttpGet("obtener-Tipo-Comprobante")]
-        public async Task<IActionResult> ObtenerTipoComprobante([FromQuery] int idTipoComprobante)
+    [HttpGet("obtener-tipo-comprobante-id")]
+        public async Task<IActionResult> ObtenerTipoComprobante(
+        [FromQuery] int idTipoComprobante)
         {
+            if (idTipoComprobante== 0)
+            {
+                return StatusCode(
+                    StatusCodes.Status400BadRequest,
+                    ResponseApiService.Response(StatusCodes.Status200OK, null, "El ID del tipo comprobante no es válido"));
+            }
+
             var data = await _tipoComprobanteQuery.ObtenerTipoComprobantePorIdAsync(idTipoComprobante);
             if (data == null)
                 return StatusCode(StatusCodes.Status404NotFound,

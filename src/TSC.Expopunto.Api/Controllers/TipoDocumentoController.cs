@@ -12,16 +12,23 @@ namespace TSC.Expopunto.Api.Controllers
     public class TipoDocumentoController : Controller
     {
         private readonly ITipoDocumentoQuery _tipoDocumentoQuery;
-
         public TipoDocumentoController(ITipoDocumentoQuery tipoDocumentoQuery)
         {
             _tipoDocumentoQuery = tipoDocumentoQuery;
         }
 
-        [HttpGet("listar-Tipos-Documento")]
+        [HttpGet("listar-tipos-documento")]
         public async Task<IActionResult> ListarTiposDocumento()
         {
             var data = await _tipoDocumentoQuery.ListarTodosAsync();
+
+            if (data == null || data.Count == 0)
+            {
+                return StatusCode(
+                    StatusCodes.Status204NoContent,
+                    ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No exiten Tipo documento"));
+            }
+
             return StatusCode(StatusCodes.Status200OK,
             ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitosos")
              );
@@ -29,8 +36,16 @@ namespace TSC.Expopunto.Api.Controllers
 
         [HttpGet("obtener-Tipo-Documento")]
         public async Task<IActionResult> ObtenerTipoDocumento(
-            [FromQuery] int idTipoDocumento)
+        [FromQuery] int idTipoDocumento)
         {
+            if (idTipoDocumento == 0)
+            {
+                return StatusCode(
+                    StatusCodes.Status400BadRequest,
+                    ResponseApiService.Response(StatusCodes.Status200OK, null, "El ID del tipo documento no es válido"));
+            }
+
+
              var data = await _tipoDocumentoQuery.ObtenerTipoDocumentoPorIdAsync(idTipoDocumento);
              if (data == null)
              return StatusCode(StatusCodes.Status404NotFound,
