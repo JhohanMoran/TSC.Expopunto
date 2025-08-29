@@ -14,9 +14,10 @@ using FluentValidation;
 using TSC.Expopunto.Application.DataBase.PerfilMenu.Commands;
 using TSC.Expopunto.Application.DataBase.UsuariosPerfil.Queries;
 using TSC.Expopunto.Application.DataBase.PerfilMenu.Queries;
-using TSC.Expopunto.Application.DataBase.TiposDocumento.Commands;
+using TSC.Expopunto.Application.DataBase.TipoDocumento.Queries;
 using TSC.Expopunto.Application.DataBase.TipoComprobante.Queries;
 using TSC.Expopunto.Application.DataBase.TipoMoneda.Queries;
+using TSC.Expopunto.Application.DataBase.TiposDocumento.Commands;
 
 namespace TSC.Expopunto.Application
 {
@@ -45,6 +46,9 @@ namespace TSC.Expopunto.Application
 
 
 
+            services.AddTransient<ITipoComprobanteQuery, TipoComprobanteQuery>();
+            services.AddTransient<ITipoMonedaQuery, TipoMonedaQuery>();
+
             services.AddTransient<IMenuCommand, MenuCommand>();
             services.AddTransient<IMenuQuery, MenuQuery>();
 
@@ -52,6 +56,7 @@ namespace TSC.Expopunto.Application
             services.AddTransient<IPerfilQuery, PerfilQuery>();
 
             services.AddTransient<ITipoDocumentoCommand, TipoDocumentoCommand>();
+            services.AddTransient<ITipoDocumentoQuery, TipoDocumentoQuery>();
 
             services.AddTransient<IAccesosQuery, AccesosQuery>();
 
@@ -61,7 +66,6 @@ namespace TSC.Expopunto.Application
             services.AddTransient<IPerfilMenuCommand, PerfilMenuCommand>();
             services.AddTransient<IPerfilMenuQuery, PerfilMenuQuery>();
 
-            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
 
             return services;
         }

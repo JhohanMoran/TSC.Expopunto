@@ -37,7 +37,7 @@ namespace TSC.Expopunto.Api.Controllers
             );
         }
 
-        [HttpGet("{idPerfil:int}/{idMenu:int}")]
+        [HttpGet("obtener-perfil-pks/{idPerfil:int}/{idMenu:int}")]
         public async Task<IActionResult> ObtenerPerfilMenuPorPKs([FromRoute] int idPerfil, [FromRoute] int idMenu)
         {
             var data = await _perfilMenuQuery.ObtenerPerfilMenuPorPKsAsync(idPerfil, idMenu);
