@@ -12,19 +12,15 @@ namespace TSC.Expopunto.Application.DataBase.Persona.Commands
     {
         private readonly IDapperCommandService _dapperService;
 
-
         //inyección de dependencias
         public PersonaCommand(IDapperCommandService dapperService)
         {
             _dapperService = dapperService;
         }
 
-
         public async Task<PersonaModel> ProcesarAsync(PersonaModel model)
         {
-
-
-            var response = await _dapperService.ExecuteScalarAsync("uspSetPersonas",
+            var response = await _dapperService.ExecuteScalarAsync("uspSetPersona",
                 new
                 {
 
@@ -38,7 +34,8 @@ namespace TSC.Expopunto.Application.DataBase.Persona.Commands
                     pApellidos=model.Apellidos,
                     pDireccion =model.Direccion,
                     pCelular =model.Celular,
-                    pIdUsuario =model.IdUsuario
+                    pIdUsuario =model.IdUsuario,
+                    pActivo =model.Activo
                 });
 
             if (response > 1)

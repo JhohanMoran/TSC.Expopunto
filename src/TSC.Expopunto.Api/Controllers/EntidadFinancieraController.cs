@@ -19,7 +19,6 @@ namespace TSC.Expopunto.Api.Controllers
         {
             _entidadFinancieraCommand = entidadFinancieraCommand;
             _entidadFinancieraQuery = entidadFinancieraQuery;
-
         }
 
         [HttpPost("crear")]
@@ -33,6 +32,7 @@ namespace TSC.Expopunto.Api.Controllers
                 StatusCodes.Status201Created,
                 ResponseApiService.Response(StatusCodes.Status201Created, data, "Exitoso"));
         }
+
         [HttpPost("actualizar")]
         public async Task<IActionResult> Actualizar(
             [FromBody] EntidadFinancieraModel model
@@ -45,8 +45,8 @@ namespace TSC.Expopunto.Api.Controllers
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
                 );
-
         }
+
         [HttpPost("eliminar")]
         public async Task<IActionResult> Eliminar(
             [FromBody] int IdEntidad
@@ -68,7 +68,6 @@ namespace TSC.Expopunto.Api.Controllers
             };
             var data = await _entidadFinancieraCommand.ProcesarAsync(model);
 
-
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
@@ -81,14 +80,11 @@ namespace TSC.Expopunto.Api.Controllers
             var data = await _entidadFinancieraQuery.ListarTodosAsync();
 
             if (data == null || data.Count ==0)
-            
             {
                 return StatusCode(
                     StatusCodes.Status204NoContent,
                     ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No existe entidades")
-
                 );
-            
             }
 
             return StatusCode(
@@ -97,16 +93,13 @@ namespace TSC.Expopunto.Api.Controllers
                 );
 
         }
-        [HttpPost("obtener-entidad-financiera-por-id")]
+        [HttpPost("obtener-por-id")]
         public async Task<IActionResult> ObtenerEntidadFinancieraPorId(
             [FromQuery] int IdEntidad
-            )
-
-        
+        )
         {
             if(IdEntidad==0)
             {
-
                 return StatusCode(
                 StatusCodes.Status400BadRequest,
                 ResponseApiService.Response(StatusCodes.Status200OK, null, "El Id de la Entidad no es válido")
@@ -116,23 +109,18 @@ namespace TSC.Expopunto.Api.Controllers
             var data = await _entidadFinancieraQuery.ObtenerEntidadFinancieraPorIdAsync(IdEntidad);
 
             if (data == null)
-            
             {
                 return StatusCode(
                     StatusCodes.Status404NotFound,
                     ResponseApiService.Response(StatusCodes.Status404NotFound, data, "Entidad no encontrada")
 
                 );
-            
             }
 
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
                 );
-
         }
-
-
     }
 }

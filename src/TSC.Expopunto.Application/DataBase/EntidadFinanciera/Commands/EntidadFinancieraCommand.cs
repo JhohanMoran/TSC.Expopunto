@@ -22,14 +22,14 @@ namespace TSC.Expopunto.Application.DataBase.EntidadFinanciera.Commands
         {
             
 
-            var response = await _dapperService.ExecuteScalarAsync("uspSetEntidadesFinancieras",
+            var response = await _dapperService.ExecuteScalarAsync("uspSetEntidadeFinanciera",
                 new
                 {
                     pOpcion = model.Opcion,
                     pId = model.Id,
                     pCodigo = model.Codigo,
                     pDescripcion = model.Descripcion,
-                    pIdEntidad = model.IdEntidad,
+                    pIdUsuario = model.IdUsuario,
                     pActivo = model.Activo
                 });
 

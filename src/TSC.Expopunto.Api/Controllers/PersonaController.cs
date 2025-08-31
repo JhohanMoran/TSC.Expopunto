@@ -18,7 +18,6 @@ namespace TSC.Expopunto.Api.Controllers
         {
             _personaCommand = personaCommand;
             _personaQuery = personaQuery;
-
         }
 
         [HttpPost("crear")]
@@ -32,6 +31,7 @@ namespace TSC.Expopunto.Api.Controllers
                 StatusCodes.Status201Created,
                 ResponseApiService.Response(StatusCodes.Status201Created, data, "Exitoso"));
         }
+
         [HttpPost("actualizar")]
         public async Task<IActionResult> Actualizar(
             [FromBody] PersonaModel model
@@ -46,6 +46,7 @@ namespace TSC.Expopunto.Api.Controllers
                 );
 
         }
+
         [HttpPost("eliminar")]
         public async Task<IActionResult> Eliminar(
             [FromBody] int IdPersona
@@ -63,10 +64,8 @@ namespace TSC.Expopunto.Api.Controllers
             {
                 Id = IdPersona,
                 Opcion = (int)OperationType.Delete
-
             };
             var data = await _personaCommand.ProcesarAsync(model);
-
 
             return StatusCode(
                 StatusCodes.Status200OK,
@@ -80,28 +79,22 @@ namespace TSC.Expopunto.Api.Controllers
             var data = await _personaQuery.ListarTodosAsync();
 
             if (data == null || data.Count == 0)
-
             {
                 return StatusCode(
                     StatusCodes.Status204NoContent,
                     ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No existen personas")
-
                 );
-
             }
 
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
                 );
-
         }
-        [HttpPost("obtener-persona-por-id")]
+        [HttpPost("obtener-por-id")]
         public async Task<IActionResult> ObtenerPersonaPorId(
             [FromQuery] int IdPersona
-            )
-
-
+        )
         {
             if (IdPersona == 0)
             {
@@ -115,21 +108,17 @@ namespace TSC.Expopunto.Api.Controllers
             var data = await _personaQuery.ObtenerPersonaPorIdAsync(IdPersona);
 
             if (data == null)
-
             {
                 return StatusCode(
                     StatusCodes.Status404NotFound,
                     ResponseApiService.Response(StatusCodes.Status404NotFound, data, "Persona no encontrada")
-
                 );
-
             }
 
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
                 );
-
         }
         
     }
