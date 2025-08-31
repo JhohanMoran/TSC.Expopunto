@@ -19,10 +19,10 @@ namespace TSC.Expopunto.Application.Features
 
             var result = new BaseResponseModel
             {
-                statusCode = statusCode,
-                success = success,
-                message = message ?? (success ? "Success" : "Error"),
-                data = data
+                StatusCode = statusCode,
+                Success = success,
+                Message = message ?? (success ? "Success" : "Error"),
+                Data = data
             };                   
             
             return result;

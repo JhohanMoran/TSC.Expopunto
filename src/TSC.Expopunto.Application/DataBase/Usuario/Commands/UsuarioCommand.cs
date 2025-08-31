@@ -12,20 +12,20 @@ namespace TSC.Expopunto.Application.DataBase.Usuario.Commands
 
         public async Task<UsuarioModel> ProcesarAsync(UsuarioModel model)
         {
-            var response = await _dapperService.ExecuteScalarAsync("uspUsuarioProcesar",
+            var response = await _dapperService.ExecuteScalarAsync("uspSetUsuario",
                 new
                 {
-                    p_opcion = model.opcion,
-                    p_id = model.id,
-                    p_nombres = model.nombres,
-                    p_apellidos = model.apellidos,
-                    p_usuario = model.usuario,
-                    p_contrasenia = model.contrasenia
+                    pOpcion = model.Opcion,
+                    pId = model.Id,
+                    pNombres = model.Nombres,
+                    pApellidos = model.Apellidos,
+                    pUsuario = model.Usuario,
+                    pContrasenia = model.Contrasenia
                 });
 
             if (response > 1)
             {
-                model.id = response;
+                model.Id = response;
             }
 
             return model;
