@@ -21,7 +21,7 @@ namespace TSC.Expopunto.Api.Controllers
             _usuariosPerfilQuery = usuariosPerfilQuery;
         }
 
-        [HttpGet]
+        [HttpGet("listar")]
         public async Task<IActionResult> ListarUsuariosPerfil([FromQuery] UsuariosPerfilParam param)
         {
             var data = await _usuariosPerfilQuery.ListarUsuariosPerfilesAsync(param);
@@ -38,7 +38,7 @@ namespace TSC.Expopunto.Api.Controllers
             );
         }
 
-        [HttpGet("{idUsuario:int}/{idPerfil:int}")]
+        [HttpGet("obtener-por-pks/{idUsuario:int}/{idPerfil:int}")]
         public async Task<IActionResult> ObtenerUsuariosPerfilPorPKs([FromRoute] int idUsuario, [FromRoute] int idPerfil)
         {
             var data = await _usuariosPerfilQuery.ObtenerUsuarioPerfilPorPKsAsync(idUsuario, idPerfil);
