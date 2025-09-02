@@ -20,7 +20,7 @@ namespace TSC.Expopunto.Api.Controllers
             _perfilMenuQuery = perfilMenuQuery;
         }
 
-        [HttpGet]
+        [HttpGet("listar")]
         public async Task<IActionResult> ListarPerfilesMenu([FromQuery] PerfilMenuParam param)
         {
             var data = await _perfilMenuQuery.ListarPerfilesMenuAsync(param);
@@ -37,7 +37,7 @@ namespace TSC.Expopunto.Api.Controllers
             );
         }
 
-        [HttpGet("obtener-perfil-pks/{idPerfil:int}/{idMenu:int}")]
+        [HttpGet("obtener-por-pks/{idPerfil:int}/{idMenu:int}")]
         public async Task<IActionResult> ObtenerPerfilMenuPorPKs([FromRoute] int idPerfil, [FromRoute] int idMenu)
         {
             var data = await _perfilMenuQuery.ObtenerPerfilMenuPorPKsAsync(idPerfil, idMenu);
