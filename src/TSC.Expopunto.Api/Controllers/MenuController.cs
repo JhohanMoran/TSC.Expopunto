@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using TSC.Expopunto.Application.DataBase.Menu.Command;
 using TSC.Expopunto.Application.DataBase.Menu.Queries;
-using TSC.Expopunto.Application.DataBase.Usuario.Commands;
-using TSC.Expopunto.Application.DataBase.Usuario.Queries;
 using TSC.Expopunto.Application.Exceptions;
 using TSC.Expopunto.Application.Features;
 using TSC.Expopunto.Common;
