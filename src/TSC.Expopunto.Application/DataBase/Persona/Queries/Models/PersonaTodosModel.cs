@@ -13,12 +13,14 @@ namespace TSC.Expopunto.Application.DataBase.Persona.Queries.Models
         public string TipoPersona { get; set; }
         public int IdTipoDocumento { get; set; }
         public string TipoDocumento { get; set; }
-        public string NumeroDoc { get; set; }
+        public string NumeroDocumento { get; set; }
         public string RazonSocial { get; set; }
         public string Nombres { get; set; }
         public string Apellidos { get; set; }
         public string Direccion { get; set; }
         public string Celular { get; set; }
-        public string Estado { get; set; }
+        public bool Activo { get; set; }
+        public string Auditoria { get; set; }
+        public string TotalRegistros { get; set; }
     }
 }

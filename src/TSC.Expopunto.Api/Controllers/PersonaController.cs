@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using TSC.Expopunto.Application.DataBase.Perfil.Commands;
 using TSC.Expopunto.Application.DataBase.Persona.Commands;
 using TSC.Expopunto.Application.DataBase.Persona.Queries;
 using TSC.Expopunto.Application.Exceptions;
@@ -14,7 +15,7 @@ namespace TSC.Expopunto.Api.Controllers
     {
         private readonly IPersonaCommand _personaCommand;
         private readonly IPersonaQuery _personaQuery;
-        public PersonaController(IPersonaCommand personaCommand, PersonaQuery personaQuery)
+        public PersonaController(IPersonaCommand personaCommand, IPersonaQuery personaQuery)
         {
             _personaCommand = personaCommand;
             _personaQuery = personaQuery;
@@ -47,32 +48,29 @@ namespace TSC.Expopunto.Api.Controllers
 
         }
 
+
         [HttpPost("eliminar")]
-        public async Task<IActionResult> Eliminar(
-            [FromBody] int IdPersona
-        )
+
+        public async Task<IActionResult> Eliminar([FromBody] PersonaModel model)
         {
-            if (IdPersona == 0)
+            if (model.Id == 0)
             {
                 return StatusCode(
                 StatusCodes.Status400BadRequest,
-                ResponseApiService.Response(StatusCodes.Status200OK, null, "El id de la persona no es válido")
+                ResponseApiService.Response(StatusCodes.Status200OK, null, "El id no es válido")
                 );
             }
 
-            var model = new PersonaModel()
-            {
-                Id = IdPersona,
-                Opcion = (int)OperationType.Delete
-            };
+            model.Opcion = (int)OperationType.Delete;
+
             var data = await _personaCommand.ProcesarAsync(model);
 
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
-            );
-
+                );
         }
+
         [HttpPost("listar-todos")]
         public async Task<IActionResult> ListarTodos()
         {
@@ -92,8 +90,7 @@ namespace TSC.Expopunto.Api.Controllers
                 );
         }
         [HttpPost("obtener-por-id")]
-        public async Task<IActionResult> ObtenerPersonaPorId(
-            [FromQuery] int IdPersona
+        public async Task<IActionResult> ObtenerPersonaPorId([FromQuery] int IdPersona
         )
         {
             if (IdPersona == 0)
@@ -120,6 +117,6 @@ namespace TSC.Expopunto.Api.Controllers
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
                 );
         }
-        
+
     }
 }

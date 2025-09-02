@@ -38,7 +38,7 @@ namespace TSC.Expopunto.Application.DataBase.Persona.Commands
                     pActivo =model.Activo
                 });
 
-            if (response > 1)
+            if (response > 0)
             {
                 model.Id = response;
             }

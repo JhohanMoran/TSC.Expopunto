@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.Extensions.DependencyInjection;
 using TSC.Expopunto.Application.Configuration;
+using TSC.Expopunto.Application.DataBase;
 using TSC.Expopunto.Application.DataBase.Accesos.Queries;
 using TSC.Expopunto.Application.DataBase.Menu.Command;
 using TSC.Expopunto.Application.DataBase.Menu.Queries;
@@ -8,6 +9,8 @@ using TSC.Expopunto.Application.DataBase.Perfil.Commands;
 using TSC.Expopunto.Application.DataBase.Perfil.Queries;
 using TSC.Expopunto.Application.DataBase.PerfilMenu.Commands;
 using TSC.Expopunto.Application.DataBase.PerfilMenu.Queries;
+using TSC.Expopunto.Application.DataBase.Persona.Commands;
+using TSC.Expopunto.Application.DataBase.Persona.Queries;
 using TSC.Expopunto.Application.DataBase.Sede.Commands;
 using TSC.Expopunto.Application.DataBase.Sede.Queries;
 using TSC.Expopunto.Application.DataBase.TipoComprobante.Queries;
@@ -36,7 +39,6 @@ namespace TSC.Expopunto.Application
 
             services.AddTransient<IUsuarioCommand, UsuarioCommand>();
             services.AddTransient<IUsuarioQuery, UsuarioQuery>();
-            services.AddTransient<ITipoDocumentoQuery, TipoDocumentoQuery>();
 
             services.AddTransient<ITipoComprobanteQuery, TipoComprobanteQuery>();
             services.AddTransient<ITipoMonedaQuery, TipoMonedaQuery>();
@@ -63,6 +65,11 @@ namespace TSC.Expopunto.Application
 
             services.AddTransient<IPerfilMenuCommand, PerfilMenuCommand>();
             services.AddTransient<IPerfilMenuQuery, PerfilMenuQuery>();
+
+            services.AddTransient<IPersonaCommand, PersonaCommand>();
+            services.AddTransient<IPersonaQuery, PersonaQuery>();
+
+            //services.AddTransient<IDapperCommandService, DapperCommandService>();
 
 
             return services;
