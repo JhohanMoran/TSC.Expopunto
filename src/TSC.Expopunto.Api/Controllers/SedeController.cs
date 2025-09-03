@@ -107,7 +107,7 @@ namespace TSC.Expopunto.Api.Controllers
             {
                 return StatusCode(
                     StatusCodes.Status400BadRequest,
-                    ResponseApiService.Response(StatusCodes.Status200OK, null, "El ID de la sede no es válido"));
+                    ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El ID de la sede no es válido"));
             }
             var data = await _sedeQuery.ObtenerSedePorIdAsync(idSede);
 

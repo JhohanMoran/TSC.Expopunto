@@ -45,7 +45,7 @@ namespace TSC.Expopunto.Api.Controllers
             {
                 return StatusCode(
                     StatusCodes.Status400BadRequest,
-                    ResponseApiService.Response(StatusCodes.Status200OK, null, "El ID del tipo comprobante no es válido"));
+                    ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El ID del tipo comprobante no es válido"));
             }
 
             var data = await _tipoComprobanteQuery.ObtenerTipoComprobantePorIdAsync(idTipoComprobante);
