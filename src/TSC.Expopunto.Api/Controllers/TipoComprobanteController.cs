@@ -8,7 +8,7 @@ using TSC.Expopunto.Common;
 namespace TSC.Expopunto.Api.Controllers
 {
 
-    [Route("api/v1/TipoComprobante")]
+    [Route("api/v1/tipo-comprobante")]
     [ApiController]
     public class TipoComprobanteController : Controller
     {
@@ -19,7 +19,7 @@ namespace TSC.Expopunto.Api.Controllers
             _tipoComprobanteQuery = tipoComprobanteQuery;
         }
 
-    [HttpGet("listar-tipos-comprobante")]
+    [HttpGet("listar")]
         public async Task<IActionResult> ListarTiposComprobante()
         {
             var data = await _tipoComprobanteQuery.ListarTodosAsync();
@@ -37,7 +37,7 @@ namespace TSC.Expopunto.Api.Controllers
              );
         }
 
-    [HttpGet("obtener-tipo-comprobante-id")]
+    [HttpGet("obtener-por-id")]
         public async Task<IActionResult> ObtenerTipoComprobante(
         [FromQuery] int idTipoComprobante)
         {
@@ -45,7 +45,7 @@ namespace TSC.Expopunto.Api.Controllers
             {
                 return StatusCode(
                     StatusCodes.Status400BadRequest,
-                    ResponseApiService.Response(StatusCodes.Status200OK, null, "El ID del tipo comprobante no es válido"));
+                    ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El ID del tipo comprobante no es válido"));
             }
 
             var data = await _tipoComprobanteQuery.ObtenerTipoComprobantePorIdAsync(idTipoComprobante);

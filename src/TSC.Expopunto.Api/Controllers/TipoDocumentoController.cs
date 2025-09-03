@@ -45,14 +45,14 @@ namespace TSC.Expopunto.Api.Controllers
             {
                 return StatusCode(
                     StatusCodes.Status400BadRequest,
-                    ResponseApiService.Response(StatusCodes.Status200OK, null, "El ID del tipo documento no es válido"));
+                    ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El ID del tipo documento no es válido"));
             }
 
 
-             var data = await _tipoDocumentoQuery.ObtenerTipoDocumentoPorIdAsync(idTipoDocumento);
-             if (data == null)
-             return StatusCode(StatusCodes.Status404NotFound,
-             ResponseApiService.Response(StatusCodes.Status404NotFound, null, "No se encontró el tipo documento"));
+            var data = await _tipoDocumentoQuery.ObtenerTipoDocumentoPorIdAsync(idTipoDocumento);
+            if (data == null)
+                return StatusCode(StatusCodes.Status404NotFound,
+                ResponseApiService.Response(StatusCodes.Status404NotFound, null, "No se encontró el tipo documento"));
 
 
             return StatusCode(StatusCodes.Status200OK,
