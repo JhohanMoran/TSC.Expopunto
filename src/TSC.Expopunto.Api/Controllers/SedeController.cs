@@ -8,7 +8,7 @@ using TSC.Expopunto.Common;
 namespace TSC.Expopunto.Api.Controllers
 {
 
-    [Route("api/v1/Sede")]
+    [Route("api/v1/sede")]
     [ApiController]
     [TypeFilter(typeof(ExceptionManager))]
     public class SedeController : Controller
@@ -80,7 +80,7 @@ namespace TSC.Expopunto.Api.Controllers
 
         }
 
-        [HttpGet("listar-sedes")]
+        [HttpGet("listar")]
         public async Task<IActionResult> ListarSedes()
         {
             var data = await _sedeQuery.ListarTodosAsync();
@@ -99,7 +99,7 @@ namespace TSC.Expopunto.Api.Controllers
         }
 
 
-        [HttpGet("obtener-sede-por-id")]
+        [HttpGet("obtener-por-id")]
         public async Task<IActionResult> ObtenerSedePorId(
         [FromQuery] int idSede)
         {

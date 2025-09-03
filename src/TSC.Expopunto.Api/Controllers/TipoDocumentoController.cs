@@ -6,7 +6,7 @@ using TSC.Expopunto.Common;
 
 namespace TSC.Expopunto.Api.Controllers
 {
-    [Route("api/v1/TipoDocumento")]
+    [Route("api/v1/tipo-documento")]
     [ApiController]
     
     public class TipoDocumentoController : Controller
@@ -17,7 +17,7 @@ namespace TSC.Expopunto.Api.Controllers
             _tipoDocumentoQuery = tipoDocumentoQuery;
         }
 
-        [HttpGet("listar-tipos-documento")]
+        [HttpGet("listar")]
         public async Task<IActionResult> ListarTiposDocumento()
         {
             var data = await _tipoDocumentoQuery.ListarTodosAsync();
@@ -34,7 +34,7 @@ namespace TSC.Expopunto.Api.Controllers
              );
         }
 
-        [HttpGet("obtener-Tipo-Documento")]
+        [HttpGet("obtener-por-id")]
         public async Task<IActionResult> ObtenerTipoDocumento(
         [FromQuery] int idTipoDocumento)
         {
