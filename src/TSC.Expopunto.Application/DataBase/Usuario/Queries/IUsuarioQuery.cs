@@ -5,7 +5,7 @@ namespace TSC.Expopunto.Application.DataBase.Usuario.Queries
 {
     public interface IUsuarioQuery
     {
-        Task<List<UsuariosTodosModel>> ListarTodosAsync();
+        Task<List<UsuariosTodosModel>> ListarTodosAsync(UsuarioParam param);
         Task<UsuariosTodosModel> ObtenerUsuarioPorIdAsync(int idUsuario);
     }
 }
