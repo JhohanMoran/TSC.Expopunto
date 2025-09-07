@@ -12,5 +12,6 @@ namespace TSC.Expopunto.Application.DataBase.Menu.Queries
         Task<List<MenusTodos>> ListarMenusPorEstadoAsync(bool? activo);
         Task<List<MenusTodos>> ListarMenusSubMenusAsync();
         Task<MenusTodos> ListarMenusPorIdAsync(int idMenu);
+        Task<List<MenusTodos>> ListarMenusSubMenusPlanoAsync();
     }
 }

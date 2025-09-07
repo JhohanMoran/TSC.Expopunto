@@ -20,7 +20,8 @@ namespace TSC.Expopunto.Application.DataBase.Usuario.Commands
                     pNombres = model.Nombres,
                     pApellidos = model.Apellidos,
                     pUsuario = model.Usuario,
-                    pContrasenia = model.Contrasenia
+                    pContrasenia = model.Contrasenia,
+                    pIdUsuario = model.IdUsuario
                 });
 
             if (response > 1)
