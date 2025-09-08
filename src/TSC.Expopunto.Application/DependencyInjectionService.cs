@@ -5,7 +5,6 @@ using TSC.Expopunto.Application.DataBase.Menu.Command;
 using TSC.Expopunto.Application.DataBase.Menu.Queries;
 using TSC.Expopunto.Application.DataBase.Perfil.Commands;
 using TSC.Expopunto.Application.DataBase.Perfil.Queries;
-using TSC.Expopunto.Application.DataBase.TipoDocumento.Commands;
 using TSC.Expopunto.Application.DataBase.Usuario.Commands;
 using TSC.Expopunto.Application.DataBase.Usuario.Queries;
 
@@ -32,7 +31,6 @@ namespace TSC.Expopunto.Application
             services.AddTransient<IPerfilCommand, PerfilCommand>();
             services.AddTransient<IPerfilQuery, PerfilQuery>();
 
-            services.AddTransient<ITipoDocumentoCommand, TipoDocumentoCommand>();
 
             return services;
         }
