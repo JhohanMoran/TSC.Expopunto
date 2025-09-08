@@ -2,9 +2,9 @@
 {
     public class BaseResponseModel
     {
-        public int statusCode { get; set; }
-        public bool success { get; set; }
-        public string message { get; set; }
-        public dynamic data { get; set; }
+        public int StatusCode { get; set; }
+        public bool Success { get; set; }
+        public string Message { get; set; }
+        public dynamic Data { get; set; }
     }
 }

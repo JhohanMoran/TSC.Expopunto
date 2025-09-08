@@ -15,8 +15,24 @@ builder.Services
 
 builder.Services.AddControllers();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAngular",
+        policy =>
+        {
+            policy.WithOrigins(
+                    "http://localhost:4200",
+                    "http://172.16.87.21:9090"
+                )
+                .AllowAnyHeader()
+                .AllowAnyMethod();
+        });
+});
+
+
 var app = builder.Build();
 
+app.UseCors("AllowAngular");
 app.MapControllers();
 app.Run();
 
