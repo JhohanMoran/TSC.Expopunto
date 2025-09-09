@@ -73,5 +73,15 @@ namespace TSC.Expopunto.Application.DataBase.Menu.Queries
 
             return menusHijos.ToList();
         }
+        public async Task<List<MenusTodos>> ListarMenusSubMenusPlanoAsync()
+        {
+            var parameters = new
+            {
+                pOpcion = 2
+            };
+            var response = await _dapperService.QueryAsync<MenusTodos>("uspGetMenus", parameters);
+
+            return response.ToList();
+        }
     }
 }
