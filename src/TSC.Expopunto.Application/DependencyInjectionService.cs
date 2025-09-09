@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using TSC.Expopunto.Application.Configuration;
 using TSC.Expopunto.Application.DataBase.Accesos.Queries;
+using TSC.Expopunto.Application.DataBase.FormaPago.Queries;
 using TSC.Expopunto.Application.DataBase.Menu.Command;
 using TSC.Expopunto.Application.DataBase.Menu.Queries;
+using TSC.Expopunto.Application.DataBase.Parametro.Queries;
 using TSC.Expopunto.Application.DataBase.Perfil.Commands;
 using TSC.Expopunto.Application.DataBase.Perfil.Queries;
 using TSC.Expopunto.Application.DataBase.PerfilMenu.Commands;
@@ -19,6 +22,10 @@ using TSC.Expopunto.Application.DataBase.Usuario.Commands;
 using TSC.Expopunto.Application.DataBase.Usuario.Queries;
 using TSC.Expopunto.Application.DataBase.UsuariosPerfil.Commands;
 using TSC.Expopunto.Application.DataBase.UsuariosPerfil.Queries;
+using TSC.Expopunto.Application.DataBase.MedioPago.Queries;
+using TSC.Expopunto.Application.Validators.Perfil;
+using TSC.Expopunto.Application.Validators.PerfilMenu;
+using TSC.Expopunto.Application.Validators.UsuarioPerfil;
 
 namespace TSC.Expopunto.Application
 {
@@ -36,15 +43,11 @@ namespace TSC.Expopunto.Application
 
             services.AddTransient<IUsuarioCommand, UsuarioCommand>();
             services.AddTransient<IUsuarioQuery, UsuarioQuery>();
+
             services.AddTransient<ITipoDocumentoQuery, TipoDocumentoQuery>();
 
             services.AddTransient<ITipoComprobanteQuery, TipoComprobanteQuery>();
-            services.AddTransient<ITipoMonedaQuery, TipoMonedaQuery>();
 
-            services.AddTransient<ISedeCommand, SedeCommand>();
-            services.AddTransient<ISedeQuery, SedeQuery>();
-
-            services.AddTransient<ITipoComprobanteQuery, TipoComprobanteQuery>();
             services.AddTransient<ITipoMonedaQuery, TipoMonedaQuery>();
 
             services.AddTransient<ISedeCommand, SedeCommand>();
@@ -61,7 +64,7 @@ namespace TSC.Expopunto.Application
 
             services.AddTransient<ITipoDocumentoCommand, TipoDocumentoCommand>();
             services.AddTransient<ITipoDocumentoQuery, TipoDocumentoQuery>();
-            
+
             services.AddTransient<IAccesosQuery, AccesosQuery>();
 
             services.AddTransient<IUsuariosPerfilCommand, UsuariosPerfilCommand>();
@@ -69,6 +72,18 @@ namespace TSC.Expopunto.Application
 
             services.AddTransient<IPerfilMenuCommand, PerfilMenuCommand>();
             services.AddTransient<IPerfilMenuQuery, PerfilMenuQuery>();
+
+            services.AddTransient<IParametroQuery, ParametroQuery>();
+
+            services.AddTransient<IFormaPagoQuery,  FormaPagoQuery>();
+
+            services.AddTransient<IMedioPagoQuery, MedioPagoQuery>();
+            #region Validators
+            services.AddScoped<IValidator<PerfilModel>, CrearPerfilValidator>();
+            services.AddScoped<IValidator<PerfilMenuModel>, PerfilMenuValidator>();
+            services.AddScoped<IValidator<UsuariosPerfilModel>, UsuariosPerfilValidator>();
+
+            #endregion
 
             return services;
         }

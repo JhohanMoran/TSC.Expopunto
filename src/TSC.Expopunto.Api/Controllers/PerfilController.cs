@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using TSC.Expopunto.Application.DataBase.Perfil.Commands;
 using TSC.Expopunto.Application.DataBase.Perfil.Queries;
 using TSC.Expopunto.Application.DataBase.Perfil.Queries.Models;
@@ -110,10 +111,24 @@ namespace TSC.Expopunto.Api.Controllers
         }
 
         [HttpPost("crear")]
-        public async Task<IActionResult> Crear([FromBody] PerfilModel model)
+        public async Task<IActionResult> Crear(
+            [FromBody] PerfilModel model,
+            [FromServices] IValidator<PerfilModel> validator
+        )
         {
+            var validate = await validator.ValidateAsync(model);    
+
+            if (!validate.IsValid)
+            {
+                return StatusCode(
+                    StatusCodes.Status400BadRequest,
+                    ResponseApiService.Response(StatusCodes.Status400BadRequest, validate.Errors)
+                );
+            }
+
             model.Opcion = (int)OperationType.Create;
             var data = await _perfilCommand.ProcesarAsync(model);
+
             return StatusCode(
                 StatusCodes.Status201Created,
                 ResponseApiService.Response(StatusCodes.Status201Created, data, "Exitoso"));

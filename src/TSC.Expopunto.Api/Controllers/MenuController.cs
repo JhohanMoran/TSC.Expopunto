@@ -1,9 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
 using TSC.Expopunto.Application.DataBase.Menu.Command;
 using TSC.Expopunto.Application.DataBase.Menu.Queries;
-using TSC.Expopunto.Application.DataBase.Usuario.Commands;
-using TSC.Expopunto.Application.DataBase.Usuario.Queries;
 using TSC.Expopunto.Application.Exceptions;
 using TSC.Expopunto.Application.Features;
 using TSC.Expopunto.Common;
@@ -23,7 +20,7 @@ namespace TSC.Expopunto.Api.Controllers
             _menuQuery = menuQuery;
         }
 
-        [HttpGet("listar-menus-por-estado")]
+        [HttpGet("listar-por-estado")]
         public async Task<IActionResult> ListarMenusPorEstados([FromQuery] bool? activo)
         {
             var data = await _menuQuery.ListarMenusPorEstadoAsync(activo);
@@ -31,7 +28,7 @@ namespace TSC.Expopunto.Api.Controllers
             if (data == null || data.Count == 0)
             {
                 return StatusCode(
-                   StatusCodes.Status204NoContent,
+                   StatusCodes.Status404NotFound,
                    ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No existe menus")
                );
             }
@@ -42,7 +39,7 @@ namespace TSC.Expopunto.Api.Controllers
                 );
         }
 
-        [HttpGet("listar-menus-submenus")]
+        [HttpGet("listar-submenus")]
         public async Task<IActionResult> ListarMenusSubMenusAsync()
         {
             var data = await _menuQuery.ListarMenusSubMenusAsync();
@@ -50,7 +47,7 @@ namespace TSC.Expopunto.Api.Controllers
             if (data == null || data.Count == 0)
             {
                 return StatusCode(
-                   StatusCodes.Status204NoContent,
+                   StatusCodes.Status404NotFound,
                    ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No existe menus")
                );
             }
@@ -61,14 +58,33 @@ namespace TSC.Expopunto.Api.Controllers
                 );
         }
 
-        [HttpGet("listar-menus-por-id")]
-        public async Task<IActionResult> ListarMenusPorIdAsync([FromQuery] int idMenu)
+        [HttpGet("listar-submenus-plano")]
+        public async Task<IActionResult> ListarMenusSubMenusPlanoAsync()
+        {
+            var data = await _menuQuery.ListarMenusSubMenusPlanoAsync();
+
+            if (data == null || data.Count == 0)
+            {
+                return StatusCode(
+                   StatusCodes.Status404NotFound,
+                   ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No existe menus")
+               );
+            }
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+                );
+        }
+
+        [HttpGet("listar-por-id/{idMenu:int}")]
+        public async Task<IActionResult> ListarMenusPorIdAsync([FromRoute] int idMenu)
         {
             if (idMenu == 0)
             {
                 return StatusCode(
                    StatusCodes.Status400BadRequest,
-                   ResponseApiService.Response(StatusCodes.Status404NotFound, null, "El id enviado no es valido")
+                   ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El id enviado no es valido")
                );
             }
 
@@ -77,8 +93,8 @@ namespace TSC.Expopunto.Api.Controllers
             if(data == null)
             {
                 return StatusCode(
-                StatusCodes.Status204NoContent,
-                ResponseApiService.Response(StatusCodes.Status204NoContent, data, "No se encontró el menú.")
+                StatusCodes.Status404NotFound,
+                ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No se encontró el menú.")
                 );
             }
             return StatusCode(
@@ -95,18 +111,6 @@ namespace TSC.Expopunto.Api.Controllers
             return StatusCode(
                 StatusCodes.Status201Created,
                 ResponseApiService.Response(StatusCodes.Status201Created, data, "Exitoso"));
-        }
-
-        [HttpPost("update")]
-        public async Task<IActionResult> Update([FromBody] MenuModel model)
-        {
-            model.Opcion = (int)OperationType.Update;
-            var data = await _menuCommand.ProcesarAsync(model);
-
-            return StatusCode(
-                StatusCodes.Status200OK,
-                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
-                );
         }
 
         [HttpPost("actualizar")]
@@ -128,7 +132,7 @@ namespace TSC.Expopunto.Api.Controllers
             {
                 return StatusCode(
                 StatusCodes.Status400BadRequest,
-                ResponseApiService.Response(StatusCodes.Status200OK, null, "El idUsuario no es válido")
+                ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El idUsuario no es válido")
                 );
             }
 

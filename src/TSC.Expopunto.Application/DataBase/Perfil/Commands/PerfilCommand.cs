@@ -29,7 +29,7 @@ namespace TSC.Expopunto.Application.DataBase.Perfil.Commands
                     }
                 );
 
-            if(response > 0)
+            if (response > 0)
             {
                 model.Id = response;
             }
