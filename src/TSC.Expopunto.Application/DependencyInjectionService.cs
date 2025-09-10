@@ -3,6 +3,8 @@ using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using TSC.Expopunto.Application.Configuration;
 using TSC.Expopunto.Application.DataBase.Accesos.Queries;
+using TSC.Expopunto.Application.DataBase.Categoria.Command;
+using TSC.Expopunto.Application.DataBase.Categoria.Queries;
 using TSC.Expopunto.Application.DataBase.Menu.Command;
 using TSC.Expopunto.Application.DataBase.Menu.Queries;
 using TSC.Expopunto.Application.DataBase.Parametro.Queries;
@@ -10,6 +12,8 @@ using TSC.Expopunto.Application.DataBase.Perfil.Commands;
 using TSC.Expopunto.Application.DataBase.Perfil.Queries;
 using TSC.Expopunto.Application.DataBase.PerfilMenu.Commands;
 using TSC.Expopunto.Application.DataBase.PerfilMenu.Queries;
+using TSC.Expopunto.Application.DataBase.Producto.Command;
+using TSC.Expopunto.Application.DataBase.Producto.Queries;
 using TSC.Expopunto.Application.DataBase.Sede.Commands;
 using TSC.Expopunto.Application.DataBase.Sede.Queries;
 using TSC.Expopunto.Application.DataBase.TipoComprobante.Queries;
@@ -70,6 +74,12 @@ namespace TSC.Expopunto.Application
             services.AddTransient<IPerfilMenuQuery, PerfilMenuQuery>();
 
             services.AddTransient<IParametroQuery, ParametroQuery>();
+
+            services.AddTransient<ICategoriaQuery, CategoriaQuery>();
+            services.AddTransient<ICategoriaCommand, CategoriaCommand>();
+
+            services.AddTransient<IProductoQuery, ProductoQuery>();
+            services.AddTransient<IProductoCommand, ProductoCommand>();
 
             #region Validators
             services.AddScoped<IValidator<PerfilModel>, CrearPerfilValidator>();
