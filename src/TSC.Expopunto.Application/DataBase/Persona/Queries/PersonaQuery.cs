@@ -1,13 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TSC.Expopunto.Domain.Models;
+
 using TSC.Expopunto.Application.DataBase.Persona.Queries.Models;
 
 namespace TSC.Expopunto.Application.DataBase.Persona.Queries
 {
-    public class PersonaQuery:IPersonaQuery
+    public class PersonaQuery : IPersonaQuery
     {
         private readonly IDapperQueryService _dapperService;
 
@@ -16,28 +13,56 @@ namespace TSC.Expopunto.Application.DataBase.Persona.Queries
             _dapperService = dapperService;
         }
 
-        public async Task<List<PersonaTodosModel>> ListarTodosAsync()
+        public async Task<List<PersonaTodosModel>> ListarPersonasAsync(PersonasListaParametros parametro)
         {
             var parameters = new
             {
-                pOpcion = 1
+                pOpcion = 1,
+                pIdPersona = 0,
+                pFiltroNombre = parametro.Nombre,
+                pFiltroActivo = parametro.Activo,
+                pPagina = parametro.Pagina,
+                pFilasPorPagina = parametro.FilasPorPagina,
+                pOrdenPor= parametro.OrdenPor,
+                pOrdenDireccion = parametro.OrdenDireccion
             };
 
             var response = await _dapperService.QueryAsync<PersonaTodosModel>("uspGetPersonas", parameters);
-
             return response.ToList();
         }
 
-        public async Task<PersonaTodosModel> ObtenerPersonaPorIdAsync(int IdPersona)
+        public async Task<List<PersonaTodosModel>> ListarPersonasPorEstadoAsync(bool? activo)
         {
             var parameters = new
             {
                 pOpcion = 2,
-                pIdPersona = IdPersona
+                pFiltroActivo = activo
+            };
+
+            var response = await _dapperService.QueryAsync<PersonaTodosModel>("uspGetPersonas", parameters);
+            return response.ToList();
+        }
+
+        public async Task<List<PersonaTodosModel>> ListarComboPersonasAsync()
+        {
+            var parameters = new
+            {
+                pOpcion = 2 // mismo que listar activos
+            };
+
+            var response = await _dapperService.QueryAsync<PersonaTodosModel>("uspGetPersonas", parameters);
+            return response.ToList();
+        }
+
+        public async Task<PersonaTodosModel?> ListarPersonasPorIdAsync(int idPersona)
+        {
+            var parameters = new
+            {
+                pOpcion = 3,
+                pIdPersona = idPersona
             };
 
             var response = await _dapperService.QueryFirstOrDefaultAsync<PersonaTodosModel>("uspGetPersonas", parameters);
-
             return response;
         }
     }

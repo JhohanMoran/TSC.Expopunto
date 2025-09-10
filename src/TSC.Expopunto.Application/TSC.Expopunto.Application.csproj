@@ -16,6 +16,11 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="DataBase\Persona\Queries\Models\PaginationFilter.cs" />
+    <Compile Remove="DataBase\Persona\Queries\Models\ResultadoPaginado.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
     <PackageReference Include="Dapper" Version="2.1.66" />
     <PackageReference Include="FluentValidation" Version="12.0.0" />
@@ -25,6 +30,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TSC.Expopunto.Common\TSC.Expopunto.Common.csproj" />
     <ProjectReference Include="..\TSC.Expopunto.Domain\TSC.Expopunto.Domain.csproj" />
   </ItemGroup>
 
