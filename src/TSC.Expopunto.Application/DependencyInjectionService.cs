@@ -1,9 +1,13 @@
 ﻿using AutoMapper;
 using FluentValidation;
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using System.Reflection;
+using TSC.Expopunto.Application.Behaviors;
 using TSC.Expopunto.Application.Configuration;
 using TSC.Expopunto.Application.DataBase.Accesos.Queries;
 using TSC.Expopunto.Application.DataBase.FormaPago.Queries;
+using TSC.Expopunto.Application.DataBase.MedioPago.Queries;
 using TSC.Expopunto.Application.DataBase.Menu.Command;
 using TSC.Expopunto.Application.DataBase.Menu.Queries;
 using TSC.Expopunto.Application.DataBase.Parametro.Queries;
@@ -13,6 +17,7 @@ using TSC.Expopunto.Application.DataBase.PerfilMenu.Commands;
 using TSC.Expopunto.Application.DataBase.PerfilMenu.Queries;
 using TSC.Expopunto.Application.DataBase.Sede.Commands;
 using TSC.Expopunto.Application.DataBase.Sede.Queries;
+using TSC.Expopunto.Application.DataBase.UnidadMedida.Queries;
 using TSC.Expopunto.Application.DataBase.TipoComprobante.Queries;
 using TSC.Expopunto.Application.DataBase.TipoDocumento.Commands;
 using TSC.Expopunto.Application.DataBase.TipoDocumento.Queries;
@@ -22,7 +27,6 @@ using TSC.Expopunto.Application.DataBase.Usuario.Commands;
 using TSC.Expopunto.Application.DataBase.Usuario.Queries;
 using TSC.Expopunto.Application.DataBase.UsuariosPerfil.Commands;
 using TSC.Expopunto.Application.DataBase.UsuariosPerfil.Queries;
-using TSC.Expopunto.Application.DataBase.MedioPago.Queries;
 using TSC.Expopunto.Application.Validators.Perfil;
 using TSC.Expopunto.Application.Validators.PerfilMenu;
 using TSC.Expopunto.Application.Validators.UsuarioPerfil;
@@ -41,6 +45,18 @@ namespace TSC.Expopunto.Application
 
             services.AddSingleton(mapper.CreateMapper());
 
+            // Registrar MediatR
+            services.AddMediatR(cfg =>
+                cfg.RegisterServicesFromAssemblies(Assembly.GetExecutingAssembly()));
+
+            // Registrar FluentValidation (validators dentro de Application)
+            services.AddValidatorsFromAssembly(Assembly.GetExecutingAssembly());
+
+            // Registrar pipeline para validación
+            services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
+
+
+            // Inyección de dependencias de comandos y queries
             services.AddTransient<IUsuarioCommand, UsuarioCommand>();
             services.AddTransient<IUsuarioQuery, UsuarioQuery>();
 
@@ -78,6 +94,8 @@ namespace TSC.Expopunto.Application
             services.AddTransient<IFormaPagoQuery,  FormaPagoQuery>();
 
             services.AddTransient<IMedioPagoQuery, MedioPagoQuery>();
+
+            services.AddTransient<IUnidadMedidaQuery, UnidadMedidaQuery>();
             #region Validators
             services.AddScoped<IValidator<PerfilModel>, CrearPerfilValidator>();
             services.AddScoped<IValidator<PerfilMenuModel>, PerfilMenuValidator>();

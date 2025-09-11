@@ -1,8 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
+﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TSC.Expopunto.Application.DataBase;
+using TSC.Expopunto.Application.Interfaces.Venta;
 using TSC.Expopunto.Persistence.DataBase;
+using TSC.Expopunto.Persistence.Repositories;
 
 namespace TSC.Expopunto.Persistence
 {
@@ -15,6 +16,8 @@ namespace TSC.Expopunto.Persistence
 
             services.AddScoped<IDapperQueryService, DapperService>();
             services.AddScoped<IDapperCommandService, DapperService>();
+
+            services.AddScoped<IVentaRepository, VentaRepository>();
 
             return services;
         }
