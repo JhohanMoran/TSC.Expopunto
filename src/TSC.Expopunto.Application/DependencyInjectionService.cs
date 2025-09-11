@@ -17,6 +17,7 @@ using TSC.Expopunto.Application.DataBase.PerfilMenu.Commands;
 using TSC.Expopunto.Application.DataBase.PerfilMenu.Queries;
 using TSC.Expopunto.Application.DataBase.Sede.Commands;
 using TSC.Expopunto.Application.DataBase.Sede.Queries;
+using TSC.Expopunto.Application.DataBase.UnidadMedida.Queries;
 using TSC.Expopunto.Application.DataBase.TipoComprobante.Queries;
 using TSC.Expopunto.Application.DataBase.TipoDocumento.Commands;
 using TSC.Expopunto.Application.DataBase.TipoDocumento.Queries;
@@ -93,6 +94,14 @@ namespace TSC.Expopunto.Application
             services.AddTransient<IFormaPagoQuery,  FormaPagoQuery>();
 
             services.AddTransient<IMedioPagoQuery, MedioPagoQuery>();
+
+            services.AddTransient<IUnidadMedidaQuery, UnidadMedidaQuery>();
+            #region Validators
+            services.AddScoped<IValidator<PerfilModel>, CrearPerfilValidator>();
+            services.AddScoped<IValidator<PerfilMenuModel>, PerfilMenuValidator>();
+            services.AddScoped<IValidator<UsuariosPerfilModel>, UsuariosPerfilValidator>();
+
+            #endregion
 
             return services;
         }
