@@ -27,6 +27,8 @@ using TSC.Expopunto.Application.DataBase.Usuario.Commands;
 using TSC.Expopunto.Application.DataBase.Usuario.Queries;
 using TSC.Expopunto.Application.DataBase.UsuariosPerfil.Commands;
 using TSC.Expopunto.Application.DataBase.UsuariosPerfil.Queries;
+using TSC.Expopunto.Application.DataBase.UsuariosSede.Commands;
+using TSC.Expopunto.Application.DataBase.UsuariosSede.Queries;
 using TSC.Expopunto.Application.Validators.Perfil;
 using TSC.Expopunto.Application.Validators.PerfilMenu;
 using TSC.Expopunto.Application.Validators.UsuarioPerfil;
@@ -90,6 +92,9 @@ namespace TSC.Expopunto.Application
             services.AddTransient<IPerfilMenuQuery, PerfilMenuQuery>();
 
             services.AddTransient<IParametroQuery, ParametroQuery>();
+
+            services.AddTransient<IUsuariosSedeCommand, UsuariosSedeCommand>();
+            services.AddTransient<IUsuariosSedeQuery, UsuariosSedeQuery>();
 
             services.AddTransient<IFormaPagoQuery,  FormaPagoQuery>();
 
