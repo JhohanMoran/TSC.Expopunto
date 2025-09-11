@@ -7,6 +7,8 @@ using TSC.Expopunto.Application.Behaviors;
 using TSC.Expopunto.Application.Configuration;
 using TSC.Expopunto.Application.DataBase;
 using TSC.Expopunto.Application.DataBase.Accesos.Queries;
+using TSC.Expopunto.Application.DataBase.Categoria.Command;
+using TSC.Expopunto.Application.DataBase.Categoria.Queries;
 using TSC.Expopunto.Application.DataBase.FormaPago.Queries;
 using TSC.Expopunto.Application.DataBase.MedioPago.Queries;
 using TSC.Expopunto.Application.DataBase.Menu.Command;
@@ -16,6 +18,8 @@ using TSC.Expopunto.Application.DataBase.Perfil.Commands;
 using TSC.Expopunto.Application.DataBase.Perfil.Queries;
 using TSC.Expopunto.Application.DataBase.PerfilMenu.Commands;
 using TSC.Expopunto.Application.DataBase.PerfilMenu.Queries;
+using TSC.Expopunto.Application.DataBase.Producto.Command;
+using TSC.Expopunto.Application.DataBase.Producto.Queries;
 using TSC.Expopunto.Application.DataBase.Persona.Commands;
 using TSC.Expopunto.Application.DataBase.Persona.Queries;
 using TSC.Expopunto.Application.DataBase.Sede.Commands;
@@ -95,6 +99,12 @@ namespace TSC.Expopunto.Application
             services.AddTransient<IPerfilMenuQuery, PerfilMenuQuery>();
 
             services.AddTransient<IParametroQuery, ParametroQuery>();
+
+            services.AddTransient<ICategoriaQuery, CategoriaQuery>();
+            services.AddTransient<ICategoriaCommand, CategoriaCommand>();
+
+            services.AddTransient<IProductoQuery, ProductoQuery>();
+            services.AddTransient<IProductoCommand, ProductoCommand>();
 
             services.AddTransient<IUsuariosSedeCommand, UsuariosSedeCommand>();
             services.AddTransient<IUsuariosSedeQuery, UsuariosSedeQuery>();
