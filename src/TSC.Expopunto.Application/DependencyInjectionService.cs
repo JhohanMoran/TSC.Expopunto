@@ -25,7 +25,8 @@ using TSC.Expopunto.Application.DataBase.Usuario.Commands;
 using TSC.Expopunto.Application.DataBase.Usuario.Queries;
 using TSC.Expopunto.Application.DataBase.UsuariosPerfil.Commands;
 using TSC.Expopunto.Application.DataBase.UsuariosPerfil.Queries;
-using TSC.Expopunto.Application.DataBase.MedioPago.Queries;
+using TSC.Expopunto.Application.DataBase.UsuariosSede.Commands;
+using TSC.Expopunto.Application.DataBase.UsuariosSede.Queries;
 using TSC.Expopunto.Application.Validators.Perfil;
 using TSC.Expopunto.Application.Validators.PerfilMenu;
 using TSC.Expopunto.Application.Validators.UsuarioPerfil;
@@ -78,14 +79,9 @@ namespace TSC.Expopunto.Application
 
             services.AddTransient<IParametroQuery, ParametroQuery>();
 
-            services.AddTransient<IFormaPagoQuery,  FormaPagoQuery>();
+            services.AddTransient<IUsuariosSedeCommand, UsuariosSedeCommand>();
+            services.AddTransient<IUsuariosSedeQuery, UsuariosSedeQuery>();
 
-            services.AddTransient<IMedioPagoQuery, MedioPagoQuery>();
-
-            services.AddTransient<IUnidadMedidaQuery, UnidadMedidaQuery>();
-
-            services.AddTransient<IGuiaEntradaCommand, GuiaEntradaCommand>();
-            services.AddTransient<IGuiaEntradaQuery, GuiaEntradaQuery>();
             #region Validators
             services.AddScoped<IValidator<PerfilModel>, CrearPerfilValidator>();
             services.AddScoped<IValidator<PerfilMenuModel>, PerfilMenuValidator>();
