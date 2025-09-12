@@ -34,8 +34,8 @@ namespace TSC.Expopunto.Api.Controllers
             if (data == null || data.Count == 0)
             {
                 return StatusCode(
-                   StatusCodes.Status204NoContent,
-                   ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No existe data")
+                    StatusCodes.Status204NoContent,
+                    ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No existe data")
                );
             }
 
@@ -90,9 +90,9 @@ namespace TSC.Expopunto.Api.Controllers
             if (idPerfil == 0)
             {
                 return StatusCode(
-                   StatusCodes.Status400BadRequest,
-                   ResponseApiService.Response(StatusCodes.Status404NotFound, null, "El id enviado no es valido")
-               );
+                    StatusCodes.Status400BadRequest,
+                    ResponseApiService.Response(StatusCodes.Status404NotFound, null, "El id enviado no es valido")
+                );
             }
 
             var data = await _perfilQuery.ListarPerfilesPorIdAsync(idPerfil);
@@ -100,9 +100,9 @@ namespace TSC.Expopunto.Api.Controllers
             if (data == null)
             {
                 return StatusCode(
-              StatusCodes.Status204NoContent,
-              ResponseApiService.Response(StatusCodes.Status204NoContent, data, "Perfil no encontrado")
-              );
+                StatusCodes.Status204NoContent,
+                    ResponseApiService.Response(StatusCodes.Status204NoContent, data, "Perfil no encontrado")
+                );
             }
             return StatusCode(
                 StatusCodes.Status200OK,

@@ -19,7 +19,6 @@ namespace TSC.Expopunto.Api.Controllers
         {
             _entidadFinancieraCommand = entidadFinancieraCommand;
             _entidadFinancieraQuery = entidadFinancieraQuery;
-
         }
 
         [HttpPost("crear")]
@@ -33,6 +32,7 @@ namespace TSC.Expopunto.Api.Controllers
                 StatusCodes.Status201Created,
                 ResponseApiService.Response(StatusCodes.Status201Created, data, "Exitoso"));
         }
+
         [HttpPost("actualizar")]
         public async Task<IActionResult> Actualizar(
             [FromBody] EntidadFinancieraModel model
@@ -45,8 +45,8 @@ namespace TSC.Expopunto.Api.Controllers
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
                 );
-
         }
+
         [HttpPost("eliminar")]
         public async Task<IActionResult> Eliminar(
             [FromBody] int IdEntidad
@@ -68,7 +68,6 @@ namespace TSC.Expopunto.Api.Controllers
             };
             var data = await _entidadFinancieraCommand.ProcesarAsync(model);
 
-
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
@@ -80,15 +79,12 @@ namespace TSC.Expopunto.Api.Controllers
         {
             var data = await _entidadFinancieraQuery.ListarTodosAsync();
 
-            if (data == null || data.Count == 0)
-
+            if (data == null || data.Count ==0)
             {
                 return StatusCode(
                     StatusCodes.Status204NoContent,
                     ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No existe entidades")
-
                 );
-
             }
 
             return StatusCode(
@@ -125,7 +121,5 @@ namespace TSC.Expopunto.Api.Controllers
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
                 );
         }
-
-
     }
 }

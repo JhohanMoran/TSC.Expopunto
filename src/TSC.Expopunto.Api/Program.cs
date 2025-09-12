@@ -1,5 +1,6 @@
 using TSC.Expopunto.Api;
 using TSC.Expopunto.Application;
+using TSC.Expopunto.Application.Exceptions;
 using TSC.Expopunto.Common;
 using TSC.Expopunto.External;
 using TSC.Expopunto.Persistence;
@@ -13,7 +14,10 @@ builder.Services
     .AddExternal(builder.Configuration)
     .AddPersistence(builder.Configuration);
 
-builder.Services.AddControllers();
+builder.Services.AddControllers(options =>
+{
+    options.Filters.Add<ExceptionManager>();
+});
 
 builder.Services.AddCors(options =>
 {
@@ -28,7 +32,6 @@ builder.Services.AddCors(options =>
                 .AllowAnyMethod();
         });
 });
-
 
 var app = builder.Build();
 
