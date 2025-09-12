@@ -31,7 +31,7 @@ namespace TSC.Expopunto.Api.Controllers
 
                 return StatusCode(
                     StatusCodes.Status204NoContent,
-                    ResponseApiService.Response(StatusCodes.Status204NoContent, null, "No se ha encontrado registros")
+                    ResponseApiService.Response(StatusCodes.Status204NoContent, response, "No se ha encontrado registros")
                  );
             }
 
@@ -51,7 +51,7 @@ namespace TSC.Expopunto.Api.Controllers
 
                 return StatusCode(
                     StatusCodes.Status204NoContent,
-                    ResponseApiService.Response(StatusCodes.Status204NoContent, null, "No se ha encontrado registros")
+                    ResponseApiService.Response(StatusCodes.Status204NoContent, response, "No se ha encontrado registros")
                  );
             }
 
@@ -79,7 +79,7 @@ namespace TSC.Expopunto.Api.Controllers
 
                 return StatusCode(
                     StatusCodes.Status404NotFound,
-                    ResponseApiService.Response(StatusCodes.Status404NotFound, null, "No ha sido encontrado un registro")
+                    ResponseApiService.Response(StatusCodes.Status404NotFound, response, "No ha sido encontrado un registro")
                  );
             }
 
