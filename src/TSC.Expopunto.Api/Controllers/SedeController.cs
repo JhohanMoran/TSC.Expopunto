@@ -81,9 +81,9 @@ namespace TSC.Expopunto.Api.Controllers
         }
 
         [HttpGet("listar")]
-        public async Task<IActionResult> ListarSedes()
+        public async Task<IActionResult> ListarSedes([FromQuery] string? nombre = null)
         {
-            var data = await _sedeQuery.ListarTodosAsync();
+            var data = await _sedeQuery.ListarTodosAsync(nombre);
 
             if (data == null || data.Count ==0)
             {
