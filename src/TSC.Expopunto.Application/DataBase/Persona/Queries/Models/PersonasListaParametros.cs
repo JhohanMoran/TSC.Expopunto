@@ -1,4 +1,5 @@
 ﻿using TSC.Expopunto.Application.Features;
+using TSC.Expopunto.Common;
 
 namespace TSC.Expopunto.Application.DataBase.Persona.Queries.Models
 {

@@ -11,6 +11,7 @@
         public int? IdTipoMoneda { get; set; }
         public int? IdUsuarioVendedor { get; set; }
         public int? IdUsuario { get; set; }
+        public bool? Activo { get; set; }
 
         public List<DetalleVentaDTO> Detalles { get; set; } = new();
 

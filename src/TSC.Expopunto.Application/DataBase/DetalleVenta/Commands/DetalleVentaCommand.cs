@@ -1,4 +1,4 @@
-﻿namespace TSC.Expopunto.Application.DataBase.Venta.Commands
+﻿namespace TSC.Expopunto.Application.DataBase.DetalleVenta.Commands
 {
     public record DetalleVentaCommand(
         int Id,
@@ -6,6 +6,7 @@
         int IdProducto,
         int IdTalla,
         int Cantidad,
-        decimal PrecioUnitario
+        decimal PrecioUnitario,
+        bool Activo
     );
 }

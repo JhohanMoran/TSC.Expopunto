@@ -17,7 +17,7 @@ namespace TSC.Expopunto.Application.DataBase.Perfil.Queries
                 pOpcion = 1,
                 pPagina = parametro.Pagina,
                 pFilasPorPagina = parametro.FilasPorPagina,
-                pOrdenPor = parametro.OrdenPor,
+                pOrdenPor = parametro.OrdenarPor,
                 pOrdenDireccion = parametro.OrdenDireccion,
 
                 pFiltroNombre = parametro.Nombre

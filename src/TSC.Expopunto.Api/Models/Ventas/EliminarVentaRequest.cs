@@ -3,5 +3,6 @@
     public class EliminarVentaRequest
     {
         public int Id { get; set; }
+        public int IdUsuario { get; set; }
     }
 }

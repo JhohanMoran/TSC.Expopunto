@@ -23,7 +23,7 @@ namespace TSC.Expopunto.Application.DataBase.Persona.Queries
                 pFiltroActivo = parametro.Activo,
                 pPagina = parametro.Pagina,
                 pFilasPorPagina = parametro.FilasPorPagina,
-                pOrdenPor= parametro.OrdenPor,
+                pOrdenPor= parametro.OrdenarPor,
                 pOrdenDireccion = parametro.OrdenDireccion
             };
 

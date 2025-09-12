@@ -1,11 +1,11 @@
 ﻿using FluentValidation;
-using TSC.Expopunto.Application.DataBase.Venta.Commands.Crear;
+using TSC.Expopunto.Application.DataBase.Venta.Commands.Actualizar;
 
 namespace TSC.Expopunto.Application.Validators.Venta
 {
-    public class CrearVentaCommandValidator : AbstractValidator<CrearVentaCommand>
+    public class ActualizarVentaCommandValidator : AbstractValidator<ActualizarVentaCommand>
     {
-        public CrearVentaCommandValidator()
+        public ActualizarVentaCommandValidator()
         {
             RuleFor(x => x.IdPersonaCliente)
             .GreaterThan(0).WithMessage("El cliente es obligatorio.");

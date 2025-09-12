@@ -1,10 +1,11 @@
 ﻿using MediatR;
+using TSC.Expopunto.Application.DataBase.DetalleVenta.Commands;
 using TSC.Expopunto.Application.DataBase.Venta.DTO;
 using TSC.Expopunto.Common;
 
-namespace TSC.Expopunto.Application.DataBase.Venta.Commands
+namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Actualizar
 {
-    public record VentaCommand(
+    public record ActualizarVentaCommand(
         OperationType Operation,
 
         int Id,
@@ -16,6 +17,7 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands
         int? IdTipoMoneda,
         int? IdUsuarioVendedor,
         int? IdUsuario,
+        bool? Activo,   
 
         List<DetalleVentaCommand>? Detalles
 

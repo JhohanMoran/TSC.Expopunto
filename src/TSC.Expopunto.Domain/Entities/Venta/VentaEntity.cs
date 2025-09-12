@@ -11,6 +11,7 @@
         public int? IdTipoMoneda { get; set; }
         public int? IdUsuarioVendedor { get; set; }
         public int? IdUsuario { get; set; }
+        public bool? Activo { get; set; }
 
         private readonly List<DetalleVentaEntity> _detalles = new();
         public IReadOnlyCollection<DetalleVentaEntity> Detalles => _detalles;
@@ -26,7 +27,8 @@
             int? idPersonaCliente,
             int? idTipoMoneda,
             int? idUsuarioVendedor,
-            int? idUsuario
+            int? idUsuario,
+            bool? activo
         )
         {
             Id = id;
@@ -38,6 +40,7 @@
             IdTipoMoneda = idTipoMoneda;
             IdUsuarioVendedor = idUsuarioVendedor;
             IdUsuario = idUsuario;
+            Activo = activo;
         }
 
         public void AgregarDetalle(
@@ -46,7 +49,8 @@
             int idProducto,
             int idTalla,
             int cantidad,
-            decimal precioUnitario
+            decimal precioUnitario,
+            bool activo
         )
         {
             _detalles.Add(new DetalleVentaEntity(
@@ -55,7 +59,8 @@
                 idProducto,
                 idTalla,
                 cantidad,
-                precioUnitario
+                precioUnitario,
+                activo
             ));
         }
 
@@ -69,6 +74,7 @@
             int? idTipoMoneda,
             int? idUsuarioVendedor,
             int? idUsuario,
+            bool? activo,   
             List<DetalleVentaEntity>? nuevosDetalles   
         )
         {
@@ -81,10 +87,24 @@
             IdTipoMoneda = idTipoMoneda;
             IdUsuarioVendedor = idUsuarioVendedor;
             IdUsuario = idUsuario;
+            Activo = activo;
 
             _detalles.Clear();
             _detalles.AddRange(nuevosDetalles);   
         }
 
+        public void AsignarId(int id)
+        {
+            Id = id;
+        }
+        public void AsignarIdDetalle(int index, int idDetalle, int idVenta)
+        {
+            if (index < 0 || index >= _detalles.Count)
+                throw new ArgumentOutOfRangeException(nameof(index));
+
+            _detalles[index].AsignarId(idDetalle, idVenta);
+        }
+
+      
     }
 }

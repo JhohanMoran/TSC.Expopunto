@@ -2,7 +2,10 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TSC.Expopunto.Api.Models.Ventas;
-using TSC.Expopunto.Application.DataBase.Venta.Commands;
+using TSC.Expopunto.Application.DataBase.DetalleVenta.Commands;
+using TSC.Expopunto.Application.DataBase.Venta.Commands.Actualizar;
+using TSC.Expopunto.Application.DataBase.Venta.Commands.Crear;
+using TSC.Expopunto.Application.DataBase.Venta.Commands.EliminarVenta;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentas;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentas.Params;
 using TSC.Expopunto.Application.Exceptions;
@@ -28,17 +31,7 @@ namespace TSC.Expopunto.Api.Controllers
             [FromBody] CrearVentaRequest request
         )
         {
-            //var validate = await validator.ValidateAsync(request);
-
-            //if (!validate.IsValid)
-            //{
-            //    return StatusCode(
-            //        StatusCodes.Status400BadRequest,
-            //        ResponseApiService.Response(StatusCodes.Status400BadRequest, validate.Errors)
-            //    );
-            //}
-
-            var command = new VentaCommand(
+            var command = new CrearVentaCommand(
                 OperationType.Create,
                 request.Id,
                 request.Fecha,
@@ -49,13 +42,15 @@ namespace TSC.Expopunto.Api.Controllers
                 request.IdTipoMoneda,
                 request.IdUsuarioVendedor,
                 request.IdUsuario,
+                true,
                 request.Detalles.Select(d => new DetalleVentaCommand(
                     d.Id,
                     d.IdVenta,
                     d.IdProducto,
                     d.IdTalla,
                     d.Cantidad,
-                    d.PrecioUnitario
+                    d.PrecioUnitario,
+                    true
                 )).ToList()
             );
 
@@ -63,7 +58,8 @@ namespace TSC.Expopunto.Api.Controllers
 
             return StatusCode(
                 StatusCodes.Status201Created,
-                ResponseApiService.Response(StatusCodes.Status201Created, data, "Exitoso"));
+                ResponseApiService.Response(StatusCodes.Status201Created, data, "Exitoso")
+            );
         }
 
         [HttpPost("actualizar")]
@@ -71,17 +67,7 @@ namespace TSC.Expopunto.Api.Controllers
             [FromBody] ActualizarVentaRequest request
         )
         {
-            //var validate = await validator.ValidateAsync(request);
-
-            //if (!validate.IsValid)
-            //{
-            //    return StatusCode(
-            //        StatusCodes.Status400BadRequest,
-            //        ResponseApiService.Response(StatusCodes.Status400BadRequest, validate.Errors)
-            //    );
-            //}
-
-            var command = new VentaCommand(
+            var command = new ActualizarVentaCommand(
                 OperationType.Update,
                 request.Id,
                 request.Fecha,
@@ -92,13 +78,15 @@ namespace TSC.Expopunto.Api.Controllers
                 request.IdTipoMoneda,
                 request.IdUsuarioVendedor,
                 request.IdUsuario,
+                request.Activo, 
                 request.Detalles.Select(d => new DetalleVentaCommand(
                     d.Id,
                     d.IdVenta,
                     d.IdProducto,
                     d.IdTalla,
                     d.Cantidad,
-                    d.PrecioUnitario
+                    d.PrecioUnitario,
+                    d.Activo
                 )).ToList()
             );
 
@@ -112,31 +100,12 @@ namespace TSC.Expopunto.Api.Controllers
         [HttpPost("eliminar")]
         public async Task<IActionResult> Eliminar(
             [FromBody] EliminarVentaRequest request
-            //[FromServices] IValidator<EliminarVentaRequest> validator
         )
         {
-            //var validate = await validator.ValidateAsync(request);
-
-            //if (!validate.IsValid)
-            //{
-            //    return StatusCode(
-            //        StatusCodes.Status400BadRequest,
-            //        ResponseApiService.Response(StatusCodes.Status400BadRequest, validate.Errors)
-            //    );
-            //}
-
-            var command = new VentaCommand(
+            var command = new EliminarVentaCommand(
                 OperationType.Delete,
                 request.Id,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                null,
-                new List<DetalleVentaCommand>()
+                request.IdUsuario
             );
 
             var data = await _mediator.Send(command);

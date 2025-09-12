@@ -1,11 +1,9 @@
 ﻿using TSC.Expopunto.Application.DataBase;
-using TSC.Expopunto.Application.DataBase.Perfil.Queries.Models;
 using TSC.Expopunto.Application.DataBase.Venta.DTO;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentas.Params;
 using TSC.Expopunto.Application.Interfaces.Venta;
 using TSC.Expopunto.Common;
 using TSC.Expopunto.Domain.Entities.Venta;
-using TSC.Expopunto.Persistence.DataBase;
 
 namespace TSC.Expopunto.Persistence.Repositories
 {
@@ -22,13 +20,13 @@ namespace TSC.Expopunto.Persistence.Repositories
             _dapperQueryService = dapperQueryService;
         }
 
-        public async Task<int> ActualizarVentaAsync(
+        public async Task<VentaEntity> ActualizarVentaAsync(
             VentaEntity venta
         )
         {
             var parameters = new
             {
-                pOpcion = 1,
+                pOpcion = (int)OperationType.Update,
 
                 pId = venta.Id,
                 pFecha = venta.Fecha,
@@ -39,7 +37,8 @@ namespace TSC.Expopunto.Persistence.Repositories
                 pIdTipoMoneda = venta.IdTipoMoneda,
                 pIdUsuarioVendedor = venta.IdUsuarioVendedor,
 
-                pIdUsuario = venta.IdUsuario
+                pIdUsuario = venta.IdUsuario,
+                pActivo = venta.Activo
             };
 
             var ventaId = await _dapperCommandService.ExecuteScalarAsync(
@@ -47,30 +46,39 @@ namespace TSC.Expopunto.Persistence.Repositories
                 parameters
             );
 
+            venta.AsignarId(ventaId); 
+
+            int index = 0;
             foreach (var d in venta.Detalles)
             {
-                var ventaDetalleId = await _dapperCommandService.ExecuteScalarAsync(
-                    "uspSetVentaDetalle",
+                var detalleId = await _dapperCommandService.ExecuteScalarAsync(
+                    "uspSetDetalleVenta",
                     new
                     {
-                        pOpcion = 1,
-                        pVentaId = ventaId,
+                        pOpcion = d.Id == 0 ? (int)OperationType.Create : (int)OperationType.Update,
+                        pId = d.Id,
+                        pIdVenta = ventaId,
                         pIdProducto = d.IdProducto,
+                        pIdTalla = d.IdTalla,
                         pCantidad = d.Cantidad,
-                        pPrecioUnitario = d.PrecioUnitario
+                        pPrecioUnitario = d.PrecioUnitario,
+                        pActivo = d.Activo
                     });
+
+                venta.AsignarIdDetalle(index, detalleId, ventaId);
+                index++;
             }
 
-            return ventaId;
+            return venta;
         }
 
-        public async Task<int> CrearVentaAsync(
+        public async Task<VentaEntity> CrearVentaAsync(
             VentaEntity venta
         )
         {
             var parameters = new
             {
-                pOpcion = 1,
+                pOpcion = (int)OperationType.Create,
 
                 pId = venta.Id,
                 pFecha = venta.Fecha,
@@ -81,7 +89,8 @@ namespace TSC.Expopunto.Persistence.Repositories
                 pIdTipoMoneda = venta.IdTipoMoneda,
                 pIdUsuarioVendedor = venta.IdUsuarioVendedor,
 
-                pIdUsuario = venta.IdUsuario
+                pIdUsuario = venta.IdUsuario,
+                pActivo = venta.Activo
             };
 
             var ventaId = await _dapperCommandService.ExecuteScalarAsync(
@@ -89,36 +98,58 @@ namespace TSC.Expopunto.Persistence.Repositories
                 parameters
             );
 
+            venta.AsignarId(ventaId);
+
+            int index = 0;
             foreach (var d in venta.Detalles)
             {
-                var ventaDetalleId = await _dapperCommandService.ExecuteScalarAsync(
-                    "uspSetVentaDetalle",
+                var detalleId = await _dapperCommandService.ExecuteScalarAsync(
+                    "uspSetDetalleVenta",
                     new {
-                        pOpcion = 1,
-                        pVentaId = ventaId,
+                        pOpcion = (int)OperationType.Create,
+                        pId = 0,
+                        pIdVenta = ventaId,
                         pIdProducto = d.IdProducto,
+                        pIdTalla = d.IdTalla,
                         pCantidad = d.Cantidad,
                         pPrecioUnitario = d.PrecioUnitario
                     });
+
+                venta.AsignarIdDetalle(index, detalleId, ventaId);
+                index++;
             }
 
-            return ventaId;
+            return venta;
         }
 
-        public async Task<int> EliminarVentaAsync(int id)
+        public async Task<int> EliminarVentaAsync(int id, int idUsuario)
         {
             var parameters = new
             {
-                Opcion = 3,
-                Id = id
+                pOpcion = (int)OperationType.Delete,
+                pId = id,
+                pIdUsuario = idUsuario
             };
-
             var ventaId = await _dapperCommandService.ExecuteScalarAsync(
                 "uspSetVenta",
                 parameters
             );
-
             return ventaId;
+        }
+
+        public async Task<List<DetalleVentaDTO>> ObtenerDetalleVentaPorIdVentaAsync(int idVenta)
+        {
+            var parameters = new
+            {
+                pOpcion = 1,
+                pIdVenta = idVenta,
+            };
+
+            var response =
+                await _dapperQueryService
+                    .QueryAsync<DetalleVentaDTO>("uspGetDetalleVenta", parameters);
+
+            return response.ToList();
         }
 
         public async Task<VentaEntity> ObtenerVentaPorIdAsync(int id)
