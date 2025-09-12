@@ -10,7 +10,7 @@ namespace TSC.Expopunto.Application.DataBase.Sede.Queries
 {
     public interface ISedeQuery
     {
-        Task<List<SedesTodosModel>> ListarTodosAsync();
+        Task<List<SedesTodosModel>> ListarTodosAsync(string? nombre = null);
         Task<SedesTodosModel> ObtenerSedePorIdAsync(int idSede);
 
     }

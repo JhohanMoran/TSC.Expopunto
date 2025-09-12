@@ -6,7 +6,8 @@ using System.Threading.Tasks;
 
 
 using TSC.Expopunto.Application.DataBase.Sede.Queries.Models;
-using TSC.Expopunto.Application.DataBase.TipoComprobante.Queries.Models;
+using static System.Runtime.InteropServices.JavaScript.JSType;
+
 
 namespace TSC.Expopunto.Application.DataBase.Sede.Queries
 {
@@ -19,11 +20,12 @@ namespace TSC.Expopunto.Application.DataBase.Sede.Queries
             _dapperService = dapperService;
         }
 
-        public async Task<List<SedesTodosModel>> ListarTodosAsync()
+        public async Task<List<SedesTodosModel>> ListarTodosAsync(string? nombre = null)
         {
             var parameters = new
             {
-                pOpcion = 1
+                pOpcion = 1,
+                pFiltroNombre = string.IsNullOrWhiteSpace(nombre) ? null : nombre
             };
             var response = await _dapperService.QueryAsync<SedesTodosModel>("uspGetSedes",
             parameters);
