@@ -5,7 +5,7 @@ using TSC.Expopunto.Application.Features;
 namespace TSC.Expopunto.Api.Controllers
 {
 
-    [Route("api/v1/TipoMoneda")]
+    [Route("api/v1/tipo-moneda")]
     [ApiController]
     public class TipoMonedaController : Controller
     {
@@ -16,7 +16,7 @@ namespace TSC.Expopunto.Api.Controllers
             _tipoMonedaQuery = tipoMonedaQuery;
         }
 
-        [HttpGet("listar-tipos-moneda")]
+        [HttpGet("listar")]
         public async Task<IActionResult> ListarTiposMoneda()
         {
             var data = await _tipoMonedaQuery.ListarTodosAsync();
@@ -32,7 +32,7 @@ namespace TSC.Expopunto.Api.Controllers
              );
         }
 
-        [HttpGet("obtener-tipo-moneda-por -id")]
+        [HttpGet("obtener-por-id")]
         public async Task<IActionResult> ObtenerTipoMoneda(
         [FromQuery] int idTipoMoneda)
         {
@@ -41,7 +41,7 @@ namespace TSC.Expopunto.Api.Controllers
             {
                 return StatusCode(
                     StatusCodes.Status400BadRequest,
-                    ResponseApiService.Response(StatusCodes.Status200OK, null, "El ID del tipo moneda no es válido"));
+                    ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El ID del tipo moneda no es válido"));
             }
             var data = await _tipoMonedaQuery.ObtenerTipoMonedaPorIdAsync(idTipoMoneda);
             if (data == null)

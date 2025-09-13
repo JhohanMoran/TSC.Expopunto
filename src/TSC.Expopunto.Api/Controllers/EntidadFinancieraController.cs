@@ -98,7 +98,7 @@ namespace TSC.Expopunto.Api.Controllers
             [FromQuery] int IdEntidad
         )
         {
-            if(IdEntidad==0)
+            if (IdEntidad == 0)
             {
                 return StatusCode(
                 StatusCodes.Status400BadRequest,
@@ -113,7 +113,6 @@ namespace TSC.Expopunto.Api.Controllers
                 return StatusCode(
                     StatusCodes.Status404NotFound,
                     ResponseApiService.Response(StatusCodes.Status404NotFound, data, "Entidad no encontrada")
-
                 );
             }
 

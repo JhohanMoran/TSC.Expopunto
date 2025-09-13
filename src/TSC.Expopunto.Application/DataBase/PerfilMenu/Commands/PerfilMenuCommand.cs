@@ -10,12 +10,13 @@ namespace TSC.Expopunto.Application.DataBase.PerfilMenu.Commands
     public class PerfilMenuCommand : IPerfilMenuCommand
     {
         public readonly IDapperCommandService _dapperService;
-        //private readonly IV1alidator<PerfilMenuModel> _validator;
-        public PerfilMenuCommand(IDapperCommandService dapperService)
-            //, IValidator<PerfilMenuModel> validator)
+        //private readonly IValidator<PerfilMenuModel> _validator;
+        public PerfilMenuCommand(IDapperCommandService dapperService
+            //, IValidator<PerfilMenuModel> validator
+            )
         {
             _dapperService = dapperService;
-          ///  _validator = validator;
+            //_validator = validator;
         }
         public async Task ProcesarAsync(PerfilMenuModel model)
         {

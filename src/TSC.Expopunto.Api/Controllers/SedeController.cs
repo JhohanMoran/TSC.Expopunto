@@ -8,7 +8,7 @@ using TSC.Expopunto.Common;
 namespace TSC.Expopunto.Api.Controllers
 {
 
-    [Route("api/v1/Sede")]
+    [Route("api/v1/sede")]
     [ApiController]
     [TypeFilter(typeof(ExceptionManager))]
     public class SedeController : Controller
@@ -80,10 +80,10 @@ namespace TSC.Expopunto.Api.Controllers
 
         }
 
-        [HttpGet("listar-sedes")]
-        public async Task<IActionResult> ListarSedes()
+        [HttpGet("listar")]
+        public async Task<IActionResult> ListarSedes([FromQuery] string? nombre = null)
         {
-            var data = await _sedeQuery.ListarTodosAsync();
+            var data = await _sedeQuery.ListarTodosAsync(nombre);
 
             if (data == null || data.Count ==0)
             {
@@ -99,7 +99,7 @@ namespace TSC.Expopunto.Api.Controllers
         }
 
 
-        [HttpGet("obtener-sede-por-id")]
+        [HttpGet("obtener-por-id")]
         public async Task<IActionResult> ObtenerSedePorId(
         [FromQuery] int idSede)
         {
@@ -107,7 +107,7 @@ namespace TSC.Expopunto.Api.Controllers
             {
                 return StatusCode(
                     StatusCodes.Status400BadRequest,
-                    ResponseApiService.Response(StatusCodes.Status200OK, null, "El ID de la sede no es válido"));
+                    ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El ID de la sede no es válido"));
             }
             var data = await _sedeQuery.ObtenerSedePorIdAsync(idSede);
 

@@ -23,11 +23,11 @@ namespace TSC.Expopunto.Application.DataBase.UsuariosPerfil.Commands
         }
         public async Task ProcesarAsync(UsuariosPerfilModel model)
         {
-          //  ValidationResult result = await _validator.ValidateAsync(model);
-           // if (!result.IsValid)
-          //  {
-           ///     throw new ValidationException(result.Errors);
-          //  }
+            //ValidationResult result = await _validator.ValidateAsync(model);
+            //if (!result.IsValid)
+            //{
+            //    throw new ValidationException(result.Errors);
+            //}
             var parameter = new
             {
                 pOpcion = model.Opcion,
