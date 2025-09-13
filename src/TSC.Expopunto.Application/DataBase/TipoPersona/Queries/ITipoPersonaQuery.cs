@@ -10,6 +10,6 @@ namespace TSC.Expopunto.Application.DataBase.TipoPersona.Queries
     public interface ITipoPersonaQuery
     {
         Task<List<TipoPersonaTodosModel>> ListarTodosAsync();
-        Task<TipoPersonaTodosModel> ObtenerTipoPersonaPorIdAsync(int idTipoPersona);
+        Task<TipoPersonaTodosModel> ObtenerTipoPersonaPorCodigoAsync(string codigo);
     }
 }

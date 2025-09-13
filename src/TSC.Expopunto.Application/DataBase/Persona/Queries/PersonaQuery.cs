@@ -20,7 +20,7 @@ namespace TSC.Expopunto.Application.DataBase.Persona.Queries
                 pOpcion = 1,
                 pIdPersona = 0,
                 pFiltroNombre = parametro.Nombre,
-                pFiltroActivo = parametro.Activo,
+                pFiltroActivo = true,//parametro.Activo,CAMBIOS 11/09/2025
                 pPagina = parametro.Pagina,
                 pFilasPorPagina = parametro.FilasPorPagina,
                 pOrdenPor= parametro.OrdenPor,
@@ -47,7 +47,8 @@ namespace TSC.Expopunto.Application.DataBase.Persona.Queries
         {
             var parameters = new
             {
-                pOpcion = 2 // mismo que listar activos
+                pOpcion = 2, // mismo que listar activos
+                pFiltroActivo = true //agregué line CAMBIOS 11/09/2025
             };
 
             var response = await _dapperService.QueryAsync<PersonaTodosModel>("uspGetPersonas", parameters);

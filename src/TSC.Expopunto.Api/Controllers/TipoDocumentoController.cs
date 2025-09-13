@@ -4,17 +4,15 @@ using TSC.Expopunto.Application.Exceptions;
 using TSC.Expopunto.Application.Features;
 using TSC.Expopunto.Common;
 
-
 namespace TSC.Expopunto.Api.Controllers
 {
-
     [Route("api/v1/tipo-documento")]
     [ApiController]
     [TypeFilter(typeof(ExceptionManager))]
-    
     public class TipoDocumentoController : Controller
     {
         private readonly ITipoDocumentoQuery _tipoDocumentoQuery;
+
         public TipoDocumentoController(ITipoDocumentoQuery tipoDocumentoQuery)
         {
             _tipoDocumentoQuery = tipoDocumentoQuery;
@@ -25,39 +23,46 @@ namespace TSC.Expopunto.Api.Controllers
         {
             var data = await _tipoDocumentoQuery.ListarTodosAsync();
 
-            if (data == null || data.Count == 0)
+            if (data == null || !data.Any())
             {
                 return StatusCode(
                     StatusCodes.Status204NoContent,
-                    ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No exiten Tipo documento"));
+                    ResponseApiService.Response(StatusCodes.Status204NoContent, data, "No existen tipos de documento")
+                );
             }
 
-            return StatusCode(StatusCodes.Status200OK,
-            ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitosos")
-             );
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
         }
 
-        [HttpGet("obtener-Tipo-Documento")]
-        public async Task<IActionResult> ObtenerTipoDocumento(
-        [FromQuery] int idTipoDocumento)
+        [HttpGet("obtener-tipo-documento")]
+        public async Task<IActionResult> ObtenerTipoDocumento([FromQuery] int idTipoDocumento)
         {
-            if (idTipoDocumento == 0)
+            if (idTipoDocumento <= 0)
             {
                 return StatusCode(
                     StatusCodes.Status400BadRequest,
-                    ResponseApiService.Response(StatusCodes.Status200OK, null, "El ID del tipo documento no es válido"));
+                    ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El ID del tipo documento no es válido")
+                );
             }
 
+            var data = await _tipoDocumentoQuery.ObtenerTipoDocumentoPorIdAsync(idTipoDocumento);
 
-             var data = await _tipoDocumentoQuery.ObtenerTipoDocumentoPorIdAsync(idTipoDocumento);
-             if (data == null)
-             return StatusCode(StatusCodes.Status404NotFound,
-             ResponseApiService.Response(StatusCodes.Status404NotFound, null, "No se encontró el tipo documento"));
+            if (data == null)
+            {
+                return StatusCode(
+                    StatusCodes.Status404NotFound,
+                    ResponseApiService.Response(StatusCodes.Status404NotFound, null, "No se encontró el tipo documento")
+                );
+            }
 
-
-            return StatusCode(StatusCodes.Status200OK,
-            ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso"));
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
         }
-
     }
 }
+
