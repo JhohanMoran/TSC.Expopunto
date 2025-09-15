@@ -5,11 +5,12 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using TSC.Expopunto.Application.Behaviors;
 using TSC.Expopunto.Application.Configuration;
-using TSC.Expopunto.Application.DataBase;
 using TSC.Expopunto.Application.DataBase.Accesos.Queries;
 using TSC.Expopunto.Application.DataBase.Categoria.Command;
 using TSC.Expopunto.Application.DataBase.Categoria.Queries;
 using TSC.Expopunto.Application.DataBase.FormaPago.Queries;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries;
 using TSC.Expopunto.Application.DataBase.MedioPago.Queries;
 using TSC.Expopunto.Application.DataBase.Menu.Command;
 using TSC.Expopunto.Application.DataBase.Menu.Queries;
@@ -18,29 +19,25 @@ using TSC.Expopunto.Application.DataBase.Perfil.Commands;
 using TSC.Expopunto.Application.DataBase.Perfil.Queries;
 using TSC.Expopunto.Application.DataBase.PerfilMenu.Commands;
 using TSC.Expopunto.Application.DataBase.PerfilMenu.Queries;
-using TSC.Expopunto.Application.DataBase.Producto.Command;
-using TSC.Expopunto.Application.DataBase.Producto.Queries;
 using TSC.Expopunto.Application.DataBase.Persona.Commands;
 using TSC.Expopunto.Application.DataBase.Persona.Queries;
+using TSC.Expopunto.Application.DataBase.Producto.Command;
+using TSC.Expopunto.Application.DataBase.Producto.Queries;
 using TSC.Expopunto.Application.DataBase.Sede.Commands;
 using TSC.Expopunto.Application.DataBase.Sede.Queries;
-using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands;
-using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries;
-using TSC.Expopunto.Application.DataBase.UnidadMedida.Queries;
 using TSC.Expopunto.Application.DataBase.TipoComprobante.Queries;
 using TSC.Expopunto.Application.DataBase.TipoDocumento.Commands;
 using TSC.Expopunto.Application.DataBase.TipoDocumento.Queries;
 using TSC.Expopunto.Application.DataBase.TipoMoneda.Queries;
 using TSC.Expopunto.Application.DataBase.TiposDocumento.Commands;
+using TSC.Expopunto.Application.DataBase.UnidadMedida.Queries;
 using TSC.Expopunto.Application.DataBase.Usuario.Commands;
 using TSC.Expopunto.Application.DataBase.Usuario.Queries;
 using TSC.Expopunto.Application.DataBase.UsuariosPerfil.Commands;
 using TSC.Expopunto.Application.DataBase.UsuariosPerfil.Queries;
 using TSC.Expopunto.Application.DataBase.UsuariosSede.Commands;
 using TSC.Expopunto.Application.DataBase.UsuariosSede.Queries;
-using TSC.Expopunto.Application.Validators.Perfil;
-using TSC.Expopunto.Application.Validators.PerfilMenu;
-using TSC.Expopunto.Application.Validators.UsuarioPerfil;
+using TSC.Expopunto.Application.Security;
 
 namespace TSC.Expopunto.Application
 {
@@ -66,6 +63,7 @@ namespace TSC.Expopunto.Application
             // Registrar pipeline para validación
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
+            services.AddScoped<IPasswordService, PasswordService>();
 
             // Inyección de dependencias de comandos y queries
             services.AddTransient<IUsuarioCommand, UsuarioCommand>();
@@ -111,7 +109,7 @@ namespace TSC.Expopunto.Application
             services.AddTransient<IUsuariosSedeCommand, UsuariosSedeCommand>();
             services.AddTransient<IUsuariosSedeQuery, UsuariosSedeQuery>();
 
-            services.AddTransient<IFormaPagoQuery,  FormaPagoQuery>();
+            services.AddTransient<IFormaPagoQuery, FormaPagoQuery>();
 
             services.AddTransient<IMedioPagoQuery, MedioPagoQuery>();
 
@@ -119,17 +117,9 @@ namespace TSC.Expopunto.Application
 
             services.AddTransient<IGuiaEntradaCommand, GuiaEntradaCommand>();
             services.AddTransient<IGuiaEntradaQuery, GuiaEntradaQuery>();
-            #region Validators
-            services.AddScoped<IValidator<PerfilModel>, CrearPerfilValidator>();
-            services.AddScoped<IValidator<PerfilMenuModel>, PerfilMenuValidator>();
-            services.AddScoped<IValidator<UsuariosPerfilModel>, UsuariosPerfilValidator>();
 
-            #endregion
             services.AddTransient<IPersonaCommand, PersonaCommand>();
             services.AddTransient<IPersonaQuery, PersonaQuery>();
-
-            //services.AddTransient<IDapperCommandService, DapperCommandService>();
-
 
             return services;
         }

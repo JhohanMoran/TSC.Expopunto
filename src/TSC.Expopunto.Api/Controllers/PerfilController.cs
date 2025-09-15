@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TSC.Expopunto.Application.DataBase.Perfil.Commands;
 using TSC.Expopunto.Application.DataBase.Perfil.Queries;
@@ -9,7 +10,7 @@ using TSC.Expopunto.Common;
 
 namespace TSC.Expopunto.Api.Controllers
 {
-
+    [Authorize]
     [Route("api/v1/perfil")]
     [ApiController]
     [TypeFilter(typeof(ExceptionManager))]
@@ -65,6 +66,7 @@ namespace TSC.Expopunto.Api.Controllers
                 );
         }
 
+        [AllowAnonymous]
         [HttpGet("listar-combo")]
         public async Task<IActionResult> ListarComboPerfiles()
         {
@@ -116,13 +118,13 @@ namespace TSC.Expopunto.Api.Controllers
             [FromServices] IValidator<PerfilModel> validator
         )
         {
-            var validate = await validator.ValidateAsync(model);    
+            var validate = await validator.ValidateAsync(model);
 
             if (!validate.IsValid)
             {
                 return StatusCode(
                     StatusCodes.Status400BadRequest,
-                    ResponseApiService.Response(StatusCodes.Status400BadRequest, validate.Errors)
+                    ResponseApiService.Response(StatusCodes.Status400BadRequest, validate.Errors, "")
                 );
             }
 

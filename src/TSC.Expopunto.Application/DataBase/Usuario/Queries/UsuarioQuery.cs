@@ -40,5 +40,17 @@ namespace TSC.Expopunto.Application.DataBase.Usuario.Queries
             var response = await _dapperService.QueryFirstOrDefaultAsync<UsuariosTodosModel>("uspGetUsuarios", parameters);
             return response;
         }
+
+        public async Task<RespuestaLoginModel> ObtenerUsuarioPorUsuarioAsync(string usuario)
+        {
+            var parameters = new
+            {
+                pOpcion = 3,
+                pUsuario = usuario
+            };
+
+            var response = await _dapperService.QueryFirstOrDefaultAsync<RespuestaLoginModel>("uspGetUsuarios", parameters);
+            return response;
+        }
     }
 }

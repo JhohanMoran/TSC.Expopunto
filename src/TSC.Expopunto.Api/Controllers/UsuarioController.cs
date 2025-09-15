@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using System.Runtime.InteropServices;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TSC.Expopunto.Application.DataBase.Usuario.Commands;
 using TSC.Expopunto.Application.DataBase.Usuario.Queries;
 using TSC.Expopunto.Application.DataBase.Usuario.Queries.Models;
@@ -10,6 +10,7 @@ using TSC.Expopunto.Common;
 
 namespace TSC.Expopunto.Api.Controllers
 {
+    [Authorize]
     [Route("api/v1/usuario")]
     [ApiController]
     [TypeFilter(typeof(ExceptionManager))]
@@ -17,13 +18,16 @@ namespace TSC.Expopunto.Api.Controllers
     {
         private readonly IUsuarioCommand _usuarioCommand;
         private readonly IUsuarioQuery _usuarioQuery;
+        private readonly IMediator _mediator;
         public UsuarioController(
             IUsuarioCommand usuarioCommand, 
-            IUsuarioQuery usuarioQuery
+            IUsuarioQuery usuarioQuery,
+            IMediator mediator
         )
         {
             _usuarioCommand = usuarioCommand;
             _usuarioQuery = usuarioQuery;
+            _mediator = mediator;
         }
 
         [HttpPost("crear")]
@@ -154,6 +158,28 @@ namespace TSC.Expopunto.Api.Controllers
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
                 );
+        }
+
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(
+           [FromBody] LoginUsuarioQuery parametros
+        )
+        {
+            var data = await _mediator.Send(new LoginUsuarioQuery(parametros.idPerfil, parametros.Usuario, parametros.Contrasena));  
+
+            if (data == null)
+            {
+                return StatusCode(
+                   StatusCodes.Status404NotFound,
+                   ResponseApiService.Response(StatusCodes.Status404NotFound, data, "Usuario no encontrado")
+               );
+            }
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
         }
     }
 }
