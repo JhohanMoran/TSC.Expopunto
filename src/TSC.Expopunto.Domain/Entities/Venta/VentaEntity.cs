@@ -1,4 +1,6 @@
-﻿namespace TSC.Expopunto.Domain.Entities.Venta
+﻿
+
+namespace TSC.Expopunto.Domain.Entities.Venta
 {
     public class VentaEntity
     {

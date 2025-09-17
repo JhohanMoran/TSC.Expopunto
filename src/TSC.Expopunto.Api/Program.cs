@@ -1,6 +1,7 @@
 using TSC.Expopunto.Api;
 using TSC.Expopunto.Application;
 using TSC.Expopunto.Application.Exceptions;
+using TSC.Expopunto.Application.Interfaces.GuiaEntrada;
 using TSC.Expopunto.Common;
 using TSC.Expopunto.External;
 using TSC.Expopunto.Persistence;
@@ -13,6 +14,8 @@ builder.Services
     .AddApplication()
     .AddExternal(builder.Configuration)
     .AddPersistence(builder.Configuration);
+
+
 
 builder.Services.AddControllers(options =>
 {
