@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TSC.Expopunto.Application.DataBase.Persona.Commands;
 using TSC.Expopunto.Application.DataBase.Persona.Queries;
 using TSC.Expopunto.Application.DataBase.Persona.Queries.Models;
@@ -8,6 +9,7 @@ using TSC.Expopunto.Common;
 
 namespace TSC.Expopunto.Api.Controllers
 {
+    [Authorize]
     [Route("api/v1/persona")]
     [ApiController]
     [TypeFilter(typeof(ExceptionManager))]

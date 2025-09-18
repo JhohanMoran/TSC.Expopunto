@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
-using TSC.Expopunto.Application.DataBase.Usuario.Queries.Models;
+﻿using TSC.Expopunto.Application.DataBase.Usuario.Queries.Models;
 
 namespace TSC.Expopunto.Application.DataBase.Usuario.Queries
 {
@@ -7,5 +6,6 @@ namespace TSC.Expopunto.Application.DataBase.Usuario.Queries
     {
         Task<List<UsuariosTodosModel>> ListarTodosAsync(UsuarioParam param);
         Task<UsuariosTodosModel> ObtenerUsuarioPorIdAsync(int idUsuario);
+        Task<RespuestaLoginModel> ObtenerUsuarioPorUsuarioAsync(string usuario);
     }
 }
