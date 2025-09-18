@@ -16,7 +16,7 @@ namespace TSC.Expopunto.Api.Controllers
             _tipoPersonaQuery = tipoPersonaQuery;
         }
 
-        [HttpPost("listar-todos")]
+        [HttpGet("listar")]
         public async Task<IActionResult> ListarTodos()
         {
             var data = await _tipoPersonaQuery.ListarTodosAsync();
@@ -25,7 +25,7 @@ namespace TSC.Expopunto.Api.Controllers
             {
                 return StatusCode(
                     StatusCodes.Status204NoContent,
-                    ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No existe tipos de persona")
+                    ResponseApiService.Response(StatusCodes.Status204NoContent, data, "No existe tipos de persona")
                 );
             }
 
@@ -35,7 +35,7 @@ namespace TSC.Expopunto.Api.Controllers
             );
         }
 
-        [HttpPost("obtener-por-codigo")]
+        [HttpGet("obtener-por-codigo")]
         public async Task<IActionResult> ObtenerTipoPersonaPorCodigo([FromQuery] string codigo)
         {
             if (string.IsNullOrWhiteSpace(codigo))

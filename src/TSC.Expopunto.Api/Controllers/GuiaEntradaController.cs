@@ -25,15 +25,16 @@ namespace TSC.Expopunto.Api.Controllers
         [HttpPost("crear")]
         public async Task<IActionResult> Crear(
             [FromBody] GuiaEntradaModel model
-            )
+        )
         {
             model.Opcion = (int)OperationType.Create;
 
             var data = await _guiaEntradaCommand.ProcesarAsync(model);
             return StatusCode(
-                StatusCodes.Status201Created,
+                        StatusCodes.Status201Created,
                 ResponseApiService.Response(StatusCodes.Status201Created, data, "Exitoso"));
-                }
+        }
+
 
 
         [HttpPost("actualizar")]
@@ -49,7 +50,7 @@ namespace TSC.Expopunto.Api.Controllers
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
                 );
-         }
+        }
 
 
         [HttpGet("listar")]

@@ -33,7 +33,7 @@ namespace TSC.Expopunto.Application.DataBase.TipoPersona.Queries
             var parameters = new
             {
                 pOpcion = 2,
-                pCodigo = codigo
+                pIdTipoPersona = codigo
             };
 
             var response = await _dapperService.QueryFirstOrDefaultAsync<TipoPersonaTodosModel>("uspGetTiposPersona", parameters);
