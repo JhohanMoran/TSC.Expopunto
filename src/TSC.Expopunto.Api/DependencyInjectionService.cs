@@ -1,4 +1,6 @@
-﻿namespace TSC.Expopunto.Api
+﻿using Microsoft.OpenApi.Models;
+
+namespace TSC.Expopunto.Api
 {
     public static class DependencyInjectionService
     {
