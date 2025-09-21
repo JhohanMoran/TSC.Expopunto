@@ -23,8 +23,7 @@ namespace TSC.Expopunto.Application.DataBase.EntidadFinanciera.Queries
                 pOpcion = 1
             };
 
-            var response = await _dapperService.QueryAsync<EntidadeFinancieraTodosModel>(
-                "uspGetEntidadesFinancieras", parameters);
+            var response = await _dapperService.QueryAsync<EntidadeFinancieraTodosModel>("uspGetEntidadesFinancieras", parameters);
 
             return response.ToList();
         }

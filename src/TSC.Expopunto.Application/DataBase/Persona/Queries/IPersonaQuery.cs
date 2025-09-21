@@ -1,15 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TSC.Expopunto.Domain.Models;
+
 using TSC.Expopunto.Application.DataBase.Persona.Queries.Models;
 
 namespace TSC.Expopunto.Application.DataBase.Persona.Queries
 {
     public interface IPersonaQuery
     {
-        Task<List<PersonaTodosModel>> ListarTodosAsync();
-        Task<PersonaTodosModel> ObtenerPersonaPorIdAsync(int idPersona);
+        Task<List<PersonaTodosModel>> ListarPersonasAsync(PersonasListaParametros parametro);
+        Task<List<PersonaTodosModel>> ListarPersonasPorEstadoAsync(bool? activo);
+        Task<List<PersonaTodosModel>> ListarComboPersonasAsync();
+        Task<PersonaTodosModel?> ListarPersonasPorIdAsync(int idPersona);
     }
 }
+

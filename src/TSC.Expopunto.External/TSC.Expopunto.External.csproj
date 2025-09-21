@@ -18,4 +18,8 @@
     <ProjectReference Include="..\TSC.Expopunto.Domain\TSC.Expopunto.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\TSC.Expopunto.Domain\TSC.Expopunto.Domain.csproj" />
+  </ItemGroup>
+
 </Project>
