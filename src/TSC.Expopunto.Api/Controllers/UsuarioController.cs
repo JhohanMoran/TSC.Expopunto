@@ -116,14 +116,6 @@ namespace TSC.Expopunto.Api.Controllers
         {
             var data = await _usuarioQuery.ListarTodosAsync(param);
 
-            if (data == null || data.Count == 0)
-            {
-                return StatusCode(
-                   StatusCodes.Status404NotFound,
-                   ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No existe usuarios")
-               );
-            }
-
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")

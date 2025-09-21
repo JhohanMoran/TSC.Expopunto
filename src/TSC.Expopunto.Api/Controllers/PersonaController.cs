@@ -37,14 +37,6 @@ namespace TSC.Expopunto.Api.Controllers
 
             var data = await _personaQuery.ListarPersonasAsync(parametro);
 
-            if (data == null || data.Count == 0)
-            {
-                return StatusCode(
-                    StatusCodes.Status204NoContent,
-                    ResponseApiService.Response(StatusCodes.Status204NoContent, data, "No existe data")
-                );
-            }
-
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")

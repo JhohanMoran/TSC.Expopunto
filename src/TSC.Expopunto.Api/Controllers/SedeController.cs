@@ -22,18 +22,18 @@ namespace TSC.Expopunto.Api.Controllers
             _sedeQuery = sedeQuery;
         }
 
-        [HttpPost ("crear")]
-        public async Task<IActionResult> Crear (
+        [HttpPost("crear")]
+        public async Task<IActionResult> Crear(
             [FromBody] SedeModel model
             )
         {
             model.Opcion = (int)OperationType.Create;
 
-            var data = await _sedeCommand.ProcesarAsync (model);
+            var data = await _sedeCommand.ProcesarAsync(model);
             return StatusCode(
                 StatusCodes.Status201Created,
                 ResponseApiService.Response(StatusCodes.Status201Created, data, "Exitoso"));
-                }
+        }
 
 
         [HttpPost("actualizar")]
@@ -41,24 +41,24 @@ namespace TSC.Expopunto.Api.Controllers
              [FromBody] SedeModel model
             )
         {
-            model .Opcion= (int)OperationType.Update;
+            model.Opcion = (int)OperationType.Update;
 
-            var data = await _sedeCommand .ProcesarAsync (model);
+            var data = await _sedeCommand.ProcesarAsync(model);
 
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
                 );
 
-                
+
         }
 
         [HttpPost("eliminar")]
         public async Task<IActionResult> Eliminar(
-             [FromBody] int idSede )
+             [FromBody] int idSede)
         {
 
-            if(idSede == 0)
+            if (idSede == 0)
             {
                 return StatusCode(
                     StatusCodes.Status400BadRequest,
@@ -84,14 +84,6 @@ namespace TSC.Expopunto.Api.Controllers
         public async Task<IActionResult> ListarSedes([FromQuery] string? nombre = null)
         {
             var data = await _sedeQuery.ListarTodosAsync(nombre);
-
-            if (data == null || data.Count ==0)
-            {
-                return StatusCode(
-                    StatusCodes.Status204NoContent,
-                    ResponseApiService.Response(StatusCodes.Status404NotFound,data, "No exiten sedes"));
-            }
-
 
             return StatusCode(StatusCodes.Status200OK,
             ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitosos")

@@ -26,15 +26,6 @@ namespace TSC.Expopunto.Api.Controllers
         {
             var response = await _productoQuery.ListarPaginadoAsync(param);
 
-            if (response.Count() == 0)
-            {
-
-                return StatusCode(
-                    StatusCodes.Status204NoContent,
-                    ResponseApiService.Response(StatusCodes.Status204NoContent, response, "No se ha encontrado registros")
-                 );
-            }
-
             return StatusCode(
                    StatusCodes.Status200OK,
                    ResponseApiService.Response(StatusCodes.Status200OK, response, "Exitoso")
@@ -45,15 +36,6 @@ namespace TSC.Expopunto.Api.Controllers
         public async Task<IActionResult> ListarActivos()
         {
             var response = await _productoQuery.ListarActivosAsync();
-
-            if (response.Count() == 0)
-            {
-
-                return StatusCode(
-                    StatusCodes.Status204NoContent,
-                    ResponseApiService.Response(StatusCodes.Status204NoContent, response, "No se ha encontrado registros")
-                 );
-            }
 
             return StatusCode(
                    StatusCodes.Status200OK,
