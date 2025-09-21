@@ -20,7 +20,10 @@ namespace TSC.Expopunto.Application.DataBase.Persona.Queries
                 pOpcion = 1,
                 pIdPersona = 0,
                 pFiltroNombre = parametro.Nombre,
-                pFiltroActivo = parametro.Activo,
+                pFiltroCodTipoPersona = parametro.CodTipoPersona, //  Nuevo filtro
+                pFiltroIdTipoDocumento = parametro.IdTipoDocumento, // Nuevo filtro
+                pFiltroNumeroDocumento = parametro.NumeroDocumento, //  Nuevo filtro
+                pFiltroActivo = true,//parametro.Activo
                 pPagina = parametro.Pagina,
                 pFilasPorPagina = parametro.FilasPorPagina,
                 pOrdenPor= parametro.OrdenarPor,
@@ -47,7 +50,8 @@ namespace TSC.Expopunto.Application.DataBase.Persona.Queries
         {
             var parameters = new
             {
-                pOpcion = 2 // mismo que listar activos
+                pOpcion = 2, // mismo que listar activos
+                pFiltroActivo = true
             };
 
             var response = await _dapperService.QueryAsync<PersonaTodosModel>("uspGetPersonas", parameters);

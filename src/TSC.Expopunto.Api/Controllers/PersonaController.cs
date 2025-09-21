@@ -22,20 +22,26 @@ namespace TSC.Expopunto.Api.Controllers
         {
             _personaCommand = personaCommand;
             _personaQuery = personaQuery;
-
         }
-
 
         [HttpPost("listar")]
         public async Task<IActionResult> ListarPersonas([FromBody] PersonasListaParametros parametro)
         {
+            if (parametro.Pagina <= 0 || parametro.FilasPorPagina <= 0)
+            {
+                return StatusCode(
+                    StatusCodes.Status400BadRequest,
+                    ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "Parámetros de paginación inválidos")
+                );
+            }
+
             var data = await _personaQuery.ListarPersonasAsync(parametro);
 
             if (data == null || data.Count == 0)
             {
                 return StatusCode(
                     StatusCodes.Status204NoContent,
-                    ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No existe data")
+                    ResponseApiService.Response(StatusCodes.Status204NoContent, data, "No existe data")
                 );
             }
 
@@ -45,26 +51,7 @@ namespace TSC.Expopunto.Api.Controllers
             );
         }
 
-        [HttpGet("listar-por-estado")]
-        public async Task<IActionResult> ListarPersonasPorEstado([FromQuery] bool? activo)
-        {
-            var data = await _personaQuery.ListarPersonasPorEstadoAsync(activo);
-
-            if (data == null || data.Count == 0)
-            {
-                return StatusCode(
-                    StatusCodes.Status204NoContent,
-                    ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No existen personas")
-                );
-            }
-
-            return StatusCode(
-                StatusCodes.Status200OK,
-                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
-            );
-        }
-
-        [HttpGet("listar-combo")]
+        [HttpPost("listar-combo")]
         public async Task<IActionResult> ListarComboPersonas()
         {
             var data = await _personaQuery.ListarComboPersonasAsync();
@@ -73,7 +60,7 @@ namespace TSC.Expopunto.Api.Controllers
             {
                 return StatusCode(
                     StatusCodes.Status204NoContent,
-                    ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No existen personas")
+                    ResponseApiService.Response(StatusCodes.Status204NoContent, data, "No existen personas")
                 );
             }
 
@@ -83,18 +70,21 @@ namespace TSC.Expopunto.Api.Controllers
             );
         }
 
-        [HttpGet("listar-por-id")]
-        public async Task<IActionResult> ListarPersonaPorId([FromQuery] int idPersona)
+
+        [HttpPost("listar-por-id")]
+        public async Task<IActionResult> ListarPersonaPorId([FromBody] IdParametro parametro)
         {
-            if (idPersona == 0)
+            Console.WriteLine($"ID RECIBIDO: {parametro?.IdPersona}");
+
+            if (parametro.IdPersona <= 0)
             {
                 return StatusCode(
                     StatusCodes.Status400BadRequest,
-                    ResponseApiService.Response(StatusCodes.Status404NotFound, null, "El id enviado no es válido")
+                    ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El id enviado no es válido")
                 );
             }
 
-            var data = await _personaQuery.ListarPersonasPorIdAsync(idPersona);
+            var data = await _personaQuery.ListarPersonasPorIdAsync(parametro.IdPersona);
 
             if (data == null)
             {
@@ -109,6 +99,7 @@ namespace TSC.Expopunto.Api.Controllers
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
             );
         }
+
 
         [HttpPost("crear")]
         public async Task<IActionResult> Crear([FromBody] PersonaModel model)
@@ -130,7 +121,7 @@ namespace TSC.Expopunto.Api.Controllers
             {
                 return StatusCode(
                     StatusCodes.Status400BadRequest,
-                    ResponseApiService.Response(StatusCodes.Status200OK, null, "El idPersona no es válido")
+                    ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El idPersona no es válido")
                 );
             }
 
@@ -150,7 +141,7 @@ namespace TSC.Expopunto.Api.Controllers
             {
                 return StatusCode(
                     StatusCodes.Status400BadRequest,
-                    ResponseApiService.Response(StatusCodes.Status200OK, null, "El idPersona no es válido")
+                    ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El idPersona no es válido")
                 );
             }
 

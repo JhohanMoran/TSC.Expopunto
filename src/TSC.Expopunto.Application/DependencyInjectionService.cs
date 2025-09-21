@@ -32,6 +32,7 @@ using TSC.Expopunto.Application.DataBase.TipoComprobante.Queries;
 using TSC.Expopunto.Application.DataBase.TipoDocumento.Commands;
 using TSC.Expopunto.Application.DataBase.TipoDocumento.Queries;
 using TSC.Expopunto.Application.DataBase.TipoMoneda.Queries;
+using TSC.Expopunto.Application.DataBase.TipoPersona.Queries;
 using TSC.Expopunto.Application.DataBase.TiposDocumento.Commands;
 using TSC.Expopunto.Application.DataBase.UnidadMedida.Queries;
 using TSC.Expopunto.Application.DataBase.Usuario.Commands;
@@ -123,6 +124,11 @@ namespace TSC.Expopunto.Application
 
             services.AddTransient<IPersonaCommand, PersonaCommand>();
             services.AddTransient<IPersonaQuery, PersonaQuery>();
+
+
+            services.AddTransient<ITipoPersonaQuery, TipoPersonaQuery>();
+
+
 
             return services;
         }
