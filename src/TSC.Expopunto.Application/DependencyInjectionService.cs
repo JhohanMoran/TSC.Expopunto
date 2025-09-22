@@ -19,6 +19,7 @@ using TSC.Expopunto.Application.DataBase.PerfilMenu.Commands;
 using TSC.Expopunto.Application.DataBase.PerfilMenu.Queries;
 using TSC.Expopunto.Application.DataBase.Persona.Commands;
 using TSC.Expopunto.Application.DataBase.Persona.Queries;
+using TSC.Expopunto.Application.DataBase.Prendas.Queries;
 using TSC.Expopunto.Application.DataBase.Producto.Command;
 using TSC.Expopunto.Application.DataBase.Producto.Queries;
 using TSC.Expopunto.Application.DataBase.Sede.Commands;
@@ -119,6 +120,8 @@ namespace TSC.Expopunto.Application
 
 
             services.AddTransient<ITipoPersonaQuery, TipoPersonaQuery>();
+
+            services.AddTransient<IPrendasQuery, PrendasQuery>();
 
 
 
