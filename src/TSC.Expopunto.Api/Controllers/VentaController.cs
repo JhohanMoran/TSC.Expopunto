@@ -8,6 +8,7 @@ using TSC.Expopunto.Application.DataBase.Venta.Commands.Crear;
 using TSC.Expopunto.Application.DataBase.Venta.Commands.EliminarVenta;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentas;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentas.Params;
+using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentasPorIdPersona;
 using TSC.Expopunto.Application.Exceptions;
 using TSC.Expopunto.Application.Features;
 using TSC.Expopunto.Common;
@@ -136,6 +137,25 @@ namespace TSC.Expopunto.Api.Controllers
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
             );
 
+        }
+
+        [HttpGet("listar-por-id-persona/{idPersona:int}")]
+        public async Task<IActionResult> ListarPorPersona(
+            [FromRoute] int idPersona
+        )
+        {
+            var data = await _mediator.Send(new ObtenerVentasPorIdPersonaQuery(idPersona));
+            if (data == null || data.Count == 0)
+            {
+                return StatusCode(
+                   StatusCodes.Status404NotFound,
+                   ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No existe data")
+                );
+            }
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
         }
 
     }

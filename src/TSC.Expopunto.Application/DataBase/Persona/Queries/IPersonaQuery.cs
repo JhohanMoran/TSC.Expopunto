@@ -10,6 +10,7 @@ namespace TSC.Expopunto.Application.DataBase.Persona.Queries
         Task<List<PersonaTodosModel>> ListarPersonasPorEstadoAsync(bool? activo);
         Task<List<PersonaTodosModel>> ListarComboPersonasAsync();
         Task<PersonaTodosModel?> ListarPersonasPorIdAsync(int idPersona);
+        Task<List<PersonaTodosModel>> ListarPersonasMontoConsumidoAsync(PersonasListaParametros parametro);
     }
 }
 

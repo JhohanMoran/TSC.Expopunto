@@ -162,5 +162,33 @@ namespace TSC.Expopunto.Api.Controllers
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
             );
         }
+
+        [HttpGet("listar-consumido")]
+        public async Task<IActionResult> ListarPersonasMontoConsumido([FromQuery] PersonasListaParametros parametro)
+        {
+            if (parametro.Pagina <= 0 || parametro.FilasPorPagina <= 0)
+            {
+                return StatusCode(
+                    StatusCodes.Status400BadRequest,
+                    ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "Parámetros de paginación inválidos")
+                );
+            }
+
+            var data = await _personaQuery.ListarPersonasMontoConsumidoAsync(parametro);
+
+            if (data == null || data.Count == 0)
+            {
+                return StatusCode(
+                    StatusCodes.Status404NotFound,
+                    ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No existe data")
+                );
+            }
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+        }
+
     }
 }
