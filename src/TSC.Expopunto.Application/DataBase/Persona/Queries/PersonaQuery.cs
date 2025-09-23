@@ -69,5 +69,28 @@ namespace TSC.Expopunto.Application.DataBase.Persona.Queries
             var response = await _dapperService.QueryFirstOrDefaultAsync<PersonaTodosModel>("uspGetPersonas", parameters);
             return response;
         }
+
+
+
+
+
+        public async Task<List<PersonaTodosModel>> ListarPersonasMontoConsumidoAsync(PersonasListaParametros parametro)
+        {
+            var parameters = new
+            {
+                pOpcion = 4,
+                pIdPersona = 0,
+                pFiltroNombre = parametro.Nombre,
+                pFiltroCodTipoPersona =  "T",
+                pFiltroActivo = true,
+                pPagina = parametro.Pagina,
+                pFilasPorPagina = parametro.FilasPorPagina,
+                pOrdenPor = parametro.OrdenarPor,
+                pOrdenDireccion = parametro.OrdenDireccion
+            };
+
+            var response = await _dapperService.QueryAsync<PersonaTodosModel>("uspGetPersonas", parameters);
+            return response.ToList();
+        }
     }
 }

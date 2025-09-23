@@ -16,5 +16,6 @@ namespace TSC.Expopunto.Application.Interfaces.Venta
         Task<PagedResult<VentaDTO>> ObtenerVentasAsync(ObtenerVentasParams parametro);
         Task<List<DetalleVentaDTO>> ObtenerDetalleVentaPorIdVentaAsync(int idVenta);
         Task<VentaEntity> ObtenerVentaPorIdAsync(int id);
+        Task<List<VentaMontoDTO>> ObtenerVentasPorIdPersonaAsync(int id);
     }
 }

@@ -199,5 +199,19 @@ namespace TSC.Expopunto.Persistence.Repositories
             };
         }
 
+        public async Task<List<VentaMontoDTO>> ObtenerVentasPorIdPersonaAsync(int idPersona)
+        {
+            var parameters = new
+            {
+                pOpcion = 3,
+                pIdPersona = idPersona,
+            };
+
+            var response =
+                await _dapperQueryService
+                    .QueryAsync<VentaMontoDTO>("uspGetVentas", parameters);
+
+            return response.ToList();
+        }
     }
 }
