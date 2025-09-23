@@ -15,6 +15,7 @@ using TSC.Expopunto.Application.DataBase.MedioPago.Queries;
 using TSC.Expopunto.Application.DataBase.Menu.Command;
 using TSC.Expopunto.Application.DataBase.Menu.Queries;
 using TSC.Expopunto.Application.DataBase.Parametro.Queries;
+using TSC.Expopunto.Application.DataBase.Parametro.Commands;
 using TSC.Expopunto.Application.DataBase.Perfil.Commands;
 using TSC.Expopunto.Application.DataBase.Perfil.Queries;
 using TSC.Expopunto.Application.DataBase.PerfilMenu.Commands;
@@ -99,7 +100,9 @@ namespace TSC.Expopunto.Application
             services.AddTransient<IPerfilMenuCommand, PerfilMenuCommand>();
             services.AddTransient<IPerfilMenuQuery, PerfilMenuQuery>();
 
+            services.AddTransient<IParametroCommand, ParametroCommand>();
             services.AddTransient<IParametroQuery, ParametroQuery>();
+
 
             services.AddTransient<ICategoriaQuery, CategoriaQuery>();
             services.AddTransient<ICategoriaCommand, CategoriaCommand>();

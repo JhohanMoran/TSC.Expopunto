@@ -16,6 +16,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="DataBase\Parametro\Queries\Models\IdParametros.cs" />
     <Compile Remove="DataBase\Persona\Queries\Models\PaginationFilter.cs" />
     <Compile Remove="DataBase\Persona\Queries\Models\ResultadoPaginado.cs" />
   </ItemGroup>
