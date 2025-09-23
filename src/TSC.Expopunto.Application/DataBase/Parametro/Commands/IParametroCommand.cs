@@ -1,12 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TSC.Expopunto.Application.DataBase.Parametro.Commands
+﻿namespace TSC.Expopunto.Application.DataBase.Parametro.Commands
 {
-    internal class IParametroCommand
+    public interface IParametroCommand
     {
+        Task<ParametroModel> ProcesarAsync(ParametroModel model);
     }
 }
