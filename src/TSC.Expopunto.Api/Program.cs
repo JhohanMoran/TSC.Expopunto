@@ -1,6 +1,7 @@
 using TSC.Expopunto.Api;
 using TSC.Expopunto.Application;
 using TSC.Expopunto.Application.Exceptions;
+using TSC.Expopunto.Application.Interfaces.GuiaEntrada;
 using TSC.Expopunto.Common;
 using TSC.Expopunto.External;
 using TSC.Expopunto.Persistence;
@@ -14,6 +15,8 @@ builder.Services
     .AddExternal(builder.Configuration)
     .AddPersistence(builder.Configuration);
 
+
+
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ExceptionManager>();
@@ -26,7 +29,7 @@ builder.Services.AddCors(options =>
         {
             policy.WithOrigins(
                     "http://localhost:4200",
-                    "http://172.16.87.21:9090"
+                    "http://172.16.87.21:8022"
                 )
                 .AllowAnyHeader()
                 .AllowAnyMethod();
@@ -34,6 +37,13 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+
+app.UseSwagger();
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    options.RoutePrefix = string.Empty;
+});
 
 app.UseAuthentication();
 app.UseAuthorization();

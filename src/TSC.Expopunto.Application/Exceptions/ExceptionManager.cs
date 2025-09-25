@@ -24,6 +24,7 @@ namespace TSC.Expopunto.Application.Exceptions
                     context.Result = new BadRequestObjectResult(new
                     {
                         statusCode,
+                        success = false,
                         message,
                         errors = validationEx.Errors
                             .GroupBy(e => e.PropertyName)
@@ -77,7 +78,9 @@ namespace TSC.Expopunto.Application.Exceptions
                 context.Result = new ObjectResult(new
                 {
                     statusCode,
-                    message
+                    success = false,
+                    message,
+                    data = (object?)null
                 });
             }
 

@@ -1,7 +1,13 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands;
-using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries;
-using TSC.Expopunto.Application.DataBase.Sede.Commands;
+﻿using FluentValidation;
+using MediatR;
+using Microsoft.AspNetCore.Mvc;
+using TSC.Expopunto.Api.Models.GuiasEntrada;
+
+using TSC.Expopunto.Application.DataBase.DetalleGuiaEntrada.Commands;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Actualizar;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEntrada;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEntrada.Params;
 using TSC.Expopunto.Application.Exceptions;
 using TSC.Expopunto.Application.Features;
 using TSC.Expopunto.Common;
@@ -13,88 +19,104 @@ namespace TSC.Expopunto.Api.Controllers
     [TypeFilter(typeof(ExceptionManager))]
     public class GuiaEntradaController : Controller
     {
-        private readonly IGuiaEntradaCommand _guiaEntradaCommand;
-        private readonly IGuiaEntradaQuery _guiaEntradaQuery;
+        private readonly IMediator _mediator;
 
-        public GuiaEntradaController(IGuiaEntradaCommand guiaEntradaCommand, IGuiaEntradaQuery guiaEntradaQuery)
+        public GuiaEntradaController(IMediator mediator)
         {
-            _guiaEntradaCommand = guiaEntradaCommand;
-            _guiaEntradaQuery = guiaEntradaQuery;
+            _mediator = mediator;
         }
 
         [HttpPost("crear")]
         public async Task<IActionResult> Crear(
-            [FromBody] GuiaEntradaModel model
+            [FromBody] CrearGuiaEntradaRequest request
         )
         {
-            model.Opcion = (int)OperationType.Create;
+            var command = new CrearGuiaEntradaCommand(
+                OperationType.Create,
+                request.Id,
+                request.Serie,
+                request.Numero,
+                request.Fecha,
+                request.IdPersonaProveedor,
+                request.TipoGuia,
+                request.Observacion,
+                
+                request.Detalles.Select(d => new DetalleGuiaEntradaCommand(
+                    d.Id,
+                    d.IdGuiaEntrada,
+                    d.IdProducto,
+                    d.IdUnidadMedida,
+                    d.IdTalla,
+                    d.Cantidad,
+                    d.CostoUnitario
+                    
+                )).ToList()
+            );
 
-            var data = await _guiaEntradaCommand.ProcesarAsync(model);
+            var data = await _mediator.Send(command);
+
             return StatusCode(
-                        StatusCodes.Status201Created,
-                ResponseApiService.Response(StatusCodes.Status201Created, data, "Exitoso"));
+                StatusCodes.Status201Created,
+                ResponseApiService.Response(StatusCodes.Status201Created, data, "Exitoso")
+            );
+        }
+
+        [HttpPost("actualizar")]
+        public async Task<IActionResult> Actualizar(
+            [FromBody] ActualizarGuiaEntradaRequest request
+        )
+        {
+            var command = new ActualizarGuiaEntradaCommand(
+                OperationType.Update,
+                request.Id,
+                request.Serie,
+                request.Numero,
+                request.Fecha,
+                request.IdPersonaProveedor,
+                request.TipoGuia,
+                request.Observacion,
+                request.Detalles.Select(d => new DetalleGuiaEntradaCommand(
+                     d.Id,
+                    d.IdGuiaEntrada,
+                    d.IdProducto,
+                    d.IdUnidadMedida,
+                    d.IdTalla,
+                    d.Cantidad,
+                    d.CostoUnitario
+                )).ToList()
+            );
+
+            var data = await _mediator.Send(command);
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso"));
         }
 
 
 
-        [HttpPost("actualizar")]
-        public async Task<IActionResult> Actualizarf(
-             [FromBody] GuiaEntradaModel model
-            )
+        [HttpPost("listar")]
+        public async Task<IActionResult> Listar(
+            [FromBody] ObtenerGuiasEntradaParams parametros
+        )
         {
-            model.Opcion = (int)OperationType.Update;
+            var data = await _mediator.Send(new ObtenerGuiasEntradaQuery(parametros));
 
-            var data = await _guiaEntradaCommand.ProcesarAsync(model);
+            if (data == null || data.Items.Count == 0)
+            {
+                return StatusCode(
+                   StatusCodes.Status204NoContent,
+                   ResponseApiService.Response(StatusCodes.Status204NoContent, data, "No existe data")
+                );
+            }
 
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
-                );
+            );
+
         }
 
-
-        [HttpGet("listar")]
-        public async Task<IActionResult> ListarGuiaEntrada()
-        {
-            var data = await _guiaEntradaQuery.ListarTodosAsync();
-
-            if (data == null || data.Count == 0)
-            {
-                return StatusCode(
-                    StatusCodes.Status204NoContent,
-                    ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No exiten guias entradas"));
-            }
-
-
-            return StatusCode(StatusCodes.Status200OK,
-            ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitosos")
-             );
-        }
-
-
-        [HttpGet("obtener-por-id")]
-        public async Task<IActionResult> ObtenerGuiaEntradaPorId(
-        [FromQuery] int idGuiaEntrada)
-        {
-            if (idGuiaEntrada == 0)
-            {
-                return StatusCode(
-                    StatusCodes.Status400BadRequest,
-                    ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El ID de la Guia Entrada no es válido"));
-            }
-            var data = await _guiaEntradaQuery.ObtenerGuiaEntradaPorIdAsync(idGuiaEntrada);
-
-            if (data == null)
-                return StatusCode(StatusCodes.Status404NotFound,
-                ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No se encontró la Guia Entrada"));
-
-
-            return StatusCode(
-            StatusCodes.Status200OK,
-            ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
-
-
-           );
-        }
     }
 }
+
