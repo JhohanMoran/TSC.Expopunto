@@ -82,7 +82,7 @@ namespace TSC.Expopunto.Application.DataBase.Persona.Queries
                 pIdPersona = 0,
                 pFiltroNombre = parametro.Nombre,
                 pFiltroCodTipoPersona =  "T",
-                pFiltroActivo = true,
+                pFiltroActivo = parametro.Activo,
                 pPagina = parametro.Pagina,
                 pFilasPorPagina = parametro.FilasPorPagina,
                 pOrdenPor = parametro.OrdenarPor,
