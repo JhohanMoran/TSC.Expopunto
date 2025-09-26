@@ -30,10 +30,12 @@ namespace TSC.Expopunto.Persistence.Repositories
 
                 pId = venta.Id,
                 pFecha = venta.Fecha,
+                pHora = venta.Hora,
+                pIdSede = venta.IdSede,
                 pIdTipoComprobante = venta.IdTipoComprobante,
                 pSerie = venta.Serie,
                 pNumero = venta.Numero,
-                pIdPersonaCliente = venta.IdPersonaCliente,
+                pIdPersona = venta.IdPersona,
                 pIdTipoMoneda = venta.IdTipoMoneda,
                 pIdUsuarioVendedor = venta.IdUsuarioVendedor,
 
@@ -59,8 +61,8 @@ namespace TSC.Expopunto.Persistence.Repositories
                         pId = d.Id,
                         pIdVenta = ventaId,
                         pIdProducto = d.IdProducto,
-                        pIdTalla = d.IdTalla,
                         pCantidad = d.Cantidad,
+                        pIdDescuento = d.IdDescuento,
                         pPrecioUnitario = d.PrecioUnitario,
                         pActivo = d.Activo
                     });
@@ -82,10 +84,12 @@ namespace TSC.Expopunto.Persistence.Repositories
 
                 pId = venta.Id,
                 pFecha = venta.Fecha,
+                pHora = venta.Hora,
+                pIdSede = venta.IdSede,
                 pIdTipoComprobante = venta.IdTipoComprobante,
                 pSerie = venta.Serie,
                 pNumero = venta.Numero,
-                pIdPersonaCliente = venta.IdPersonaCliente,
+                pIdPersona = venta.IdPersona,
                 pIdTipoMoneda = venta.IdTipoMoneda,
                 pIdUsuarioVendedor = venta.IdUsuarioVendedor,
 
@@ -110,8 +114,8 @@ namespace TSC.Expopunto.Persistence.Repositories
                         pId = 0,
                         pIdVenta = ventaId,
                         pIdProducto = d.IdProducto,
-                        pIdTalla = d.IdTalla,
                         pCantidad = d.Cantidad,
+                        pIdDescuento = d.IdDescuento,
                         pPrecioUnitario = d.PrecioUnitario
                     });
 

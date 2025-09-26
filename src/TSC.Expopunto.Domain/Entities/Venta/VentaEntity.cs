@@ -6,12 +6,24 @@ namespace TSC.Expopunto.Domain.Entities.Venta
     {
         public int Id { get; set; }
         public DateTime? Fecha { get; set; }
+        public string? Hora { get; set; }
+        public int? IdSede { get; set; }
+        public string? Sede { get; set; }
         public int? IdTipoComprobante { get; set; }
+        public string? TipoComprobante { get; set; }
         public string? Serie { get; set; }
         public string? Numero { get; set; }
-        public int? IdPersonaCliente { get; set; }
+        public int? IdPersona { get; set; }
+        public string? NombrePersona { get; set; }
+        public string? DocumentoPersona { get; set; }
         public int? IdTipoMoneda { get; set; }
+        public string? SimboloDocumento { get; set; }
         public int? IdUsuarioVendedor { get; set; }
+        public string? NombreVendedor { get; set; }
+        public decimal? DescuentoTotal { get; set; }
+        public decimal? SubTotal { get; set; }
+        public decimal? Impuesto { get; set; }
+        public decimal? Total { get; set; }
         public int? IdUsuario { get; set; }
         public bool? Activo { get; set; }
 
@@ -23,24 +35,48 @@ namespace TSC.Expopunto.Domain.Entities.Venta
         public VentaEntity(
             int id,
             DateTime? fecha,    
+            string? hora,
+            int? idSede,
+            string? sede,
             int? idTipoComprobante,
+            string? tipoComprobante,
             string? serie,
             string? numero,
-            int? idPersonaCliente,
+            int? idPersona,
+            string? nombrePersona,
+            string? documentoPersona,
             int? idTipoMoneda,
+            string? simboloMoneda,
             int? idUsuarioVendedor,
+            string? nombreVendedor,
+            decimal? descuentoTotal,
+            decimal? subTotal,
+            decimal? impuesto,
+            decimal? total,
             int? idUsuario,
             bool? activo
         )
         {
             Id = id;
             Fecha = fecha;
+            Hora = hora;
+            IdSede = idSede;
+            Sede = sede;
             IdTipoComprobante = idTipoComprobante;
+            TipoComprobante = tipoComprobante;
             Serie = serie;
             Numero = numero;
-            IdPersonaCliente = idPersonaCliente;
+            IdPersona = idPersona;
+            NombrePersona = nombrePersona;
+            DocumentoPersona = documentoPersona;
             IdTipoMoneda = idTipoMoneda;
+            SimboloDocumento = simboloMoneda;
             IdUsuarioVendedor = idUsuarioVendedor;
+            NombreVendedor = nombreVendedor;
+            DescuentoTotal = descuentoTotal;
+            SubTotal = subTotal;
+            Impuesto = impuesto;
+            Total = total;
             IdUsuario = idUsuario;
             Activo = activo;
         }
@@ -49,9 +85,9 @@ namespace TSC.Expopunto.Domain.Entities.Venta
             int id,
             int idVenta,
             int idProducto,
-            int idTalla,
             int cantidad,
             decimal precioUnitario,
+            int idDescuento,
             bool activo
         )
         {
@@ -59,9 +95,9 @@ namespace TSC.Expopunto.Domain.Entities.Venta
                 id,
                 idVenta,
                 idProducto,
-                idTalla,
                 cantidad,
                 precioUnitario,
+                idDescuento,
                 activo
             ));
         }
@@ -69,12 +105,20 @@ namespace TSC.Expopunto.Domain.Entities.Venta
         public void Actualizar(
             int id,
             DateTime? fecha,
+            string ? hora,
+            int? idSede,
+            string? sede,
             int? idTipoComprobante,
+            string? tipoComprobante,
             string? serie,
             string? numero,
-            int? idPersonaCliente,
+            int? idPersona,
+            string? nombrePersona,
+            string? documentoPersona,
             int? idTipoMoneda,
+            string? simboloMoneda,
             int? idUsuarioVendedor,
+            string? nombreVendedor,
             int? idUsuario,
             bool? activo,   
             List<DetalleVentaEntity>? nuevosDetalles   
@@ -82,12 +126,20 @@ namespace TSC.Expopunto.Domain.Entities.Venta
         {
             Id = id;
             Fecha = fecha;
+            Hora = hora;
+            IdSede = idSede;
+            Sede = sede;
             IdTipoComprobante = idTipoComprobante;
+            TipoComprobante = tipoComprobante;
             Serie = serie;
             Numero = numero;
-            IdPersonaCliente = idPersonaCliente;
+            IdPersona = idPersona;
+            NombrePersona = nombrePersona;
+            DocumentoPersona = documentoPersona;
             IdTipoMoneda = idTipoMoneda;
+            SimboloDocumento = simboloMoneda;
             IdUsuarioVendedor = idUsuarioVendedor;
+            NombreVendedor = nombreVendedor;
             IdUsuario = idUsuario;
             Activo = activo;
 

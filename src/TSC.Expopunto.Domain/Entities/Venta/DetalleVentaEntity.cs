@@ -5,27 +5,27 @@
         public int Id { get; private set; }
         public int IdVenta { get; private set; }
         public int IdProducto { get; private set; }
-        public int IdTalla { get; private set; }
         public int Cantidad { get; private set; }
         public decimal PrecioUnitario { get; private set; }
+        public int IdDescuento { get; private set; }
         public bool Activo { get; set; }
 
         public DetalleVentaEntity(
             int id,
             int idVenta,
             int idProducto,
-            int idTalla,
             int cantidad,
             decimal precioUnitario,
+            int idDescuento,
             bool activo
         )
         {
             this.Id = id;
             this.IdVenta = idVenta;
             this.IdProducto = idProducto;
-            this.IdTalla = idTalla;
             this.Cantidad = cantidad;
             this.PrecioUnitario = precioUnitario;
+            this.IdDescuento = idDescuento;
             this.Activo = activo;
         }
 
