@@ -22,10 +22,12 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Crear
             venta = new VentaEntity(
                 request.Id,
                 request.Fecha,
+                request.Hora,
+                request.IdSede,
                 request.IdTipoComprobante,
                 request.Serie,
                 request.Numero,
-                request.IdPersonaCliente,
+                request.IdPersona,
                 request.IdTipoMoneda,
                 request.IdUsuarioVendedor,
                 request.IdUsuario,
@@ -38,9 +40,9 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Crear
                     d.Id,
                     d.IdVenta,
                     d.IdProducto,
-                    d.IdTalla,
                     d.Cantidad,
                     d.PrecioUnitario,
+                    d.IdDescuento,
                     d.Activo
                 );
             }
@@ -56,7 +58,7 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Crear
                 IdTipoComprobante = ventaRespuesta.IdTipoComprobante,
                 Serie = ventaRespuesta.Serie,
                 Numero = ventaRespuesta.Numero,
-                IdPersonaCliente = ventaRespuesta.IdPersonaCliente,
+                IdPersona = ventaRespuesta.IdPersona,
                 IdTipoMoneda = ventaRespuesta.IdTipoMoneda,
                 IdUsuarioVendedor = ventaRespuesta.IdUsuarioVendedor,
                 IdUsuario = ventaRespuesta.IdUsuario,
@@ -66,13 +68,14 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Crear
                     Id = x.Id,             // Id asignado en la BD
                     IdVenta = x.IdVenta,   // también ya viene actualizado
                     IdProducto = x.IdProducto,
-                    IdTalla = x.IdTalla,
                     Cantidad = x.Cantidad,
                     PrecioUnitario = x.PrecioUnitario,
+                    IdDescuento = x.IdDescuento,
                     Activo = x.Activo
                 }).ToList()
             };
         }
+
 
     }
 }

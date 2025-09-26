@@ -4,9 +4,9 @@
         int Id,
         int IdVenta,
         int IdProducto,
-        int IdTalla,
         int Cantidad,
         decimal PrecioUnitario,
+        int IdDescuento,
         bool Activo
     );
 }

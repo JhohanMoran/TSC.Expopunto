@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TSC.Expopunto.Api.Models.Ventas;
 using TSC.Expopunto.Application.DataBase.DetalleVenta.Commands;
@@ -36,10 +35,12 @@ namespace TSC.Expopunto.Api.Controllers
                 OperationType.Create,
                 request.Id,
                 request.Fecha,
+                request.Hora,
+                request.IdSede,
                 request.IdTipoComprobante,
                 request.Serie,
                 request.Numero,
-                request.IdPersonaCliente,
+                request.IdPersona,
                 request.IdTipoMoneda,
                 request.IdUsuarioVendedor,
                 request.IdUsuario,
@@ -48,9 +49,9 @@ namespace TSC.Expopunto.Api.Controllers
                     d.Id,
                     d.IdVenta,
                     d.IdProducto,
-                    d.IdTalla,
                     d.Cantidad,
                     d.PrecioUnitario,
+                    d.IdDescuento,
                     true
                 )).ToList()
             );
@@ -72,10 +73,12 @@ namespace TSC.Expopunto.Api.Controllers
                 OperationType.Update,
                 request.Id,
                 request.Fecha,
+                request.Hora,
+                request.IdSede,
                 request.IdTipoComprobante,
                 request.Serie,
                 request.Numero,
-                request.IdPersonaCliente,
+                request.IdPersona,
                 request.IdTipoMoneda,
                 request.IdUsuarioVendedor,
                 request.IdUsuario,
@@ -84,9 +87,9 @@ namespace TSC.Expopunto.Api.Controllers
                     d.Id,
                     d.IdVenta,
                     d.IdProducto,
-                    d.IdTalla,
                     d.Cantidad,
                     d.PrecioUnitario,
+                    d.IdDescuento,
                     d.Activo
                 )).ToList()
             );

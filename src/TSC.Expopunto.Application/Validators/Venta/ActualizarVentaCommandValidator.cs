@@ -7,7 +7,7 @@ namespace TSC.Expopunto.Application.Validators.Venta
     {
         public ActualizarVentaCommandValidator()
         {
-            RuleFor(x => x.IdPersonaCliente)
+            RuleFor(x => x.IdPersona)
             .GreaterThan(0).WithMessage("El cliente es obligatorio.");
 
             RuleFor(x => x.Fecha)

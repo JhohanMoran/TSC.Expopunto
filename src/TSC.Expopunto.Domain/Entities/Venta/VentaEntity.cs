@@ -37,22 +37,12 @@ namespace TSC.Expopunto.Domain.Entities.Venta
             DateTime? fecha,    
             string? hora,
             int? idSede,
-            string? sede,
             int? idTipoComprobante,
-            string? tipoComprobante,
             string? serie,
             string? numero,
             int? idPersona,
-            string? nombrePersona,
-            string? documentoPersona,
             int? idTipoMoneda,
-            string? simboloMoneda,
             int? idUsuarioVendedor,
-            string? nombreVendedor,
-            decimal? descuentoTotal,
-            decimal? subTotal,
-            decimal? impuesto,
-            decimal? total,
             int? idUsuario,
             bool? activo
         )
@@ -61,22 +51,12 @@ namespace TSC.Expopunto.Domain.Entities.Venta
             Fecha = fecha;
             Hora = hora;
             IdSede = idSede;
-            Sede = sede;
             IdTipoComprobante = idTipoComprobante;
-            TipoComprobante = tipoComprobante;
             Serie = serie;
             Numero = numero;
             IdPersona = idPersona;
-            NombrePersona = nombrePersona;
-            DocumentoPersona = documentoPersona;
             IdTipoMoneda = idTipoMoneda;
-            SimboloDocumento = simboloMoneda;
             IdUsuarioVendedor = idUsuarioVendedor;
-            NombreVendedor = nombreVendedor;
-            DescuentoTotal = descuentoTotal;
-            SubTotal = subTotal;
-            Impuesto = impuesto;
-            Total = total;
             IdUsuario = idUsuario;
             Activo = activo;
         }
@@ -107,18 +87,12 @@ namespace TSC.Expopunto.Domain.Entities.Venta
             DateTime? fecha,
             string ? hora,
             int? idSede,
-            string? sede,
             int? idTipoComprobante,
-            string? tipoComprobante,
             string? serie,
             string? numero,
             int? idPersona,
-            string? nombrePersona,
-            string? documentoPersona,
             int? idTipoMoneda,
-            string? simboloMoneda,
             int? idUsuarioVendedor,
-            string? nombreVendedor,
             int? idUsuario,
             bool? activo,   
             List<DetalleVentaEntity>? nuevosDetalles   
@@ -128,18 +102,12 @@ namespace TSC.Expopunto.Domain.Entities.Venta
             Fecha = fecha;
             Hora = hora;
             IdSede = idSede;
-            Sede = sede;
             IdTipoComprobante = idTipoComprobante;
-            TipoComprobante = tipoComprobante;
             Serie = serie;
             Numero = numero;
             IdPersona = idPersona;
-            NombrePersona = nombrePersona;
-            DocumentoPersona = documentoPersona;
             IdTipoMoneda = idTipoMoneda;
-            SimboloDocumento = simboloMoneda;
             IdUsuarioVendedor = idUsuarioVendedor;
-            NombreVendedor = nombreVendedor;
             IdUsuario = idUsuario;
             Activo = activo;
 
