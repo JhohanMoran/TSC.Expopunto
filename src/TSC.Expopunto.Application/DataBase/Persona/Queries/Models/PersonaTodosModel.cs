@@ -16,7 +16,8 @@
         public bool Activo { get; set; }
         public string Auditoria { get; set; } = string.Empty;
         public int TotalRegistros { get; set; }
+        public decimal MontoCredito { get; set; }
+        public decimal MontoConsumido { get; set; }
         public decimal MontoConsumidoTotalSoles { get; set; }
-        public decimal MontoConsumidoTotalDolares { get; set; }
     }
 }

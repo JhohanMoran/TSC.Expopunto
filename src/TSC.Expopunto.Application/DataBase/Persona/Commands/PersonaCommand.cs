@@ -29,7 +29,8 @@ namespace TSC.Expopunto.Application.DataBase.Persona.Commands
                     pDireccion = model.Direccion,
                     pCelular = model.Celular,
                     pIdUsuario = model.IdUsuario,
-                    pActivo = model.Activo
+                    pActivo = model.Activo,
+                    pDetalleMotivoBaja = model.DetalleMotivoBaja
                 }
             );
 
