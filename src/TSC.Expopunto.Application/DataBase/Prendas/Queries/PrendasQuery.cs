@@ -10,10 +10,39 @@ namespace TSC.Expopunto.Application.DataBase.Prendas.Queries
             _dapperQuerySevice = dapperQuerySevice;
         }
 
+        public async Task<List<PrendasDatosClientes>> ListarClientesAsync()
+        {
+            var parametros = new
+            {
+                pOpcion = 2
+            };
+
+            _dapperQuerySevice.UsarConexion("SQLConnectionSigeString");
+
+            var results = await _dapperQuerySevice.QueryAsync<PrendasDatosClientes>("uspGetStockExpoPunto", parametros, 0);
+            return results.ToList();
+        }
+
+        public async Task<List<PrendasDatosEstiloClientes>> ListarEstilosClientesAsync(string pedido, string codigoCliente)
+        {
+            var parametros = new
+            {
+                pOpcion = 4,
+                pPedido = pedido,
+                pCodigoCliente = codigoCliente
+            };
+
+            _dapperQuerySevice.UsarConexion("SQLConnectionSigeString");
+
+            var results = await _dapperQuerySevice.QueryAsync<PrendasDatosEstiloClientes>("uspGetStockExpoPunto", parametros, 0);
+            return results.ToList();
+        }
+
         public async Task<List<PrendasTodos>> ListarPaginadoStockAptAsync(PrendasParams param)
         {
             var parametros = new
             {
+                pOpcion = 1,
                 pPedido = param.Pedido,
                 pCodigoCliente = param.CodigoCliente,
                 pEstiloCliente = param.EstiloCliente,
@@ -62,6 +91,34 @@ namespace TSC.Expopunto.Application.DataBase.Prendas.Queries
             }
 
             return lista;
+        }
+
+        public async Task<List<PrendasDatosPedidos>> ListarPedidosAsync(string codigoCliente)
+        {
+            var parametros = new
+            {
+                pOpcion = 3,
+                pCodigoCliente = codigoCliente
+            };
+
+            _dapperQuerySevice.UsarConexion("SQLConnectionSigeString");
+
+            var results = await _dapperQuerySevice.QueryAsync<PrendasDatosPedidos>("uspGetStockExpoPunto", parametros, 0);
+            return results.ToList();
+        }
+
+        public async Task<List<PrendasDatosPrensentaciones>> ListarPrensentacionesAsync(string pedido)
+        {
+            var parametros = new
+            {
+                pOpcion = 5,
+                pPedido = pedido
+            };
+
+            _dapperQuerySevice.UsarConexion("SQLConnectionSigeString");
+
+            var results = await _dapperQuerySevice.QueryAsync<PrendasDatosPrensentaciones>("uspGetStockExpoPunto", parametros, 0);
+            return results.ToList();
         }
     }
 }
