@@ -190,5 +190,24 @@ namespace TSC.Expopunto.Api.Controllers
             );
         }
 
+        [HttpPost("activar")]
+        public async Task<IActionResult> Activar([FromBody] PersonaModel model)
+        {
+            if (model.Id == 0)
+            {
+                return StatusCode(
+                    StatusCodes.Status400BadRequest,
+                    ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El idPersona no es válido")
+                );
+            }
+
+            model.Opcion = 4;
+            var data = await _personaCommand.ProcesarAsync(model);
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+        }
     }
 }
