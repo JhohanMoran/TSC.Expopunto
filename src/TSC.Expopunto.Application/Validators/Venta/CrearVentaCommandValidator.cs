@@ -15,7 +15,7 @@ namespace TSC.Expopunto.Application.Validators.Venta
 
             RuleForEach(x => x.Detalles).ChildRules(detalle =>
             {
-                detalle.RuleFor(d => d.IdProducto)
+                detalle.RuleFor(d => d.IdProductoVariante)
                     .GreaterThan(0).WithMessage("Debe especificar un producto válido.");
 
                 detalle.RuleFor(d => d.Cantidad)

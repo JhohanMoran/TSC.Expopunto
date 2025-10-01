@@ -3,7 +3,7 @@
     public record DetalleVentaCommand(
         int Id,
         int IdVenta,
-        int IdProducto,
+        int IdProductoVariante,
         int Cantidad,
         decimal PrecioUnitario,
         int IdDescuento,

@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TSC.Expopunto.Application.DataBase.LineaCredito.Queries.Models
+﻿namespace TSC.Expopunto.Application.DataBase.LineaCredito.Queries.Models
 {
     public class LineaCreditoTodoModel
     {
@@ -13,5 +7,14 @@ namespace TSC.Expopunto.Application.DataBase.LineaCredito.Queries.Models
         public decimal MontoCredito { get; set; }
         public decimal MontoConsumido { get; set; }
         public string Auditoria { get; set; }
+
+        public string TipoDocumento { get; set; }
+        public string NumeroDocumento { get; set; }
+        public string NombresApellidos { get; set; }
+        public bool activo { get; set; }
+        public string FechaAltaDisplay { get; set; }
+        public string FechaBajaDisplay { get; set; }
+
+        public decimal MontoDisponible { get; set; }
     }
 }

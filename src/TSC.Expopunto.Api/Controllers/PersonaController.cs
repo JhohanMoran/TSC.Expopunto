@@ -78,14 +78,6 @@ namespace TSC.Expopunto.Api.Controllers
 
             var data = await _personaQuery.ListarPersonasPorIdAsync(parametro.IdPersona);
 
-            if (data == null)
-            {
-                return StatusCode(
-                    StatusCodes.Status204NoContent,
-                    ResponseApiService.Response(StatusCodes.Status204NoContent, data, "Persona no encontrada")
-                );
-            }
-
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
@@ -172,6 +164,20 @@ namespace TSC.Expopunto.Api.Controllers
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
             );
         }
+
+        [HttpPost("listar-modal-busqueda")]
+        public async Task<IActionResult> ListarPersonasModalBusqueda([FromBody] PersonasListaParametros parametro)
+        {
+
+            var data = await _personaQuery.ListarPersonasModalBusquedaAsync(parametro);
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+        }
+
+
 
     }
 }

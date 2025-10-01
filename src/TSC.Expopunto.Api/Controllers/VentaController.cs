@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using TSC.Expopunto.Api.Models.Ventas;
 using TSC.Expopunto.Application.DataBase.DetalleVenta.Commands;
+using TSC.Expopunto.Application.DataBase.DetalleVenta.Queries;
 using TSC.Expopunto.Application.DataBase.Venta.Commands.Actualizar;
 using TSC.Expopunto.Application.DataBase.Venta.Commands.Crear;
 using TSC.Expopunto.Application.DataBase.Venta.Commands.EliminarVenta;
@@ -48,7 +49,7 @@ namespace TSC.Expopunto.Api.Controllers
                 request.Detalles.Select(d => new DetalleVentaCommand(
                     d.Id,
                     d.IdVenta,
-                    d.IdProducto,
+                    d.IdProductoVariante,
                     d.Cantidad,
                     d.PrecioUnitario,
                     d.IdDescuento,
@@ -82,11 +83,11 @@ namespace TSC.Expopunto.Api.Controllers
                 request.IdTipoMoneda,
                 request.IdUsuarioVendedor,
                 request.IdUsuario,
-                request.Activo, 
+                request.Activo,
                 request.Detalles.Select(d => new DetalleVentaCommand(
                     d.Id,
                     d.IdVenta,
-                    d.IdProducto,
+                    d.IdProductoVariante,
                     d.Cantidad,
                     d.PrecioUnitario,
                     d.IdDescuento,
@@ -127,19 +128,10 @@ namespace TSC.Expopunto.Api.Controllers
         {
             var data = await _mediator.Send(new ObtenerVentasQuery(parametros));
 
-            if (data == null || data.Items.Count == 0)
-            {
-                return StatusCode(
-                   StatusCodes.Status204NoContent,
-                   ResponseApiService.Response(StatusCodes.Status204NoContent, data, "No existe data")
-                );
-            }
-
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
             );
-
         }
 
         [HttpGet("listar-por-id-persona/{idPersona:int}")]
@@ -148,18 +140,27 @@ namespace TSC.Expopunto.Api.Controllers
         )
         {
             var data = await _mediator.Send(new ObtenerVentasPorIdPersonaQuery(idPersona));
-            if (data == null || data.Count == 0)
-            {
-                return StatusCode(
-                   StatusCodes.Status404NotFound,
-                   ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No existe data")
-                );
-            }
+            
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
             );
         }
+
+        [HttpGet("listar-detalle-por-id-venta/{idVenta:int}")]
+        public async Task<IActionResult> ListarDetalleVentaPorIdVenta(
+            [FromRoute] int idVenta
+        )
+        {
+            var data = await _mediator.Send(new ObtenerDetalleVentaPorIdVentaQuery(idVenta));
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+        }
+
+
 
     }
 }

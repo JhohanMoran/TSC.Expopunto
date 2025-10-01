@@ -1,4 +1,6 @@
-﻿namespace TSC.Expopunto.Application.DataBase.Venta.DTO
+﻿using TSC.Expopunto.Application.DataBase.DetalleVenta.DTO;
+
+namespace TSC.Expopunto.Application.DataBase.Venta.DTO
 {
     public class VentaDTO
     {

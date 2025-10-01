@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using TSC.Expopunto.Application.DataBase.DetalleVenta.DTO;
 using TSC.Expopunto.Application.DataBase.Venta.Commands.Actualizar;
 using TSC.Expopunto.Application.DataBase.Venta.DTO;
 using TSC.Expopunto.Application.Interfaces.Venta;
@@ -30,7 +31,7 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands
                 .Select(d => new DetalleVentaEntity(
                     d.Id,
                     d.IdVenta,
-                    d.IdProducto,
+                    d.IdProductoVariante,
                     d.Cantidad,
                     d.PrecioUnitario,
                     d.IdDescuento,
@@ -78,7 +79,7 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands
                 {
                     Id = x.Id,             // Id asignado en la BD
                     IdVenta = x.IdVenta,   // también ya viene actualizado
-                    IdProducto = x.IdProducto,
+                    IdProductoVariante = x.IdProductoVariante,
                     Cantidad = x.Cantidad,
                     PrecioUnitario = x.PrecioUnitario,
                     IdDescuento = x.IdDescuento,

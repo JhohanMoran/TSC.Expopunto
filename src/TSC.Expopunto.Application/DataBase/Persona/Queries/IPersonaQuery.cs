@@ -1,6 +1,6 @@
-﻿using TSC.Expopunto.Domain.Models;
-
-using TSC.Expopunto.Application.DataBase.Persona.Queries.Models;
+﻿using TSC.Expopunto.Application.DataBase.Persona.Queries.Models;
+using TSC.Expopunto.Common;
+using TSC.Expopunto.Domain.Models;
 
 namespace TSC.Expopunto.Application.DataBase.Persona.Queries
 {
@@ -11,6 +11,7 @@ namespace TSC.Expopunto.Application.DataBase.Persona.Queries
         Task<List<PersonaTodosModel>> ListarComboPersonasAsync();
         Task<PersonaTodosModel?> ListarPersonasPorIdAsync(int idPersona);
         Task<List<PersonaTodosModel>> ListarPersonasMontoConsumidoAsync(PersonasListaParametros parametro);
+        Task<PagedResult<PersonaTodosModel>> ListarPersonasModalBusquedaAsync(PersonasListaParametros parametro);
     }
 }
 

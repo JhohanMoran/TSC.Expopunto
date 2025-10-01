@@ -43,6 +43,7 @@ using TSC.Expopunto.Application.DataBase.UsuariosPerfil.Queries;
 using TSC.Expopunto.Application.DataBase.UsuariosSede.Commands;
 using TSC.Expopunto.Application.DataBase.UsuariosSede.Queries;
 using TSC.Expopunto.Application.Security;
+using TSC.Expopunto.Application.DataBase.ProductoVariante.Queries;
 
 namespace TSC.Expopunto.Application
 {
@@ -134,6 +135,8 @@ namespace TSC.Expopunto.Application
 
             services.AddTransient<ILineaCreditoCommand, LineaCreditoCommand>();
             services.AddTransient<ILineaCreditoQuery, LineaCreditoQuery>();
+
+            services.AddTransient<IProductoVarianteQuery, ProductoVarianteQuery>();
 
             return services;
         }

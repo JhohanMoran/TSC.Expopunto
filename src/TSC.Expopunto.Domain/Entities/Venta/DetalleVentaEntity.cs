@@ -4,7 +4,7 @@
     {
         public int Id { get; private set; }
         public int IdVenta { get; private set; }
-        public int IdProducto { get; private set; }
+        public int IdProductoVariante { get; private set; }
         public int Cantidad { get; private set; }
         public decimal PrecioUnitario { get; private set; }
         public int IdDescuento { get; private set; }
@@ -13,7 +13,7 @@
         public DetalleVentaEntity(
             int id,
             int idVenta,
-            int idProducto,
+            int idProductoVariante,
             int cantidad,
             decimal precioUnitario,
             int idDescuento,
@@ -22,7 +22,7 @@
         {
             this.Id = id;
             this.IdVenta = idVenta;
-            this.IdProducto = idProducto;
+            this.IdProductoVariante = idProductoVariante;
             this.Cantidad = cantidad;
             this.PrecioUnitario = precioUnitario;
             this.IdDescuento = idDescuento;
