@@ -1,0 +1,20 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TSC.Expopunto.Application.DataBase.Descuento.Commands
+{
+    public class DescuentoModel
+    {
+        public int Opcion {  get; set; }
+        public int Id { get; set; }
+        public string Nombre { get; set; }
+        public string Tipo { get; set; }
+        public decimal Valor { get; set; }
+        public DateTime FechaInicio { get; set; }
+        public DateTime FechaFin {  get; set; }
+        public int Activo { get; set; }
+    }
+}

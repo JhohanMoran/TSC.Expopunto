@@ -22,6 +22,8 @@ using TSC.Expopunto.Application.DataBase.Producto.Command;
 using TSC.Expopunto.Application.DataBase.Producto.Queries;
 using TSC.Expopunto.Application.DataBase.Persona.Commands;
 using TSC.Expopunto.Application.DataBase.Persona.Queries;
+using TSC.Expopunto.Application.DataBase.Descuento.Commands;
+using TSC.Expopunto.Application.DataBase.Descuento.Queries;
 using TSC.Expopunto.Application.DataBase.Sede.Commands;
 using TSC.Expopunto.Application.DataBase.Sede.Queries;
 using TSC.Expopunto.Application.DataBase.UnidadMedida.Queries;
@@ -122,6 +124,9 @@ namespace TSC.Expopunto.Application
             #endregion
             services.AddTransient<IPersonaCommand, PersonaCommand>();
             services.AddTransient<IPersonaQuery, PersonaQuery>();
+
+            services.AddTransient<IDescuentoQuery, DescuentoQuery>();
+            services.AddTransient<IDescuentoCommand, DescuentoCommand>();
 
             //services.AddTransient<IDapperCommandService, DapperCommandService>();
 
