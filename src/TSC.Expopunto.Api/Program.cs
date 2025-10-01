@@ -14,8 +14,6 @@ builder.Services
     .AddExternal(builder.Configuration)
     .AddPersistence(builder.Configuration);
 
-
-
 builder.Services.AddControllers(options =>
 {
     options.Filters.Add<ExceptionManager>();
@@ -44,8 +42,8 @@ app.UseSwaggerUI(options =>
     options.RoutePrefix = string.Empty;
 });
 
-app.UseAuthentication();
-app.UseAuthorization();
+//app.UseAuthentication();
+//app.UseAuthorization();
 app.UseCors("AllowAngular");
 app.MapControllers();
 app.Run();

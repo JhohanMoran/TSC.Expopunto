@@ -37,6 +37,22 @@ namespace TSC.Expopunto.Application.DataBase.Persona.Queries.Models
             set => ParametrosAdicionales["NumeroDocumento"] = value;
         }
 
+        public string? FiltroModalBusqueda
+        {
+            get => ParametrosAdicionales.ContainsKey("FiltroModalBusqueda")
+                   ? ParametrosAdicionales["FiltroModalBusqueda"]?.ToString()
+                   : null;
+            set => ParametrosAdicionales["FiltroModalBusqueda"] = value;
+        }
+
+        public string? TipoBusquedaPersonal
+        {
+            get => ParametrosAdicionales.ContainsKey("TipoBusquedaPersonal")
+                   ? ParametrosAdicionales["TipoBusquedaPersonal"]?.ToString()
+                   : null;
+            set => ParametrosAdicionales["TipoBusquedaPersonal"] = value;
+        }
+
         public bool? Activo
         {
             get => ParametrosAdicionales.ContainsKey("Activo")

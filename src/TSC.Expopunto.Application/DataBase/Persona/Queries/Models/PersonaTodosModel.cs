@@ -19,5 +19,8 @@
         public decimal MontoCredito { get; set; }
         public decimal MontoConsumido { get; set; }
         public decimal MontoConsumidoTotalSoles { get; set; }
+        public decimal MontoConsumidoTotalDolares { get; set; }
+        public string FechaProximaAltaDisplay { get; set; } = string.Empty;
+        public string NombrePersonaDisplay { get; set; } = string.Empty;
     }
 }

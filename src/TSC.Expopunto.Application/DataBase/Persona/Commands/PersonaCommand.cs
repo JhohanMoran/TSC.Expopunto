@@ -34,22 +34,12 @@ namespace TSC.Expopunto.Application.DataBase.Persona.Commands
                 }
             );
 
-                if (response != null && Convert.ToInt32(response) > 0)
-                {
-                    model.Id = Convert.ToInt32(response);
-                }
+            if (response > 0)
+            {
+                model.Id = response;
+            }
 
-                return model;
-            }
-            catch (SqlException sqlEx)
-            {
-                // Capturamos errores de SQL Server (incluyendo RAISERROR)
-                throw new ArgumentException(sqlEx.Message); // 👈 Esto será convertido en 400 por ExceptionManager
-            }
-            catch (Exception ex)
-            {
-                throw new InvalidOperationException("Error al procesar la persona: " + ex.Message);
-            }
+            return model;
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using TSC.Expopunto.Application.DataBase;
+using TSC.Expopunto.Application.DataBase.DetalleVenta.DTO;
 using TSC.Expopunto.Application.DataBase.Venta.DTO;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentas.Params;
 using TSC.Expopunto.Application.Interfaces.Venta;
@@ -30,10 +31,12 @@ namespace TSC.Expopunto.Persistence.Repositories
 
                 pId = venta.Id,
                 pFecha = venta.Fecha,
+                pHora = venta.Hora,
+                pIdSede = venta.IdSede,
                 pIdTipoComprobante = venta.IdTipoComprobante,
                 pSerie = venta.Serie,
                 pNumero = venta.Numero,
-                pIdPersonaCliente = venta.IdPersonaCliente,
+                pIdPersona = venta.IdPersona,
                 pIdTipoMoneda = venta.IdTipoMoneda,
                 pIdUsuarioVendedor = venta.IdUsuarioVendedor,
 
@@ -58,9 +61,9 @@ namespace TSC.Expopunto.Persistence.Repositories
                         pOpcion = d.Id == 0 ? (int)OperationType.Create : (int)OperationType.Update,
                         pId = d.Id,
                         pIdVenta = ventaId,
-                        pIdProducto = d.IdProducto,
-                        pIdTalla = d.IdTalla,
+                        pIdProductoVariante = d.IdProductoVariante,
                         pCantidad = d.Cantidad,
+                        pIdDescuento = d.IdDescuento,
                         pPrecioUnitario = d.PrecioUnitario,
                         pActivo = d.Activo
                     });
@@ -82,10 +85,12 @@ namespace TSC.Expopunto.Persistence.Repositories
 
                 pId = venta.Id,
                 pFecha = venta.Fecha,
+                pHora = venta.Hora,
+                pIdSede = venta.IdSede,
                 pIdTipoComprobante = venta.IdTipoComprobante,
                 pSerie = venta.Serie,
                 pNumero = venta.Numero,
-                pIdPersonaCliente = venta.IdPersonaCliente,
+                pIdPersona = venta.IdPersona,
                 pIdTipoMoneda = venta.IdTipoMoneda,
                 pIdUsuarioVendedor = venta.IdUsuarioVendedor,
 
@@ -109,9 +114,9 @@ namespace TSC.Expopunto.Persistence.Repositories
                         pOpcion = (int)OperationType.Create,
                         pId = 0,
                         pIdVenta = ventaId,
-                        pIdProducto = d.IdProducto,
-                        pIdTalla = d.IdTalla,
+                        pIdProductoVariante = d.IdProductoVariante,
                         pCantidad = d.Cantidad,
+                        pIdDescuento = d.IdDescuento,
                         pPrecioUnitario = d.PrecioUnitario
                     });
 
@@ -192,8 +197,8 @@ namespace TSC.Expopunto.Persistence.Repositories
 
             return new PagedResult<VentaDTO>
             {
-                Items = ventasLista,
-                TotalRegistros = totalRegistros,
+                Data = ventasLista,
+                Total = totalRegistros,
                 Pagina = parametros.Pagina,
                 FilasPorPagina = parametros.FilasPorPagina
             };

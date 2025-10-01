@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using TSC.Expopunto.Application.DataBase.DetalleVenta.DTO;
 using TSC.Expopunto.Application.DataBase.Venta.DTO;
 using TSC.Expopunto.Application.Interfaces.Venta;
 using TSC.Expopunto.Domain.Entities.Venta;
@@ -22,10 +23,12 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Crear
             venta = new VentaEntity(
                 request.Id,
                 request.Fecha,
+                request.Hora,
+                request.IdSede,
                 request.IdTipoComprobante,
                 request.Serie,
                 request.Numero,
-                request.IdPersonaCliente,
+                request.IdPersona,
                 request.IdTipoMoneda,
                 request.IdUsuarioVendedor,
                 request.IdUsuario,
@@ -37,10 +40,10 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Crear
                 venta.AgregarDetalle(
                     d.Id,
                     d.IdVenta,
-                    d.IdProducto,
-                    d.IdTalla,
+                    d.IdProductoVariante,
                     d.Cantidad,
                     d.PrecioUnitario,
+                    d.IdDescuento,
                     d.Activo
                 );
             }
@@ -56,7 +59,7 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Crear
                 IdTipoComprobante = ventaRespuesta.IdTipoComprobante,
                 Serie = ventaRespuesta.Serie,
                 Numero = ventaRespuesta.Numero,
-                IdPersonaCliente = ventaRespuesta.IdPersonaCliente,
+                IdPersona = ventaRespuesta.IdPersona,
                 IdTipoMoneda = ventaRespuesta.IdTipoMoneda,
                 IdUsuarioVendedor = ventaRespuesta.IdUsuarioVendedor,
                 IdUsuario = ventaRespuesta.IdUsuario,
@@ -65,14 +68,15 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Crear
                 {
                     Id = x.Id,             // Id asignado en la BD
                     IdVenta = x.IdVenta,   // también ya viene actualizado
-                    IdProducto = x.IdProducto,
-                    IdTalla = x.IdTalla,
+                    IdProductoVariante = x.IdProductoVariante,
                     Cantidad = x.Cantidad,
                     PrecioUnitario = x.PrecioUnitario,
+                    IdDescuento = x.IdDescuento,
                     Activo = x.Activo
                 }).ToList()
             };
         }
+
 
     }
 }

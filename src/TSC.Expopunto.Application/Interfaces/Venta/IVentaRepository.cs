@@ -1,4 +1,5 @@
-﻿using TSC.Expopunto.Application.DataBase.Venta.DTO;
+﻿using TSC.Expopunto.Application.DataBase.DetalleVenta.DTO;
+using TSC.Expopunto.Application.DataBase.Venta.DTO;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentas.Params;
 using TSC.Expopunto.Common;
 using TSC.Expopunto.Domain.Entities.Venta;
