@@ -15,6 +15,9 @@ namespace TSC.Expopunto.Domain.Entities.GuiaEntrada
         public int IdTalla { get; private set; }
         public int Cantidad { get; set; }
         public decimal CostoUnitario { get; private set; }
+        public string Caja { get; set; } = string.Empty;
+        public string CodigoEstilo { get; set; } = string.Empty;
+        public string CodigoPedido { get; set; } = string.Empty;
 
 
         public DetalleGuiaEntradaEntity(

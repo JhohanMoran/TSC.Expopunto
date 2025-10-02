@@ -32,10 +32,13 @@ namespace TSC.Expopunto.Persistence.Repositories
                 pSerie = guiaEntrada.Serie,
                 pNumero = guiaEntrada.Numero,
                 pFecha = guiaEntrada.Fecha,
-                pIdPersonaProveedor = guiaEntrada.IdPersonaProveedor,
+                pHora = guiaEntrada.Hora,
                 pTipoGuia = guiaEntrada.TipoGuia,
-                pObservacion = guiaEntrada.Observacion
-                
+                pIdPersonaProveedor = guiaEntrada.IdPersonaProveedor,
+                pObservacion = guiaEntrada.Observacion,
+                pTotalCantidad = guiaEntrada.TotalCantidad,
+                pTotalCosto = guiaEntrada.TotalCosto,
+                pIdUsuario = guiaEntrada.IdUsuario,
             };
 
             var guiaEntradaId = await _dapperCommandService.ExecuteScalarAsync(
@@ -57,10 +60,12 @@ namespace TSC.Expopunto.Persistence.Repositories
                         pIdGuiaEntrada = guiaEntradaId,
                         pIdProducto = d.IdProducto,
                         pIdUnidadMedida = d.IdUnidadMedida,
-                        pIdTalla = d.IdTalla,
+                        //pIdTalla = d.IdTalla,
                         pCantidad = d.Cantidad,
-                        pCostoUnitario = d.CostoUnitario
-                        
+                        pCostoUnitario = d.CostoUnitario,
+                        pCaja = d.Caja,
+                        pCodigoEstilo = d.CodigoEstilo,
+                        pCodigoPedio = d.CodigoPedido
                     });
 
                 guiaEntrada.AsignarIdDetalle(index, detalleId, guiaEntradaId);
@@ -82,9 +87,13 @@ namespace TSC.Expopunto.Persistence.Repositories
                 pSerie = guiaEntrada.Serie,
                 pNumero = guiaEntrada.Numero,
                 pFecha = guiaEntrada.Fecha,
-                pIdPersonaProveedor = guiaEntrada.IdPersonaProveedor,
+                pHora = guiaEntrada.Hora,
                 pTipoGuia = guiaEntrada.TipoGuia,
-                pObservacion = guiaEntrada.Observacion
+                pIdPersonaProveedor = guiaEntrada.IdPersonaProveedor,
+                pObservacion = guiaEntrada.Observacion,
+                pTotalCantidad = guiaEntrada.TotalCantidad,
+                pTotalCosto = guiaEntrada.TotalCosto,
+                pIdUsuario = guiaEntrada.IdUsuario,
             };
 
             var guiaEntradaId = await _dapperCommandService.ExecuteScalarAsync(
@@ -108,9 +117,10 @@ namespace TSC.Expopunto.Persistence.Repositories
                         pIdUnidadMedida = d.IdUnidadMedida,
                         pIdTalla = d.IdTalla,
                         pCantidad = d.Cantidad,
-                        pCostoUnitario = d.CostoUnitario
-
-                    
+                        pCostoUnitario = d.CostoUnitario,
+                        pCaja = d.Caja,
+                        pCodigoEstilo = d.CodigoEstilo,
+                        pCodigoPedio = d.CodigoPedido
                     });
 
                 guiaEntrada.AsignarIdDetalle(index, detalleId, guiaEntradaId);

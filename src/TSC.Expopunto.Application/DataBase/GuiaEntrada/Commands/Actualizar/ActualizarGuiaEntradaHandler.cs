@@ -1,9 +1,4 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Actualizar;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.DTO;
 
@@ -50,7 +45,7 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands
                 request.Serie,
                 request.Numero,
                 request.Fecha,
-                request.IdPersonaProveedor ,
+                request.IdPersonaProveedor,
                 request.TipoGuia,
                 request.Observacion,
                 nuevosDetalles
@@ -72,18 +67,22 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands
                 IdPersonaProveedor = guiaEntradaRespuesta.IdPersonaProveedor,
                 TipoGuia = guiaEntradaRespuesta.TipoGuia,
                 Observacion = guiaEntradaRespuesta.Observacion,
-                
+
 
                 Detalles = guiaEntradaDetalleRespuesta.Select(x => new DetalleGuiaEntradaDTO
                 {
-                    Id = x.Id,             // Id asignado en la BD
-                    IdGuiaEntrada = x.IdGuiaEntrada,   // también ya viene actualizado
+                    Id = x.Id, // Id asignado en la BD
+                    IdGuiaEntrada = x.IdGuiaEntrada,
                     IdProducto = x.IdProducto,
                     IdUnidadMedida = x.IdUnidadMedida,
-                    IdTalla = x.IdTalla,
+                    Codigo = x.Codigo,
                     Cantidad = x.Cantidad,
-                    CostoUnitario = x.CostoUnitario
-                    
+                    CostoUnitario = x.CostoUnitario,
+                    Caja = x.Caja,
+                    CodigoEstilo = x.CodigoEstilo,
+                    CodigoPedido = x.CodigoPedido
+
+
                 }).ToList()
             };
         }

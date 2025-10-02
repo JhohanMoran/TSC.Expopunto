@@ -1,10 +1,4 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.DTO;
 using TSC.Expopunto.Application.Interfaces.GuiaEntrada;
 using TSC.Expopunto.Domain.Entities.GuiaEntrada;
@@ -35,7 +29,7 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear
                 request.IdPersonaProveedor,
                 request.TipoGuia,
                 request.Observacion
-                
+
             );
 
             foreach (var d in request.Detalles)
@@ -70,7 +64,6 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear
                     IdGuiaEntrada = x.IdGuiaEntrada,   // también ya viene actualizado
                     IdProducto = x.IdProducto,
                     IdUnidadMedida = x.IdUnidadMedida,
-                    IdTalla = x.IdTalla,
                     Cantidad = x.Cantidad,
                     CostoUnitario = x.CostoUnitario,
                 }).ToList()

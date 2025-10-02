@@ -1,9 +1,4 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TSC.Expopunto.Application.DataBase.DetalleGuiaEntrada.Commands;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.DTO;
 using TSC.Expopunto.Common;
@@ -17,8 +12,8 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Actualizar
         int Id,
         string? Serie,
         string? Numero,
-        DateTime? Fecha,
-        int? IdPersonaProveedor,
+        string? Fecha,
+        int IdPersonaProveedor,
         string? TipoGuia,
         string? Observacion,
 

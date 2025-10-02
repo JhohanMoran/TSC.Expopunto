@@ -9,6 +9,7 @@ using TSC.Expopunto.Application.DataBase.Accesos.Queries;
 using TSC.Expopunto.Application.DataBase.Categoria.Command;
 using TSC.Expopunto.Application.DataBase.Categoria.Queries;
 using TSC.Expopunto.Application.DataBase.FormaPago.Queries;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries;
 using TSC.Expopunto.Application.DataBase.MedioPago.Queries;
 using TSC.Expopunto.Application.DataBase.Menu.Command;
 using TSC.Expopunto.Application.DataBase.Menu.Queries;
@@ -122,6 +123,7 @@ namespace TSC.Expopunto.Application
             services.AddTransient<ITipoPersonaQuery, TipoPersonaQuery>();
 
             services.AddTransient<IPrendasQuery, PrendasQuery>();
+            services.AddTransient<IGuiaEntradaQuery, GuiaEntradaQuery>();
 
 
 

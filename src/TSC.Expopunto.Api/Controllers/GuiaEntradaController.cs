@@ -1,11 +1,11 @@
-﻿using FluentValidation;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TSC.Expopunto.Api.Models.GuiasEntrada;
 
 using TSC.Expopunto.Application.DataBase.DetalleGuiaEntrada.Commands;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Actualizar;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEntrada;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEntrada.Params;
 using TSC.Expopunto.Application.Exceptions;
@@ -20,10 +20,12 @@ namespace TSC.Expopunto.Api.Controllers
     public class GuiaEntradaController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly IGuiaEntradaQuery _guiaEntrada;
 
-        public GuiaEntradaController(IMediator mediator)
+        public GuiaEntradaController(IMediator mediator, IGuiaEntradaQuery guiaEntrada)
         {
             _mediator = mediator;
+            this._guiaEntrada = guiaEntrada;
         }
 
         [HttpPost("crear")]
@@ -40,7 +42,7 @@ namespace TSC.Expopunto.Api.Controllers
                 request.IdPersonaProveedor,
                 request.TipoGuia,
                 request.Observacion,
-                
+
                 request.Detalles.Select(d => new DetalleGuiaEntradaCommand(
                     d.Id,
                     d.IdGuiaEntrada,
@@ -49,7 +51,7 @@ namespace TSC.Expopunto.Api.Controllers
                     d.IdTalla,
                     d.Cantidad,
                     d.CostoUnitario
-                    
+
                 )).ToList()
             );
 
@@ -95,9 +97,9 @@ namespace TSC.Expopunto.Api.Controllers
 
 
 
-        [HttpPost("listar")]
+        [HttpGet("listar")]
         public async Task<IActionResult> Listar(
-            [FromBody] ObtenerGuiasEntradaParams parametros
+            [FromQuery] ObtenerGuiasEntradaParams parametros
         )
         {
             var data = await _mediator.Send(new ObtenerGuiasEntradaQuery(parametros));
@@ -115,6 +117,24 @@ namespace TSC.Expopunto.Api.Controllers
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
             );
 
+        }
+        [HttpGet("listar-proveedores")]
+        public async Task<IActionResult> ListarProveedores(int opcion)
+        {
+            var data = await this._guiaEntrada.GetProveedoresAsync(opcion);
+
+            if (data == null || data.Count() == 0)
+            {
+                return StatusCode(
+                    StatusCodes.Status204NoContent,
+                    ResponseApiService.Response(StatusCodes.Status204NoContent, data, "No existe data")
+                    );
+            }
+
+            return StatusCode(
+                    StatusCodes.Status200OK,
+                    ResponseApiService.Response(StatusCodes.Status200OK, data, "No existe data")
+                    );
         }
 
     }
