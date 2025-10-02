@@ -32,5 +32,11 @@ namespace TSC.Expopunto.Persistence.DataBase
             using var connection = new SqlConnection(_connectionString);
             return await connection.QueryAsync<T>(procedureName, parameters, commandType: CommandType.StoredProcedure);
         }
+
+        public IEnumerable<T> Query<T>(string procedureName, object parameters = null)
+        {
+            using var connection = new SqlConnection(_connectionString);
+            return connection.Query<T>(procedureName, parameters, commandType: CommandType.StoredProcedure);
+        }
     }
 }

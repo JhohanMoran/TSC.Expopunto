@@ -11,6 +11,7 @@ using TSC.Expopunto.Application.DataBase.Categoria.Queries;
 using TSC.Expopunto.Application.DataBase.FormaPago.Queries;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries;
+using TSC.Expopunto.Application.DataBase.Kardex.Queries;
 using TSC.Expopunto.Application.DataBase.LineaCredito.Commands;
 using TSC.Expopunto.Application.DataBase.LineaCredito.Queries;
 using TSC.Expopunto.Application.DataBase.MedioPago.Queries;
@@ -125,6 +126,8 @@ namespace TSC.Expopunto.Application
 
             services.AddTransient<ILineaCreditoCommand, LineaCreditoCommand>();
             services.AddTransient<ILineaCreditoQuery, LineaCreditoQuery>();
+
+            services.AddTransient<IKardexQuery, KardexQuery>();
 
             return services;
         }
