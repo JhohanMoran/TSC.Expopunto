@@ -16,5 +16,6 @@
 
         public int IdUsuario { get; set; }
         public bool Activo { get; set; } = true;
+        public string? DetalleMotivoBaja { get; set; }
     }
 }

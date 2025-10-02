@@ -104,14 +104,6 @@ namespace TSC.Expopunto.Api.Controllers
         {
             var data = await _mediator.Send(new ObtenerGuiasEntradaQuery(parametros));
 
-            if (data == null || data.Items.Count == 0)
-            {
-                return StatusCode(
-                   StatusCodes.Status204NoContent,
-                   ResponseApiService.Response(StatusCodes.Status204NoContent, data, "No existe data")
-                );
-            }
-
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")

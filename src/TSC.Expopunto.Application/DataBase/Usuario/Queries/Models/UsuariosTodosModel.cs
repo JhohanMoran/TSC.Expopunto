@@ -8,5 +8,6 @@
         public string Usuario { get; set; }
         public bool Activo { get; set; }
         public string Auditoria { get; set; }
+        public int TotalRegistros { get; set; }
     }
 }

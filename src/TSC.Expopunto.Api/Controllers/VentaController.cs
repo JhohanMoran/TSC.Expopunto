@@ -1,13 +1,16 @@
-﻿using FluentValidation;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TSC.Expopunto.Api.Models.Ventas;
 using TSC.Expopunto.Application.DataBase.DetalleVenta.Commands;
+using TSC.Expopunto.Application.DataBase.DetalleVenta.Queries;
 using TSC.Expopunto.Application.DataBase.Venta.Commands.Actualizar;
 using TSC.Expopunto.Application.DataBase.Venta.Commands.Crear;
 using TSC.Expopunto.Application.DataBase.Venta.Commands.EliminarVenta;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentas;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentas.Params;
+using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentasPorIdPersona;
+using TSC.Expopunto.Application.DataBase.VentasFormaPago.Commands;
+using TSC.Expopunto.Application.DataBase.VentasFormaPago.Queries;
 using TSC.Expopunto.Application.Exceptions;
 using TSC.Expopunto.Application.Features;
 using TSC.Expopunto.Common;
@@ -35,10 +38,12 @@ namespace TSC.Expopunto.Api.Controllers
                 OperationType.Create,
                 request.Id,
                 request.Fecha,
+                request.Hora,
+                request.IdSede,
                 request.IdTipoComprobante,
                 request.Serie,
                 request.Numero,
-                request.IdPersonaCliente,
+                request.IdPersona,
                 request.IdTipoMoneda,
                 request.IdUsuarioVendedor,
                 request.IdUsuario,
@@ -46,11 +51,19 @@ namespace TSC.Expopunto.Api.Controllers
                 request.Detalles.Select(d => new DetalleVentaCommand(
                     d.Id,
                     d.IdVenta,
-                    d.IdProducto,
-                    d.IdTalla,
+                    d.IdProductoVariante,
                     d.Cantidad,
                     d.PrecioUnitario,
+                    d.IdDescuento,
                     true
+                )).ToList(),
+                request.FormasPago.Select(d => new VentaFormaPagoCommand(
+                    d.Id,
+                    d.IdVenta,
+                    d.IdFormaPago,
+                    d.DescripcionFormaPago,
+                    d.Monto,
+                    d.ReferenciaPago
                 )).ToList()
             );
 
@@ -71,22 +84,32 @@ namespace TSC.Expopunto.Api.Controllers
                 OperationType.Update,
                 request.Id,
                 request.Fecha,
+                request.Hora,
+                request.IdSede,
                 request.IdTipoComprobante,
                 request.Serie,
                 request.Numero,
-                request.IdPersonaCliente,
+                request.IdPersona,
                 request.IdTipoMoneda,
                 request.IdUsuarioVendedor,
                 request.IdUsuario,
-                request.Activo, 
+                request.Activo,
                 request.Detalles.Select(d => new DetalleVentaCommand(
                     d.Id,
                     d.IdVenta,
-                    d.IdProducto,
-                    d.IdTalla,
+                    d.IdProductoVariante,
                     d.Cantidad,
                     d.PrecioUnitario,
+                    d.IdDescuento,
                     d.Activo
+                )).ToList(),
+                request.FormasPago.Select(d => new VentaFormaPagoCommand(
+                    d.Id,
+                    d.IdVenta,
+                    d.IdFormaPago,
+                    d.DescripcionFormaPago,
+                    d.Monto,
+                    d.ReferenciaPago
                 )).ToList()
             );
 
@@ -123,19 +146,49 @@ namespace TSC.Expopunto.Api.Controllers
         {
             var data = await _mediator.Send(new ObtenerVentasQuery(parametros));
 
-            if (data == null || data.Items.Count == 0)
-            {
-                return StatusCode(
-                   StatusCodes.Status204NoContent,
-                   ResponseApiService.Response(StatusCodes.Status204NoContent, data, "No existe data")
-                );
-            }
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+        }
+
+        [HttpGet("listar-por-id-persona/{idPersona:int}")]
+        public async Task<IActionResult> ListarPorPersona(
+            [FromRoute] int idPersona
+        )
+        {
+            var data = await _mediator.Send(new ObtenerVentasPorIdPersonaQuery(idPersona));
 
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
             );
+        }
 
+        [HttpGet("listar-detalle-por-id-venta/{idVenta:int}")]
+        public async Task<IActionResult> ListarDetalleVentaPorIdVenta(
+            [FromRoute] int idVenta
+        )
+        {
+            var data = await _mediator.Send(new ObtenerDetalleVentaPorIdVentaQuery(idVenta));
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+        }
+
+        [HttpGet("listar-ventas-formas-pago-por-id-venta/{idVenta:int}")]
+        public async Task<IActionResult> ListarVentasFormasPagoPorIdVenta(
+            [FromRoute] int idVenta
+        )
+        {
+            var data = await _mediator.Send(new ObtenerVentasFormaPagoPorIdVentaQuery(idVenta));
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
         }
 
     }
