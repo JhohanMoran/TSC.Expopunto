@@ -16,5 +16,9 @@
         public string FechaBajaDisplay { get; set; }
 
         public decimal MontoDisponible { get; set; }
+
+        public int IdTipoMoneda { get; set; }
+        public string SimboloMoneda { get; set; }
+
     }
 }

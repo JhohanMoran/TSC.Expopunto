@@ -19,5 +19,6 @@ namespace TSC.Expopunto.Api.Models.Ventas
         public int IdUsuario { get; set; }
 
         public List<DetalleVentaRequest> Detalles { get; set; } = new();
+        public List<VentaFormaPagoRequest> FormasPago { get; set; } = new();
     }
 }

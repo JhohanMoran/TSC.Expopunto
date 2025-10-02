@@ -30,11 +30,15 @@ namespace TSC.Expopunto.Domain.Entities.Venta
         private readonly List<DetalleVentaEntity> _detalles = new();
         public IReadOnlyCollection<DetalleVentaEntity> Detalles => _detalles;
 
+        private readonly List<VentaFormasPagoEntity> _formasPago = new();
+        public IReadOnlyCollection<VentaFormasPagoEntity> FormasPago => _formasPago;
+
+
         public VentaEntity() { }
 
         public VentaEntity(
             int id,
-            DateTime? fecha,    
+            DateTime? fecha,
             string? hora,
             int? idSede,
             int? idTipoComprobante,
@@ -61,6 +65,11 @@ namespace TSC.Expopunto.Domain.Entities.Venta
             Activo = activo;
         }
 
+        public void AsignarId(int id)
+        {
+            Id = id;
+        }
+
         public void AgregarDetalle(
             int id,
             int idVenta,
@@ -82,10 +91,29 @@ namespace TSC.Expopunto.Domain.Entities.Venta
             ));
         }
 
+        public void AgregarFormaPago(
+            int id,
+            int idVenta,
+            int idFormaPago,
+            string descripcionFormaPago,
+            decimal monto,
+            string referenciaPago
+       )
+        {
+            _formasPago.Add(new VentaFormasPagoEntity(
+                id,
+                idVenta,
+                idFormaPago,
+                descripcionFormaPago,
+                monto,
+                referenciaPago
+            ));
+        }
+
         public void Actualizar(
             int id,
             DateTime? fecha,
-            string ? hora,
+            string? hora,
             int? idSede,
             int? idTipoComprobante,
             string? serie,
@@ -94,8 +122,9 @@ namespace TSC.Expopunto.Domain.Entities.Venta
             int? idTipoMoneda,
             int? idUsuarioVendedor,
             int? idUsuario,
-            bool? activo,   
-            List<DetalleVentaEntity>? nuevosDetalles   
+            bool? activo,
+            List<DetalleVentaEntity>? nuevosDetalles,
+            List<VentaFormasPagoEntity>? nuevasFormasPago
         )
         {
             Id = id;
@@ -112,13 +141,13 @@ namespace TSC.Expopunto.Domain.Entities.Venta
             Activo = activo;
 
             _detalles.Clear();
-            _detalles.AddRange(nuevosDetalles);   
+            _detalles.AddRange(nuevosDetalles);
+
+            _formasPago.Clear();
+            _formasPago.AddRange(nuevasFormasPago);
         }
 
-        public void AsignarId(int id)
-        {
-            Id = id;
-        }
+     
         public void AsignarIdDetalle(int index, int idDetalle, int idVenta)
         {
             if (index < 0 || index >= _detalles.Count)
@@ -127,6 +156,12 @@ namespace TSC.Expopunto.Domain.Entities.Venta
             _detalles[index].AsignarId(idDetalle, idVenta);
         }
 
-      
+        public void AsignarIdVentaFormaPago(int index, int idVentaFormaPago, int idVenta)
+        {
+            if (index < 0 || index >= _formasPago.Count)
+                throw new ArgumentOutOfRangeException(nameof(index));
+
+            _formasPago[index].AsignarId(idVentaFormaPago, idVenta);
+        }
     }
 }

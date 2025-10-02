@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using TSC.Expopunto.Application.DataBase.DetalleVenta.Commands;
 using TSC.Expopunto.Application.DataBase.Venta.DTO;
+using TSC.Expopunto.Application.DataBase.VentasFormaPago.Commands;
 using TSC.Expopunto.Common;
 
 namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Crear
@@ -21,7 +22,8 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Crear
         int? IdUsuario,
         bool? Activo,
 
-        List<DetalleVentaCommand>? Detalles
+        List<DetalleVentaCommand>? Detalles,
+        List<VentaFormaPagoCommand>? FormasPago
 
     ) : IRequest<VentaDTO>;
 }

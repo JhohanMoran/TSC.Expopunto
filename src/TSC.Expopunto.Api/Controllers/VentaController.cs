@@ -9,6 +9,8 @@ using TSC.Expopunto.Application.DataBase.Venta.Commands.EliminarVenta;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentas;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentas.Params;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentasPorIdPersona;
+using TSC.Expopunto.Application.DataBase.VentasFormaPago.Commands;
+using TSC.Expopunto.Application.DataBase.VentasFormaPago.Queries;
 using TSC.Expopunto.Application.Exceptions;
 using TSC.Expopunto.Application.Features;
 using TSC.Expopunto.Common;
@@ -54,6 +56,14 @@ namespace TSC.Expopunto.Api.Controllers
                     d.PrecioUnitario,
                     d.IdDescuento,
                     true
+                )).ToList(),
+                request.FormasPago.Select(d => new VentaFormaPagoCommand(
+                    d.Id,
+                    d.IdVenta,
+                    d.IdFormaPago,
+                    d.DescripcionFormaPago,
+                    d.Monto,
+                    d.ReferenciaPago
                 )).ToList()
             );
 
@@ -92,6 +102,14 @@ namespace TSC.Expopunto.Api.Controllers
                     d.PrecioUnitario,
                     d.IdDescuento,
                     d.Activo
+                )).ToList(),
+                request.FormasPago.Select(d => new VentaFormaPagoCommand(
+                    d.Id,
+                    d.IdVenta,
+                    d.IdFormaPago,
+                    d.DescripcionFormaPago,
+                    d.Monto,
+                    d.ReferenciaPago
                 )).ToList()
             );
 
@@ -140,7 +158,7 @@ namespace TSC.Expopunto.Api.Controllers
         )
         {
             var data = await _mediator.Send(new ObtenerVentasPorIdPersonaQuery(idPersona));
-            
+
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
@@ -160,7 +178,18 @@ namespace TSC.Expopunto.Api.Controllers
             );
         }
 
+        [HttpGet("listar-ventas-formas-pago-por-id-venta/{idVenta:int}")]
+        public async Task<IActionResult> ListarVentasFormasPagoPorIdVenta(
+            [FromRoute] int idVenta
+        )
+        {
+            var data = await _mediator.Send(new ObtenerVentasFormaPagoPorIdVentaQuery(idVenta));
 
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+        }
 
     }
 }

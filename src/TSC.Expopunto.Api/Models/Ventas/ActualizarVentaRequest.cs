@@ -20,5 +20,6 @@ namespace TSC.Expopunto.Api.Models.Ventas
         public bool Activo { get; set; }
 
         public List<DetalleVentaRequest> Detalles { get; set; } = new();
+        public List<VentaFormaPagoRequest> FormasPago { get; set; } = new();
     }
 }

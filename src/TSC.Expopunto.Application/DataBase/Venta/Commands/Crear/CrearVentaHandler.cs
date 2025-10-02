@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using TSC.Expopunto.Application.DataBase.DetalleVenta.DTO;
 using TSC.Expopunto.Application.DataBase.Venta.DTO;
+using TSC.Expopunto.Application.DataBase.VentasFormaPago.DTO;
 using TSC.Expopunto.Application.Interfaces.Venta;
 using TSC.Expopunto.Domain.Entities.Venta;
 
@@ -48,6 +49,18 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Crear
                 );
             }
 
+            foreach (var d in request.FormasPago)
+            {
+                venta.AgregarFormaPago(
+                    d.Id,
+                    d.IdVenta,
+                    d.IdFormaPago,
+                    d.DescripcionFormaPago,
+                    d.Monto,
+                    d.ReferenciaPago
+                );
+            }
+
             // 2. Guardar en BD (Dapper/SP)
             VentaEntity ventaRespuesta = await _repository.CrearVentaAsync(venta);
 
@@ -73,7 +86,17 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Crear
                     PrecioUnitario = x.PrecioUnitario,
                     IdDescuento = x.IdDescuento,
                     Activo = x.Activo
-                }).ToList()
+                }).ToList(),
+                FormasPago = ventaRespuesta.FormasPago.Select(x => new VentasFormaPagoDTO
+                {
+                    Id = x.Id,
+                    IdVenta = x.IdVenta,
+                    VentaDescripcionFormaPago = x.DescripcionFormaPago,
+                    Monto = x.Monto,
+                    ReferenciaPago = x.ReferenciaPago,
+                    IdFormaPago = x.IdFormaPago
+                }).ToList(),
+
             };
         }
 

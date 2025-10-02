@@ -2,6 +2,7 @@
 using TSC.Expopunto.Application.DataBase.DetalleVenta.DTO;
 using TSC.Expopunto.Application.DataBase.Venta.Commands.Actualizar;
 using TSC.Expopunto.Application.DataBase.Venta.DTO;
+using TSC.Expopunto.Application.DataBase.VentasFormaPago.DTO;
 using TSC.Expopunto.Application.Interfaces.Venta;
 using TSC.Expopunto.Domain.Entities.Venta;
 
@@ -39,6 +40,17 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands
                 ))
                 .ToList();
 
+            var nuevasFormasPago = request.FormasPago
+               .Select(d => new VentaFormasPagoEntity(
+                   d.Id,
+                   d.IdVenta,
+                   d.IdFormaPago,
+                   d.DescripcionFormaPago,
+                   d.Monto,
+                   d.ReferenciaPago
+               ))
+               .ToList();
+
             ventaExistente.Actualizar(
                 request.Id,
                 request.Fecha,
@@ -52,7 +64,8 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands
                 request.IdUsuarioVendedor,
                 request.IdUsuario,
                 request.Activo, 
-                nuevosDetalles
+                nuevosDetalles,
+                nuevasFormasPago
             );
 
             // 3️. Guardar en BD
@@ -61,6 +74,8 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands
             // 4. Retornar el detalle completo de la venta actualizada
             var ventaDetalleRespuesta = await _repository.ObtenerDetalleVentaPorIdVentaAsync(ventaRespuesta.Id);
 
+            // 4. Retornar las formas de pago de la venta
+            var ventaFormasPagoRespuesta = await _repository.ObtenerVentasFormaPagoPorIdVentaAsync(ventaRespuesta.Id);
 
             return new VentaDTO
             {
@@ -84,7 +99,20 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands
                     PrecioUnitario = x.PrecioUnitario,
                     IdDescuento = x.IdDescuento,
                     Activo = x.Activo   
-                }).ToList()
+                }).ToList(),
+
+                FormasPago = ventaFormasPagoRespuesta.Select(x => new VentasFormaPagoDTO
+                {
+                    Id = x.Id,
+                    IdVenta = x.IdVenta,
+                    VentaDescripcionFormaPago = x.VentaDescripcionFormaPago,
+                    Monto = x.Monto,
+                    ReferenciaPago = x.ReferenciaPago,
+                    IdFormaPago = x.IdFormaPago,
+                    FormaPago = x.FormaPago,
+                    RutaIcono = x.RutaIcono,
+                    Activo = x.Activo
+                }).ToList(),
             };
         }
 

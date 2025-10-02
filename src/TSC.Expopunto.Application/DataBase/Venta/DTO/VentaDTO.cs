@@ -1,4 +1,5 @@
 ﻿using TSC.Expopunto.Application.DataBase.DetalleVenta.DTO;
+using TSC.Expopunto.Application.DataBase.VentasFormaPago.DTO;
 
 namespace TSC.Expopunto.Application.DataBase.Venta.DTO
 {
@@ -30,6 +31,7 @@ namespace TSC.Expopunto.Application.DataBase.Venta.DTO
         public bool? Activo { get; set; }
 
         public List<DetalleVentaDTO> Detalles { get; set; } = new();
+        public List<VentasFormaPagoDTO> FormasPago { get; set; } = new();
 
         public int TotalRegistros { get; set; }
     }

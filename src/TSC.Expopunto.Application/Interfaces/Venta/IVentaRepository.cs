@@ -1,6 +1,7 @@
 ﻿using TSC.Expopunto.Application.DataBase.DetalleVenta.DTO;
 using TSC.Expopunto.Application.DataBase.Venta.DTO;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentas.Params;
+using TSC.Expopunto.Application.DataBase.VentasFormaPago.DTO;
 using TSC.Expopunto.Common;
 using TSC.Expopunto.Domain.Entities.Venta;
 
@@ -18,5 +19,7 @@ namespace TSC.Expopunto.Application.Interfaces.Venta
         Task<List<DetalleVentaDTO>> ObtenerDetalleVentaPorIdVentaAsync(int idVenta);
         Task<VentaEntity> ObtenerVentaPorIdAsync(int id);
         Task<List<VentaMontoDTO>> ObtenerVentasPorIdPersonaAsync(int id);
+        Task<List<VentasFormaPagoDTO>> ObtenerVentasFormaPagoPorIdVentaAsync(int idVenta);
+
     }
 }

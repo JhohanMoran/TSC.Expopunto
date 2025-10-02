@@ -2,6 +2,7 @@
 using TSC.Expopunto.Application.DataBase.DetalleVenta.DTO;
 using TSC.Expopunto.Application.DataBase.Venta.DTO;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentas.Params;
+using TSC.Expopunto.Application.DataBase.VentasFormaPago.DTO;
 using TSC.Expopunto.Application.Interfaces.Venta;
 using TSC.Expopunto.Common;
 using TSC.Expopunto.Domain.Entities.Venta;
@@ -49,7 +50,7 @@ namespace TSC.Expopunto.Persistence.Repositories
                 parameters
             );
 
-            venta.AsignarId(ventaId); 
+            venta.AsignarId(ventaId);
 
             int index = 0;
             foreach (var d in venta.Detalles)
@@ -79,52 +80,86 @@ namespace TSC.Expopunto.Persistence.Repositories
             VentaEntity venta
         )
         {
-            var parameters = new
-            {
-                pOpcion = (int)OperationType.Create,
-
-                pId = venta.Id,
-                pFecha = venta.Fecha,
-                pHora = venta.Hora,
-                pIdSede = venta.IdSede,
-                pIdTipoComprobante = venta.IdTipoComprobante,
-                pSerie = venta.Serie,
-                pNumero = venta.Numero,
-                pIdPersona = venta.IdPersona,
-                pIdTipoMoneda = venta.IdTipoMoneda,
-                pIdUsuarioVendedor = venta.IdUsuarioVendedor,
-
-                pIdUsuario = venta.IdUsuario,
-                pActivo = venta.Activo
-            };
-
-            var ventaId = await _dapperCommandService.ExecuteScalarAsync(
-                "uspSetVenta", 
-                parameters
-            );
-
-            venta.AsignarId(ventaId);
-
             int index = 0;
-            foreach (var d in venta.Detalles)
-            {
-                var detalleId = await _dapperCommandService.ExecuteScalarAsync(
-                    "uspSetDetalleVenta",
-                    new {
-                        pOpcion = (int)OperationType.Create,
-                        pId = 0,
-                        pIdVenta = ventaId,
-                        pIdProductoVariante = d.IdProductoVariante,
-                        pCantidad = d.Cantidad,
-                        pIdDescuento = d.IdDescuento,
-                        pPrecioUnitario = d.PrecioUnitario
-                    });
 
-                venta.AsignarIdDetalle(index, detalleId, ventaId);
-                index++;
+            try
+            {
+
+
+                var parameters = new
+                {
+                    pOpcion = (int)OperationType.Create,
+
+                    pId = venta.Id,
+                    pFecha = venta.Fecha,
+                    pHora = venta.Hora,
+                    pIdSede = venta.IdSede,
+                    pIdTipoComprobante = venta.IdTipoComprobante,
+                    pSerie = venta.Serie,
+                    pNumero = venta.Numero,
+                    pIdPersona = venta.IdPersona,
+                    pIdTipoMoneda = venta.IdTipoMoneda,
+                    pIdUsuarioVendedor = venta.IdUsuarioVendedor,
+
+                    pIdUsuario = venta.IdUsuario,
+                    pActivo = venta.Activo
+                };
+
+                var ventaId = await _dapperCommandService.ExecuteScalarAsync(
+                    "uspSetVenta",
+                    parameters
+                );
+
+                venta.AsignarId(ventaId);
+
+                index = 0;
+                foreach (var d in venta.Detalles)
+                {
+                    var detalleId = await _dapperCommandService.ExecuteScalarAsync(
+                        "uspSetDetalleVenta",
+                        new
+                        {
+                            pOpcion = (int)OperationType.Create,
+                            pId = 0,
+                            pIdVenta = ventaId,
+                            pIdProductoVariante = d.IdProductoVariante,
+                            pCantidad = d.Cantidad,
+                            pIdDescuento = d.IdDescuento,
+                            pPrecioUnitario = d.PrecioUnitario
+                        });
+
+                    venta.AsignarIdDetalle(index, detalleId, ventaId);
+                    index++;
+                }
+
+                index = 0;
+                foreach (var d in venta.FormasPago)
+                {
+                    var ventaFormaPagoId = await _dapperCommandService.ExecuteScalarAsync(
+                        "uspSetVentaFormaPago",
+                        new
+                        {
+                            pOpcion = (int)OperationType.Create,
+                            pId = 0,
+                            pIdVenta = ventaId,
+                            pIdFormaPago = d.IdFormaPago,
+                            pDescripcionFormaPago = d.DescripcionFormaPago,
+                            pMonto = d.Monto,
+                            pReferenciaPago = d.ReferenciaPago
+                        });
+
+                    venta.AsignarIdVentaFormaPago(index, ventaFormaPagoId, ventaId);
+                    index++;
+                }
+
+                return venta;
+
+            }
+            catch (Exception ex)
+            {
+                throw;
             }
 
-            return venta;
         }
 
         public async Task<int> EliminarVentaAsync(int id, int idUsuario)
@@ -165,7 +200,7 @@ namespace TSC.Expopunto.Persistence.Repositories
                 pId = id
             };
 
-            var response = 
+            var response =
                 await _dapperQueryService
                     .QueryFirstOrDefaultAsync<VentaEntity>("uspGetVentas", parameters);
 
@@ -193,7 +228,7 @@ namespace TSC.Expopunto.Persistence.Repositories
                                 .QueryAsync<VentaDTO>("uspGetVentas", parameters);
 
             var ventasLista = response.ToList();
-            var totalRegistros = ventasLista.FirstOrDefault()?.TotalRegistros ?? 0;    
+            var totalRegistros = ventasLista.FirstOrDefault()?.TotalRegistros ?? 0;
 
             return new PagedResult<VentaDTO>
             {
@@ -202,6 +237,21 @@ namespace TSC.Expopunto.Persistence.Repositories
                 Pagina = parametros.Pagina,
                 FilasPorPagina = parametros.FilasPorPagina
             };
+        }
+
+        public async Task<List<VentasFormaPagoDTO>> ObtenerVentasFormaPagoPorIdVentaAsync(int idVenta)
+        {
+            var parameters = new
+            {
+                pOpcion = 1,
+                pIdVenta = idVenta,
+            };
+
+            var response =
+                await _dapperQueryService
+                    .QueryAsync<VentasFormaPagoDTO>("uspGetVentasFormaPago", parameters);
+
+            return response.ToList();
         }
 
         public async Task<List<VentaMontoDTO>> ObtenerVentasPorIdPersonaAsync(int idPersona)
