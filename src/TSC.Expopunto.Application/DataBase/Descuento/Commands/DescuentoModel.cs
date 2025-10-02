@@ -13,8 +13,8 @@ namespace TSC.Expopunto.Application.DataBase.Descuento.Commands
         public string Nombre { get; set; }
         public string Tipo { get; set; }
         public decimal Valor { get; set; }
-        public DateTime FechaInicio { get; set; }
-        public DateTime FechaFin {  get; set; }
-        public int Activo { get; set; }
+        public DateTime? FechaInicio { get; set; }
+        public DateTime? FechaFin { get; set; }
+        public bool Activo { get; set; }
     }
 }
