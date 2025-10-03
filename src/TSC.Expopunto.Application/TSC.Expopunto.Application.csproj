@@ -9,16 +9,21 @@
   <ItemGroup>
     <Compile Remove="DataBase\Cliente\**" />
     <Compile Remove="DataBase\Comprobante\**" />
+    <Compile Remove="DataBase\Reporte\Queries\Models\NewFolder\**" />
     <EmbeddedResource Remove="DataBase\Cliente\**" />
     <EmbeddedResource Remove="DataBase\Comprobante\**" />
+    <EmbeddedResource Remove="DataBase\Reporte\Queries\Models\NewFolder\**" />
     <None Remove="DataBase\Cliente\**" />
     <None Remove="DataBase\Comprobante\**" />
+    <None Remove="DataBase\Reporte\Queries\Models\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="DataBase\Parametro\Queries\Models\IdParametros.cs" />
     <Compile Remove="DataBase\Persona\Queries\Models\PaginationFilter.cs" />
     <Compile Remove="DataBase\Persona\Queries\Models\ResultadoPaginado.cs" />
+    <Compile Remove="DataBase\Reporte\Queries\Models\ReporteModel.cs" />
+    <Compile Remove="DataBase\Reporte\Queries\Models\ReporteTodosModel.cs" />
   </ItemGroup>
 
   <ItemGroup>

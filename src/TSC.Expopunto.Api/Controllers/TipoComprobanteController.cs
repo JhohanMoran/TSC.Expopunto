@@ -24,9 +24,16 @@ namespace TSC.Expopunto.Api.Controllers
         {
             var data = await _tipoComprobanteQuery.ListarTodosAsync();
 
-            return StatusCode(
-                StatusCodes.Status200OK,
-                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitosos")
+            if (data == null || data.Count == 0)
+            {
+                return StatusCode(
+                    StatusCodes.Status204NoContent,
+                    ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No exiten Tipos Comprobantes"));
+            }
+
+
+            return StatusCode(StatusCodes.Status200OK,
+            ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitosos")
              );
         }
 

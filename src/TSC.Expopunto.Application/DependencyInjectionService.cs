@@ -46,6 +46,7 @@ using TSC.Expopunto.Application.DataBase.UsuariosPerfil.Queries;
 using TSC.Expopunto.Application.DataBase.UsuariosSede.Commands;
 using TSC.Expopunto.Application.DataBase.UsuariosSede.Queries;
 using TSC.Expopunto.Application.Interfaces.Services;
+using TSC.Expopunto.Application.DataBase.Reporte.Queries;
 using TSC.Expopunto.Application.Security;
 
 namespace TSC.Expopunto.Application
@@ -132,6 +133,7 @@ namespace TSC.Expopunto.Application
 
             services.AddTransient<ITipoPersonaQuery, TipoPersonaQuery>();
 
+            services.AddTransient<IReporteQuery, ReporteQuery>();
             services.AddTransient<IPrendasQuery, PrendasQuery>();
 
 
