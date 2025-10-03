@@ -183,5 +183,32 @@ namespace TSC.Expopunto.Api.Controllers
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
             );
         }
+
+        /// <summary>
+        /// Opción adicional y excepcional que no forma parte del CRUD estándar.
+        /// Permite reactivar a un usuario.
+        /// </summary>
+        [HttpPost("activar")]
+        public async Task<IActionResult> Activar(
+           [FromBody] UsuarioModel model
+        )
+        {
+            if (model.Id == 0)
+            {
+                return StatusCode(
+                StatusCodes.Status400BadRequest,
+                ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El id no es válido")
+                );
+            }
+            // opción adicional fuera del CRUD estándar reactiva al usuario
+            model.Opcion = 5;
+
+            var data = await _usuarioCommand.ProcesarAsync(model);
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+                );
+        }
     }
 }
