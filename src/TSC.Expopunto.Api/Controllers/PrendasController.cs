@@ -6,7 +6,7 @@ using TSC.Expopunto.Application.Features;
 
 namespace TSC.Expopunto.Api.Controllers
 {
-    [Route("api/v1/producto")]
+    [Route("api/v1/prendas")]
     [ApiController]
     [TypeFilter(typeof(ExceptionManager))]
     public class PrendasController : ControllerBase
@@ -36,5 +36,76 @@ namespace TSC.Expopunto.Api.Controllers
                 );
         }
 
+        [HttpGet("listar-clientes")]
+        public async Task<IActionResult> ListarClientes()
+        {
+            var response = await _prendasQuery.ListarClientesAsync();
+
+            if (response.Count == 0)
+            {
+                return StatusCode(
+                   StatusCodes.Status204NoContent,
+                   ResponseApiService.Response(StatusCodes.Status204NoContent, response, "No se encontraron registros.")
+                );
+            }
+            return StatusCode(
+                   StatusCodes.Status200OK,
+                   ResponseApiService.Response(StatusCodes.Status200OK, response, "Exitoso")
+                );
+        }
+
+        [HttpGet("listar-pedidos")]
+        public async Task<IActionResult> ListarPedidos([FromQuery] string codigoCliente)
+        {
+            var response = await _prendasQuery.ListarPedidosAsync(codigoCliente);
+
+            if (response.Count == 0)
+            {
+                return StatusCode(
+                   StatusCodes.Status204NoContent,
+                   ResponseApiService.Response(StatusCodes.Status204NoContent, response, "No se encontraron registros.")
+                );
+            }
+            return StatusCode(
+                   StatusCodes.Status200OK,
+                   ResponseApiService.Response(StatusCodes.Status200OK, response, "Exitoso")
+                );
+        }
+
+        [HttpGet("listar-estilos-clientes")]
+        public async Task<IActionResult> ListarEstilosClientes([FromQuery] string pedido, string codigoCliente)
+        {
+            var response = await _prendasQuery.ListarEstilosClientesAsync(pedido, codigoCliente);
+
+            if (response.Count == 0)
+            {
+                return StatusCode(
+                   StatusCodes.Status204NoContent,
+                   ResponseApiService.Response(StatusCodes.Status204NoContent, response, "No se encontraron registros.")
+                );
+            }
+            return StatusCode(
+                   StatusCodes.Status200OK,
+                   ResponseApiService.Response(StatusCodes.Status200OK, response, "Exitoso")
+                );
+        }
+
+        [HttpGet("listar-presentaciones")]
+        public async Task<IActionResult> ListarPrensentaciones([FromQuery] string pedido)
+        {
+            var response = await _prendasQuery.ListarPrensentacionesAsync(pedido);
+
+            if (response.Count == 0)
+            {
+                return StatusCode(
+                   StatusCodes.Status204NoContent,
+                   ResponseApiService.Response(StatusCodes.Status204NoContent, response, "No se encontraron registros.")
+                );
+            }
+            return StatusCode(
+                   StatusCodes.Status200OK,
+                   ResponseApiService.Response(StatusCodes.Status200OK, response, "Exitoso")
+                );
+        }
     }
 }
