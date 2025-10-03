@@ -28,6 +28,8 @@ using TSC.Expopunto.Application.DataBase.Prendas.Queries;
 using TSC.Expopunto.Application.DataBase.Producto.Command;
 using TSC.Expopunto.Application.DataBase.Producto.Queries;
 using TSC.Expopunto.Application.DataBase.ProductoVariante.Queries;
+using TSC.Expopunto.Application.DataBase.Descuento.Commands;
+using TSC.Expopunto.Application.DataBase.Descuento.Queries;
 using TSC.Expopunto.Application.DataBase.Sede.Commands;
 using TSC.Expopunto.Application.DataBase.Sede.Queries;
 using TSC.Expopunto.Application.DataBase.TipoComprobante.Queries;
@@ -138,6 +140,11 @@ namespace TSC.Expopunto.Application
 
             services.AddTransient<IProductoVarianteQuery, ProductoVarianteQuery>();
             
+            services.AddTransient<IDescuentoQuery, DescuentoQuery>();
+            services.AddTransient<IDescuentoCommand, DescuentoCommand>();
+
+            //services.AddTransient<IDapperCommandService, DapperCommandService>();
+
 
             return services;
         }
