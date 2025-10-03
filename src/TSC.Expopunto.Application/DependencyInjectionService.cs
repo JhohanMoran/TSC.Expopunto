@@ -9,6 +9,10 @@ using TSC.Expopunto.Application.DataBase.Accesos.Queries;
 using TSC.Expopunto.Application.DataBase.Categoria.Command;
 using TSC.Expopunto.Application.DataBase.Categoria.Queries;
 using TSC.Expopunto.Application.DataBase.FormaPago.Queries;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries;
+using TSC.Expopunto.Application.DataBase.LineaCredito.Commands;
+using TSC.Expopunto.Application.DataBase.LineaCredito.Queries;
 using TSC.Expopunto.Application.DataBase.MedioPago.Queries;
 using TSC.Expopunto.Application.DataBase.Menu.Command;
 using TSC.Expopunto.Application.DataBase.Menu.Queries;
@@ -20,6 +24,7 @@ using TSC.Expopunto.Application.DataBase.PerfilMenu.Commands;
 using TSC.Expopunto.Application.DataBase.PerfilMenu.Queries;
 using TSC.Expopunto.Application.DataBase.Persona.Commands;
 using TSC.Expopunto.Application.DataBase.Persona.Queries;
+using TSC.Expopunto.Application.DataBase.Prendas.Queries;
 using TSC.Expopunto.Application.DataBase.Producto.Command;
 using TSC.Expopunto.Application.DataBase.Producto.Queries;
 using TSC.Expopunto.Application.DataBase.Sede.Commands;
@@ -39,6 +44,7 @@ using TSC.Expopunto.Application.DataBase.UsuariosSede.Commands;
 using TSC.Expopunto.Application.DataBase.UsuariosSede.Queries;
 using TSC.Expopunto.Application.DataBase.Reporte.Queries;
 using TSC.Expopunto.Application.Security;
+using TSC.Expopunto.Application.DataBase.ProductoVariante.Queries;
 
 namespace TSC.Expopunto.Application
 {
@@ -125,6 +131,14 @@ namespace TSC.Expopunto.Application
             services.AddTransient<ITipoPersonaQuery, TipoPersonaQuery>();
 
             services.AddTransient<IReporteQuery, ReporteQuery>();
+            services.AddTransient<IPrendasQuery, PrendasQuery>();
+
+
+
+            services.AddTransient<ILineaCreditoCommand, LineaCreditoCommand>();
+            services.AddTransient<ILineaCreditoQuery, LineaCreditoQuery>();
+
+            services.AddTransient<IProductoVarianteQuery, ProductoVarianteQuery>();
 
             return services;
         }

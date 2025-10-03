@@ -122,6 +122,17 @@ namespace TSC.Expopunto.Api.Controllers
                 );
         }
 
+        [HttpGet("listar-todos")]
+        public async Task<IActionResult> ListarTodos()
+        {
+            var data = await _usuarioQuery.ListarTodosAsync();
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+        }
+
         [HttpGet("obtener-por-id/{idUsuario:int}")]
         public async Task<IActionResult> ObtenerUsuarioPorId(
             [FromRoute] int idUsuario

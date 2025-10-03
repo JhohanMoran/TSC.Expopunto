@@ -7,7 +7,7 @@ namespace TSC.Expopunto.Application.Validators.Venta
     {
         public CrearVentaCommandValidator()
         {
-            RuleFor(x => x.IdPersonaCliente)
+            RuleFor(x => x.IdPersona)
             .GreaterThan(0).WithMessage("El cliente es obligatorio.");
 
             RuleFor(x => x.Fecha)
@@ -15,7 +15,7 @@ namespace TSC.Expopunto.Application.Validators.Venta
 
             RuleForEach(x => x.Detalles).ChildRules(detalle =>
             {
-                detalle.RuleFor(d => d.IdProducto)
+                detalle.RuleFor(d => d.IdProductoVariante)
                     .GreaterThan(0).WithMessage("Debe especificar un producto válido.");
 
                 detalle.RuleFor(d => d.Cantidad)

@@ -175,8 +175,8 @@ namespace TSC.Expopunto.Persistence.Repositories
 
             return new PagedResult<GuiaEntradaDTO>
             {
-                Items = guiasEntradaLista,
-                TotalRegistros = totalRegistros,
+                Data = guiasEntradaLista,
+                Total = totalRegistros,
                 Pagina = parametros.Pagina,
                 FilasPorPagina = parametros.FilasPorPagina
             };
