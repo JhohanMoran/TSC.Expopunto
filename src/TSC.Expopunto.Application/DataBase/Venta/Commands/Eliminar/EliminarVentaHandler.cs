@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using TSC.Expopunto.Application.DataBase.Venta.Commands.EliminarVenta;
-using TSC.Expopunto.Application.Interfaces.Venta;
+using TSC.Expopunto.Application.Interfaces.Repositories.Venta;
 
 namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Crear
 {
