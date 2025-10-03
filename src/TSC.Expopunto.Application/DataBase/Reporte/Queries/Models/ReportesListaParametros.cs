@@ -10,20 +10,32 @@ namespace TSC.Expopunto.Application.DataBase.Reporte.Queries.Models
 {
     public class ReportesListaParametros : BaseParamsList
     {
-        public DateTime? FechaInicio
-        {
-            get => ParametrosAdicionales.ContainsKey("FechaInicio")
-                   ? ParametrosAdicionales["FechaInicio"] as DateTime?
-                   : null;
-            set => ParametrosAdicionales["FechaInicio"] = value;
-        }
-
         public DateTime? FechaFin
         {
-            get => ParametrosAdicionales.ContainsKey("FechaFin")
-                   ? ParametrosAdicionales["FechaFin"] as DateTime?
-                   : null;
+            get
+            {
+                if (ParametrosAdicionales.ContainsKey("FechaFin") && ParametrosAdicionales["FechaFin"] != null)
+                {
+                    if (ParametrosAdicionales["FechaFin"] is DateTime dt) return dt;
+                    if (DateTime.TryParse(ParametrosAdicionales["FechaFin"].ToString(), out var parsed)) return parsed;
+                }
+                return null;
+            }
             set => ParametrosAdicionales["FechaFin"] = value;
+        }
+
+        public DateTime? FechaInicio
+        {
+            get
+            {
+                if (ParametrosAdicionales.ContainsKey("FechaInicio") && ParametrosAdicionales["FechaInicio"] != null)
+                {
+                    if (ParametrosAdicionales["FechaInicio"] is DateTime dt) return dt;
+                    if (DateTime.TryParse(ParametrosAdicionales["FechaInicio"].ToString(), out var parsed)) return parsed;
+                }
+                return null;
+            }
+            set => ParametrosAdicionales["FechaInicio"] = value;
         }
 
         public int? IdPersona
@@ -34,12 +46,20 @@ namespace TSC.Expopunto.Application.DataBase.Reporte.Queries.Models
             set => ParametrosAdicionales["IdPersona"] = value;
         }
 
-        public int? IdTipoComprobante
+        public string? Sede
         {
-            get => ParametrosAdicionales.ContainsKey("IdTipoComprobante")
-                   ? ParametrosAdicionales["IdTipoComprobante"] as int?
+            get => ParametrosAdicionales.ContainsKey("Sede")
+                   ? ParametrosAdicionales["Sede"]?.ToString()
                    : null;
-            set => ParametrosAdicionales["IdTipoComprobante"] = value;
+            set => ParametrosAdicionales["Sede"] = value;
+        }
+
+        public string? TipoComprobante
+        {
+            get => ParametrosAdicionales.ContainsKey("TipoComprobante")
+                   ? ParametrosAdicionales["TipoComprobante"]?.ToString()
+                   : null;
+            set => ParametrosAdicionales["TipoComprobante"] = value;
         }
 
         public string? Serie

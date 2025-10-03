@@ -2,6 +2,7 @@
 using global::TSC.Expopunto.Application.Features;
 
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using TSC.Expopunto.Application.DataBase.Reporte.Queries;
 using TSC.Expopunto.Application.DataBase.Reporte.Queries.Models;
 using TSC.Expopunto.Application.Exceptions;
@@ -22,11 +23,9 @@ namespace TSC.Expopunto.Api.Controllers
         }
 
         [HttpPost("listar")]
-        /// <summary>
-        /// Lista el reporte de ventas con filtros y paginación.
-        /// </summary>
         public async Task<IActionResult> ListarReportes([FromBody] ReportesListaParametros parametro)
         {
+            Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(parametro));
             if (parametro.Pagina <= 0 || parametro.FilasPorPagina <= 0)
             {
                 return StatusCode(
@@ -48,6 +47,25 @@ namespace TSC.Expopunto.Api.Controllers
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+        }
+
+        [HttpPost("detalle")]
+        public async Task<IActionResult> GetDetalleVenta([FromBody] int idVenta)
+        {
+            var detalles = await _reporteQuery.ListarDetalleVentaAsync(idVenta);
+
+            if (detalles == null || detalles.Count == 0)
+            {
+                return StatusCode(
+                    StatusCodes.Status204NoContent,
+                    ResponseApiService.Response(StatusCodes.Status204NoContent, detalles, "No existen registros")
+                );
+            }
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, detalles, "Exitoso")
             );
         }
     }

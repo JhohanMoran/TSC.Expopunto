@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 
 using TSC.Expopunto.Application.DataBase.Reporte.Queries.Models;
+using TSC.Expopunto.Application.DataBase.Venta.DTO;
 
 namespace TSC.Expopunto.Application.DataBase.Reporte.Queries
 {
     public interface IReporteQuery
     {
-        Task<List<ReporteModel>> ListarReportesAsync(ReportesListaParametros parametro);
+        Task<List<ReporteVentasModel>> ListarReportesAsync(ReportesListaParametros parametro);
+        Task<List<DetalleVentaDto>> ListarDetalleVentaAsync(int idVenta);
+
     }
 }

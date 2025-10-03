@@ -23,7 +23,7 @@ namespace TSC.Expopunto.Api.Controllers
         public async Task<IActionResult> ListarTiposComprobante()
         {
             var data = await _tipoComprobanteQuery.ListarTodosAsync();
-            
+
             if (data == null || data.Count == 0)
             {
                 return StatusCode(
