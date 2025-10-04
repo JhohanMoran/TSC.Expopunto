@@ -38,11 +38,12 @@ namespace TSC.Expopunto.Application.DataBase.Producto.Queries
             var parametros = new
             {
                 pOpcion = 1,
-                pFiltroActivo = param.Activo,
+
                 pOrdenColumna = param.OrdenarPor,
                 pOrdenDireccion = param.OrdenDireccion,
                 pPagina = param.Pagina,
                 pFilasPorPagina = param.FilasPorPagina,
+                pFiltroActivo = param.Activo,
                 pFiltroNombre = param.Nombre
             };
 

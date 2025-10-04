@@ -1,0 +1,43 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using TSC.Expopunto.Application.DataBase.Descuento.Commands;
+
+namespace TSC.Expopunto.Application.DataBase.Descuento.Commands
+{
+    public class DescuentoCommand :IDescuentoCommand
+    {
+        public readonly IDapperCommandService _dapperService;
+        public DescuentoCommand(IDapperCommandService dapperService)
+        {
+            _dapperService = dapperService;
+        }
+        public async Task<DescuentoModel> ProcesarAsync(DescuentoModel model)
+        {
+
+            var parameters = new
+            {
+                pOpcion = model.Opcion,
+                pId = model.Id,
+                pNombre = model.Nombre,
+                pTipo = model.Tipo,
+                pValor = model.Valor,
+                pFechaInicio = model.FechaInicio,
+                pFechaFin = model.FechaFin,
+                pActivo = model.Activo
+
+            };
+             var response = await _dapperService.ExecuteScalarAsync("uspSetDescuento",parameters);
+
+            if (response > 0)
+            {
+                model.Id = response;
+            }
+
+            return model;
+        }
+
+    }
+}

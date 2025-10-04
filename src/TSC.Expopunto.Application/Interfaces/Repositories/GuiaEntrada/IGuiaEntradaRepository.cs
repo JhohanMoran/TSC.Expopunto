@@ -3,7 +3,7 @@ using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEntrada
 using TSC.Expopunto.Common;
 using TSC.Expopunto.Domain.Entities.GuiaEntrada;
 
-namespace TSC.Expopunto.Application.Interfaces.GuiaEntrada
+namespace TSC.Expopunto.Application.Interfaces.Repositories.GuiaEntrada
 {
     public interface IGuiaEntradaRepository
     {

@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.DTO;
-using TSC.Expopunto.Application.Interfaces.GuiaEntrada;
+using TSC.Expopunto.Application.Interfaces.Repositories.GuiaEntrada;
 using TSC.Expopunto.Domain.Entities.GuiaEntrada;
 
 
