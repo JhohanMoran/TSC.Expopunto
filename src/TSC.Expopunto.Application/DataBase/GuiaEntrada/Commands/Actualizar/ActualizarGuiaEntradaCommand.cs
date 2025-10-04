@@ -13,12 +13,14 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Actualizar
         string? Serie,
         string? Numero,
         string? Fecha,
-        int IdPersonaProveedor,
+        string? Hora,
+        int IdProveedor,
         string? TipoGuia,
         string? Observacion,
-
-
-         List<DetalleGuiaEntradaCommand>? Detalles
+        int idUsuario,
+        decimal totalCantidad,
+        decimal totalCosto,
+        List<DetalleGuiaEntradaCommand>? Detalles
 
 
     ) : IRequest<GuiaEntradaDTO>;

@@ -26,10 +26,12 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear
                 request.Serie,
                 request.Numero,
                 request.Fecha,
-                request.IdPersonaProveedor,
+                request.Hora,
+                request.IdProveedor,
                 request.TipoGuia,
-                request.Observacion
-
+                request.Observacion,
+                request.TotalCantidad,
+                request.TotalCosto
             );
 
             foreach (var d in request.Detalles)
@@ -39,7 +41,6 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear
                     d.IdGuiaEntrada,
                     d.IdProducto,
                     d.IdUnidadMedida,
-                    d.IdTalla,
                     d.Cantidad,
                     d.CostoUnitario
                 );
@@ -55,9 +56,12 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear
                 Serie = guiaEntradaRespuesta.Serie,
                 Numero = guiaEntradaRespuesta.Numero,
                 Fecha = guiaEntradaRespuesta.Fecha,
-                IdPersonaProveedor = guiaEntradaRespuesta.IdPersonaProveedor,
+                Hora = guiaEntrada.Hora,
+                IdProveedor = guiaEntradaRespuesta.IdProveedor,
                 TipoGuia = guiaEntradaRespuesta.TipoGuia,
                 Observacion = guiaEntradaRespuesta.Observacion,
+                TotalCantidad = guiaEntradaRespuesta.TotalCantidad,
+                TotalCosto = guiaEntradaRespuesta.TotalCosto,
                 Detalles = guiaEntradaRespuesta.Detalles.Select(x => new DetalleGuiaEntradaDTO
                 {
                     Id = x.Id,             // Id asignado en la BD

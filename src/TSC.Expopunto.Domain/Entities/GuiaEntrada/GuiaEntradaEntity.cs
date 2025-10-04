@@ -7,10 +7,10 @@
         public string? Numero { get; set; }
         public string Fecha { get; set; }
         public string Hora { get; set; }
-        public int IdPersonaProveedor { get; set; }
+        public int IdProveedor { get; set; }
         public string? TipoGuia { get; set; }
         public string? Observacion { get; set; }
-        public int TotalCantidad { get; set; }
+        public decimal TotalCantidad { get; set; }
         public decimal TotalCosto { get; set; }
         public int IdUsuario { get; set; }
 
@@ -26,25 +26,30 @@
             string? serie,
             string? numero,
             string? fecha,
+            string? hora,
             int idPersonaProveedor,
             string? tipoGuia,
-            string? observacion
+            string? observacion,
+            decimal totalCantidad,
+            decimal totalCosto
         )
         {
             Id = id;
             Serie = serie;
             Numero = numero;
             Fecha = fecha;
-            IdPersonaProveedor = idPersonaProveedor;
+            Hora = hora;
+            IdProveedor = idPersonaProveedor;
             TipoGuia = tipoGuia;
             Observacion = observacion;
+            TotalCantidad = totalCantidad;
+            TotalCosto = totalCosto;
         }
         public void AgregarDetalle(
             int id,
             int idGuiaEntrada,
             int idProducto,
             int idUnidadMedida,
-            int idTalla,
             int cantidad,
             decimal costoUnitario
 
@@ -55,7 +60,6 @@
                 idGuiaEntrada,
                 idProducto,
                 idUnidadMedida,
-                idTalla,
                 cantidad,
                 costoUnitario
 
@@ -67,7 +71,8 @@
             string? serie,
             string? numero,
             string? fecha,
-            int idPersonaProveedor,
+            string? hora,
+            int idProveedor,
             string? tipoGuia,
             string? observacion,
             List<DetalleGuiaEntradaEntity>? nuevosDetalles
@@ -77,7 +82,8 @@
             Serie = serie;
             Numero = numero;
             Fecha = fecha;
-            IdPersonaProveedor = idPersonaProveedor;
+            Hora = hora;
+            IdProveedor = idProveedor;
             TipoGuia = tipoGuia;
             Observacion = observacion;
 

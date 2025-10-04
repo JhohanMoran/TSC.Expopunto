@@ -34,7 +34,7 @@ namespace TSC.Expopunto.Persistence.Repositories
                 pFecha = guiaEntrada.Fecha,
                 pHora = guiaEntrada.Hora,
                 pTipoGuia = guiaEntrada.TipoGuia,
-                pIdPersonaProveedor = guiaEntrada.IdPersonaProveedor,
+                pIdProveedor = guiaEntrada.IdProveedor,
                 pObservacion = guiaEntrada.Observacion,
                 pTotalCantidad = guiaEntrada.TotalCantidad,
                 pTotalCosto = guiaEntrada.TotalCosto,
@@ -89,7 +89,7 @@ namespace TSC.Expopunto.Persistence.Repositories
                 pFecha = guiaEntrada.Fecha,
                 pHora = guiaEntrada.Hora,
                 pTipoGuia = guiaEntrada.TipoGuia,
-                pIdPersonaProveedor = guiaEntrada.IdPersonaProveedor,
+                pIdPersonaProveedor = guiaEntrada.IdProveedor,
                 pObservacion = guiaEntrada.Observacion,
                 pTotalCantidad = guiaEntrada.TotalCantidad,
                 pTotalCosto = guiaEntrada.TotalCosto,
@@ -115,12 +115,11 @@ namespace TSC.Expopunto.Persistence.Repositories
                         pIdGuiaEntrada = guiaEntradaId,
                         pIdProducto = d.IdProducto,
                         pIdUnidadMedida = d.IdUnidadMedida,
-                        pIdTalla = d.IdTalla,
                         pCantidad = d.Cantidad,
                         pCostoUnitario = d.CostoUnitario,
                         pCaja = d.Caja,
                         pCodigoEstilo = d.CodigoEstilo,
-                        pCodigoPedio = d.CodigoPedido
+                        pCodigoPedido = d.CodigoPedido
                     });
 
                 guiaEntrada.AsignarIdDetalle(index, detalleId, guiaEntradaId);

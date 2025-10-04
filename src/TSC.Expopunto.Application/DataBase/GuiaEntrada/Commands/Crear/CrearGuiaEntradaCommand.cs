@@ -13,14 +13,18 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear
         string? Serie,
         string? Numero,
         string? Fecha,
-        int idPersonaProveedor,
+        string? Hora,
+        int IdProveedor,
         string? TipoGuia,
         string? Observacion,
+        int IdUsuario,
+        decimal TotalCantidad,
+        decimal TotalCosto,
 
         List<DetalleGuiaEntradaCommand>? Detalles
 
         ) : IRequest<GuiaEntradaDTO>
     {
-        public int IdPersonaProveedor { get; internal set; }
+        //public int IdProveedor { get; internal set; }
     }
 }

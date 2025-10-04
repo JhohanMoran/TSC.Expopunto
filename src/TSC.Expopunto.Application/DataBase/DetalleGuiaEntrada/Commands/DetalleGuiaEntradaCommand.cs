@@ -14,7 +14,7 @@ namespace TSC.Expopunto.Application.DataBase.DetalleGuiaEntrada.Commands
         int IdUnidadMedida,
         int IdTalla,
         int Cantidad,
-        decimal CostoUnitario
-
+        decimal CostoUnitario,
+        int idUsuario
     );
 }

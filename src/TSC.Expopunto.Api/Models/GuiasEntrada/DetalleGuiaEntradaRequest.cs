@@ -9,5 +9,6 @@
         public int IdTalla { get; set; }
         public int Cantidad { get; set; }
         public decimal CostoUnitario { get; set; }
+        public int IdUsuario { get; set; }
     }
 }

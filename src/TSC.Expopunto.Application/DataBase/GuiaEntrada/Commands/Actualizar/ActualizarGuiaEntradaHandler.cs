@@ -34,7 +34,6 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands
                     d.IdGuiaEntrada,
                     d.IdProducto,
                     d.IdUnidadMedida,
-                    d.IdTalla,
                     d.Cantidad,
                     d.CostoUnitario
                 ))
@@ -45,7 +44,8 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands
                 request.Serie,
                 request.Numero,
                 request.Fecha,
-                request.IdPersonaProveedor,
+                request.Hora,
+                request.IdProveedor,
                 request.TipoGuia,
                 request.Observacion,
                 nuevosDetalles
@@ -64,7 +64,7 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands
                 Serie = guiaEntradaRespuesta.Serie,
                 Numero = guiaEntradaRespuesta.Numero,
                 Fecha = guiaEntradaRespuesta.Fecha,
-                IdPersonaProveedor = guiaEntradaRespuesta.IdPersonaProveedor,
+                IdProveedor = guiaEntradaRespuesta.IdProveedor,
                 TipoGuia = guiaEntradaRespuesta.TipoGuia,
                 Observacion = guiaEntradaRespuesta.Observacion,
 
