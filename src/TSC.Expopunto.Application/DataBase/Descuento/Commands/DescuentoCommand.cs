@@ -26,7 +26,8 @@ namespace TSC.Expopunto.Application.DataBase.Descuento.Commands
                 pValor = model.Valor,
                 pFechaInicio = model.FechaInicio,
                 pFechaFin = model.FechaFin,
-                pActivo = model.Activo
+                pActivo = model.Activo,
+                pIdUsuario = model.IdUsuario
 
             };
              var response = await _dapperService.ExecuteScalarAsync("uspSetDescuento",parameters);
