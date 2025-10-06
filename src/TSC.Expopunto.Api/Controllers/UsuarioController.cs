@@ -128,10 +128,9 @@ namespace TSC.Expopunto.Api.Controllers
 
         [HttpGet("obtener-por-id/{idUsuario:int}")]
         public async Task<IActionResult> ObtenerUsuarioPorId(
-         [FromRoute] int idUsuario
+            [FromRoute] int idUsuario
         )
         {
-
             if (idUsuario == 0)
             {
                 return StatusCode(
