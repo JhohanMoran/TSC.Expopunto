@@ -11,7 +11,6 @@ namespace TSC.Expopunto.Application.DataBase.TipoDocumento.Queries
 {
     public class TipoDocumentoQuery : ITipoDocumentoQuery
     {
-
         private readonly IDapperQueryService _dapperService;
 
         public TipoDocumentoQuery(IDapperQueryService dapperBaseService)
@@ -21,15 +20,13 @@ namespace TSC.Expopunto.Application.DataBase.TipoDocumento.Queries
 
         public async Task<List<TiposDocumentoTodosModel>> ListarTodosAsync()
         {
-            var parameters = new
-            {
-                pOpcion = 1
-            };
-
-            var response = await _dapperService.QueryAsync<TiposDocumentoTodosModel>("uspGetTiposDocumento",
-            parameters); 
+            var parameters = new { pOpcion = 1 };
+            var response = await _dapperService.QueryAsync<TiposDocumentoTodosModel>(
+                "uspGetTiposDocumento", parameters
+            );
             return response.ToList();
         }
+
         public async Task<TiposDocumentoTodosModel> ObtenerTipoDocumentoPorIdAsync(int idTipoDocumento)
         {
             var parameters = new
@@ -37,10 +34,12 @@ namespace TSC.Expopunto.Application.DataBase.TipoDocumento.Queries
                 pOpcion = 2,
                 pIdTipoDocumento = idTipoDocumento
             };
-            var response = await _dapperService.QueryFirstOrDefaultAsync<TiposDocumentoTodosModel>("uspGetTiposDocumento",
-            parameters);
+            var response = await _dapperService.QueryFirstOrDefaultAsync<TiposDocumentoTodosModel>(
+                "uspGetTiposDocumento", parameters
+            );
             return response;
         }
     }
+
 
 }

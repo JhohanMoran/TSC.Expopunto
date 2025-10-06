@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
-using TSC.Expopunto.Application.Features;
+using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
+using System.Security;
 
 namespace TSC.Expopunto.Application.Exceptions
 {
@@ -10,36 +12,80 @@ namespace TSC.Expopunto.Application.Exceptions
     {
         public void OnException(ExceptionContext context)
         {
-            if (context.Exception is ValidationException validationEx)
+            var exception = context.Exception;
+            int statusCode;
+            string message = exception.Message;
+
+            switch (exception)
             {
-                // 🔹 Errores de validación (FluentValidation)
-                var errors = validationEx.Errors
-                    .GroupBy(e => e.PropertyName)
-                    .ToDictionary(
-                        g => g.Key,
-                        g => g.Select(e => e.ErrorMessage).ToArray()
-                    );
+                case ValidationException validationEx:
+                    statusCode = StatusCodes.Status400BadRequest;
+                    message = "Errores de validación";
+                    context.Result = new BadRequestObjectResult(new
+                    {
+                        statusCode,
+                        success = false,
+                        message,
+                        errors = validationEx.Errors
+                            .GroupBy(e => e.PropertyName)
+                            .ToDictionary(
+                                g => g.Key,
+                                g => g.Select(e => e.ErrorMessage).ToArray()
+                            )
+                    });
+                    break;
 
-                context.Result = new BadRequestObjectResult(new
-                {
-                    statusCode = StatusCodes.Status400BadRequest,
-                    message = "Errores de validación",
-                    errors
-                });
+                case ArgumentException:
+                case InvalidOperationException:
+                    statusCode = StatusCodes.Status400BadRequest;
+                    break;
 
-                context.HttpContext.Response.StatusCode = StatusCodes.Status400BadRequest;
+                case KeyNotFoundException:
+                    statusCode = StatusCodes.Status404NotFound;
+                    break;
+
+                case UnauthorizedAccessException:
+                    statusCode = StatusCodes.Status401Unauthorized;
+                    break;
+
+                case SecurityException:
+                    statusCode = StatusCodes.Status403Forbidden;
+                    break;
+
+                case TimeoutException:
+                case TaskCanceledException:
+                    statusCode = StatusCodes.Status408RequestTimeout;
+                    break;
+
+                case HttpRequestException:
+                    statusCode = StatusCodes.Status502BadGateway;
+                    break;
+
+                case IOException:
+                case DbUpdateException:
+                case SqlException:
+                    statusCode = StatusCodes.Status500InternalServerError;
+                    break;
+
+                default:
+                    statusCode = StatusCodes.Status500InternalServerError;
+                    break;
             }
-            else
+
+            // Si no era ValidationException, devolvemos un objeto estándar
+            if (!(exception is ValidationException))
             {
-                // 🔹 Otras excepciones (500)
                 context.Result = new ObjectResult(new
                 {
-                    statusCode = StatusCodes.Status500InternalServerError,
-                    message = context.Exception.Message
+                    statusCode,
+                    success = false,
+                    message,
+                    data = (object?)null
                 });
-
-                context.HttpContext.Response.StatusCode = StatusCodes.Status500InternalServerError;
             }
+
+            context.HttpContext.Response.StatusCode = statusCode;
         }
+
     }
 }

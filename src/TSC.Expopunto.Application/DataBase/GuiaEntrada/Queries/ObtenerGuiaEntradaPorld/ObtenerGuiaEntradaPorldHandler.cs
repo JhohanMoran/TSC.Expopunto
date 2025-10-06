@@ -1,5 +1,5 @@
 ﻿using MediatR;
-using TSC.Expopunto.Application.Interfaces.GuiaEntrada;
+using TSC.Expopunto.Application.Interfaces.Repositories.GuiaEntrada;
 using TSC.Expopunto.Domain.Entities.GuiaEntrada;
 using static TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiaEntradaPorld.ObtenerGuiaEntradaPorldQuery;
 

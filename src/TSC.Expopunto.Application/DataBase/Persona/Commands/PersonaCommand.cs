@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Data.SqlClient;
+using System;
 using System.Threading.Tasks;
 
 namespace TSC.Expopunto.Application.DataBase.Persona.Commands
@@ -11,7 +12,6 @@ namespace TSC.Expopunto.Application.DataBase.Persona.Commands
         {
             _dapperService = dapperService;
         }
-
         public async Task<PersonaModel> ProcesarAsync(PersonaModel model)
         {
             var response = await _dapperService.ExecuteScalarAsync(
@@ -29,7 +29,8 @@ namespace TSC.Expopunto.Application.DataBase.Persona.Commands
                     pDireccion = model.Direccion,
                     pCelular = model.Celular,
                     pIdUsuario = model.IdUsuario,
-                    pActivo = model.Activo
+                    pActivo = model.Activo,
+                    pDetalleMotivoBaja = model.DetalleMotivoBaja
                 }
             );
 

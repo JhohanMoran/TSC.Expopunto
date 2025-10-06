@@ -8,7 +8,6 @@ namespace TSC.Expopunto.Api.Controllers
     {
         public ClienteController()
         {
-                
         }
     }
 }

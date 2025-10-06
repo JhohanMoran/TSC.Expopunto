@@ -22,18 +22,18 @@ namespace TSC.Expopunto.Api.Controllers
             _sedeQuery = sedeQuery;
         }
 
-        [HttpPost ("crear")]
-        public async Task<IActionResult> Crear (
+        [HttpPost("crear")]
+        public async Task<IActionResult> Crear(
             [FromBody] SedeModel model
             )
         {
             model.Opcion = (int)OperationType.Create;
 
-            var data = await _sedeCommand.ProcesarAsync (model);
+            var data = await _sedeCommand.ProcesarAsync(model);
             return StatusCode(
                 StatusCodes.Status201Created,
                 ResponseApiService.Response(StatusCodes.Status201Created, data, "Exitoso"));
-                }
+        }
 
 
         [HttpPost("actualizar")]
@@ -41,24 +41,24 @@ namespace TSC.Expopunto.Api.Controllers
              [FromBody] SedeModel model
             )
         {
-            model .Opcion= (int)OperationType.Update;
+            model.Opcion = (int)OperationType.Update;
 
-            var data = await _sedeCommand .ProcesarAsync (model);
+            var data = await _sedeCommand.ProcesarAsync(model);
 
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
                 );
 
-                
+
         }
 
         [HttpPost("eliminar")]
         public async Task<IActionResult> Eliminar(
-             [FromBody] int idSede )
+             [FromBody] int idSede)
         {
 
-            if(idSede == 0)
+            if (idSede == 0)
             {
                 return StatusCode(
                     StatusCodes.Status400BadRequest,
@@ -81,21 +81,13 @@ namespace TSC.Expopunto.Api.Controllers
         }
 
         [HttpGet("listar")]
-        public async Task<IActionResult> ListarSedes([FromQuery] string? nombre = null)
+        public async Task<IActionResult> Listar([FromQuery] string? nombre = null)
         {
-            var data = await _sedeQuery.ListarTodosAsync(nombre);
-
-            if (data == null || data.Count ==0)
-            {
-                return StatusCode(
-                    StatusCodes.Status204NoContent,
-                    ResponseApiService.Response(StatusCodes.Status404NotFound,data, "No exiten sedes"));
-            }
-
+            var data = await _sedeQuery.ListarAsync(nombre);
 
             return StatusCode(StatusCodes.Status200OK,
-            ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitosos")
-             );
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitosos")
+            );
         }
 
 
@@ -111,17 +103,22 @@ namespace TSC.Expopunto.Api.Controllers
             }
             var data = await _sedeQuery.ObtenerSedePorIdAsync(idSede);
 
-            if (data == null)
-                return StatusCode(StatusCodes.Status404NotFound,
-                ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No se encontró la Sede"));
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+        }
 
+        [HttpGet("listar-todos")]
+        public async Task<IActionResult> ListarTodosAsync()
+        {
+            var data = await _sedeQuery.ListarTodosAsync();
 
             return StatusCode(
-            StatusCodes.Status200OK,
-            ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
-
-
-           );
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitosos")
+            );
         }
+
     }
 }

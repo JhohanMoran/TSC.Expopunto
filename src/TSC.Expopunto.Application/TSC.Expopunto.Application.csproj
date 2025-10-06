@@ -9,19 +9,27 @@
   <ItemGroup>
     <Compile Remove="DataBase\Cliente\**" />
     <Compile Remove="DataBase\Comprobante\**" />
+    <Compile Remove="DataBase\Reporte\Queries\Models\NewFolder\**" />
     <EmbeddedResource Remove="DataBase\Cliente\**" />
     <EmbeddedResource Remove="DataBase\Comprobante\**" />
+    <EmbeddedResource Remove="DataBase\Reporte\Queries\Models\NewFolder\**" />
     <None Remove="DataBase\Cliente\**" />
     <None Remove="DataBase\Comprobante\**" />
+    <None Remove="DataBase\Reporte\Queries\Models\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="DataBase\Parametro\Queries\Models\IdParametros.cs" />
     <Compile Remove="DataBase\Persona\Queries\Models\PaginationFilter.cs" />
     <Compile Remove="DataBase\Persona\Queries\Models\ResultadoPaginado.cs" />
+    <Compile Remove="DataBase\Reporte\Queries\Models\ReporteModel.cs" />
+    <Compile Remove="DataBase\Reporte\Queries\Models\ReporteTodosModel.cs" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="AutoMapper" Version="12.0.1" />
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
+    <PackageReference Include="ClosedXML" Version="0.105.0" />
     <PackageReference Include="Dapper" Version="2.1.66" />
     <PackageReference Include="FluentValidation" Version="12.0.0" />
     <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="12.0.0" />

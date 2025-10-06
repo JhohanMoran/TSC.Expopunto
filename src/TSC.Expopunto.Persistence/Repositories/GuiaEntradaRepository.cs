@@ -1,7 +1,7 @@
 ﻿using TSC.Expopunto.Application.DataBase;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.DTO;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEntrada.Params;
-using TSC.Expopunto.Application.Interfaces.GuiaEntrada;
+using TSC.Expopunto.Application.Interfaces.Repositories.GuiaEntrada;
 using TSC.Expopunto.Common;
 using TSC.Expopunto.Domain.Entities.GuiaEntrada;
 
@@ -175,8 +175,8 @@ namespace TSC.Expopunto.Persistence.Repositories
 
             return new PagedResult<GuiaEntradaDTO>
             {
-                Items = guiasEntradaLista,
-                TotalRegistros = totalRegistros,
+                Data = guiasEntradaLista,
+                Total = totalRegistros,
                 Pagina = parametros.Pagina,
                 FilasPorPagina = parametros.FilasPorPagina
             };

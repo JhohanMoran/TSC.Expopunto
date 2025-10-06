@@ -13,6 +13,46 @@ namespace TSC.Expopunto.Application.DataBase.Persona.Queries.Models
             set => ParametrosAdicionales["Nombre"] = value;
         }
 
+        public string? CodTipoPersona
+        {
+            get => ParametrosAdicionales.ContainsKey("CodTipoPersona")
+                   ? ParametrosAdicionales["CodTipoPersona"]?.ToString()
+                   : null;
+            set => ParametrosAdicionales["CodTipoPersona"] = value;
+        }
+
+        public int? IdTipoDocumento
+        {
+            get => ParametrosAdicionales.ContainsKey("IdTipoDocumento")
+                   ? ParametrosAdicionales["IdTipoDocumento"] as int?
+                   : null;
+            set => ParametrosAdicionales["IdTipoDocumento"] = value;
+        }
+
+        public string? NumeroDocumento
+        {
+            get => ParametrosAdicionales.ContainsKey("NumeroDocumento")
+                   ? ParametrosAdicionales["NumeroDocumento"]?.ToString()
+                   : null;
+            set => ParametrosAdicionales["NumeroDocumento"] = value;
+        }
+
+        public string? FiltroModalBusqueda
+        {
+            get => ParametrosAdicionales.ContainsKey("FiltroModalBusqueda")
+                   ? ParametrosAdicionales["FiltroModalBusqueda"]?.ToString()
+                   : null;
+            set => ParametrosAdicionales["FiltroModalBusqueda"] = value;
+        }
+
+        public string? TipoBusquedaPersonal
+        {
+            get => ParametrosAdicionales.ContainsKey("TipoBusquedaPersonal")
+                   ? ParametrosAdicionales["TipoBusquedaPersonal"]?.ToString()
+                   : null;
+            set => ParametrosAdicionales["TipoBusquedaPersonal"] = value;
+        }
+
         public bool? Activo
         {
             get => ParametrosAdicionales.ContainsKey("Activo")

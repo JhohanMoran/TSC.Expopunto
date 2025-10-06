@@ -13,7 +13,7 @@ namespace TSC.Expopunto.Api
                 options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
                 {
                     Version = "v1",
-                    Title = "TSC Proyecto EDI API",
+                    Title = "TSC Proyecto Expopunto API",
                     Description = "Administración de APIs para el Proyecto EDI",
                 });
 
@@ -43,8 +43,6 @@ namespace TSC.Expopunto.Api
                     }
                 });
             });
-
-            return services;
 
             return services;
         }

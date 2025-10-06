@@ -15,7 +15,7 @@ namespace TSC.Expopunto.Application.DataBase.Accesos.Queries
         {
             var parameters = new
             {
-                IdPerfil = idPerfil 
+                IdPerfil = idPerfil
             };
 
             var response = await _dapperService.QueryAsync<AccesosModel>("uspGetAccesos", parameters);

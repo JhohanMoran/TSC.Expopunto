@@ -5,42 +5,50 @@ using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 using TSC.Expopunto.Application.Behaviors;
 using TSC.Expopunto.Application.Configuration;
-using TSC.Expopunto.Application.DataBase;
 using TSC.Expopunto.Application.DataBase.Accesos.Queries;
 using TSC.Expopunto.Application.DataBase.Categoria.Command;
 using TSC.Expopunto.Application.DataBase.Categoria.Queries;
 using TSC.Expopunto.Application.DataBase.FormaPago.Queries;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries;
+using TSC.Expopunto.Application.DataBase.Kardex.Queries;
+using TSC.Expopunto.Application.DataBase.LineaCredito.Commands;
+using TSC.Expopunto.Application.DataBase.LineaCredito.Queries;
 using TSC.Expopunto.Application.DataBase.MedioPago.Queries;
 using TSC.Expopunto.Application.DataBase.Menu.Command;
 using TSC.Expopunto.Application.DataBase.Menu.Queries;
+using TSC.Expopunto.Application.DataBase.Parametro.Commands;
 using TSC.Expopunto.Application.DataBase.Parametro.Queries;
 using TSC.Expopunto.Application.DataBase.Perfil.Commands;
 using TSC.Expopunto.Application.DataBase.Perfil.Queries;
 using TSC.Expopunto.Application.DataBase.PerfilMenu.Commands;
 using TSC.Expopunto.Application.DataBase.PerfilMenu.Queries;
-using TSC.Expopunto.Application.DataBase.Producto.Command;
-using TSC.Expopunto.Application.DataBase.Producto.Queries;
 using TSC.Expopunto.Application.DataBase.Persona.Commands;
 using TSC.Expopunto.Application.DataBase.Persona.Queries;
+using TSC.Expopunto.Application.DataBase.Prendas.Queries;
+using TSC.Expopunto.Application.DataBase.Producto.Command;
+using TSC.Expopunto.Application.DataBase.Producto.Queries;
+using TSC.Expopunto.Application.DataBase.ProductoVariante.Queries;
 using TSC.Expopunto.Application.DataBase.Descuento.Commands;
 using TSC.Expopunto.Application.DataBase.Descuento.Queries;
 using TSC.Expopunto.Application.DataBase.Sede.Commands;
 using TSC.Expopunto.Application.DataBase.Sede.Queries;
-using TSC.Expopunto.Application.DataBase.UnidadMedida.Queries;
 using TSC.Expopunto.Application.DataBase.TipoComprobante.Queries;
 using TSC.Expopunto.Application.DataBase.TipoDocumento.Commands;
 using TSC.Expopunto.Application.DataBase.TipoDocumento.Queries;
 using TSC.Expopunto.Application.DataBase.TipoMoneda.Queries;
+using TSC.Expopunto.Application.DataBase.TipoPersona.Queries;
 using TSC.Expopunto.Application.DataBase.TiposDocumento.Commands;
+using TSC.Expopunto.Application.DataBase.UnidadMedida.Queries;
 using TSC.Expopunto.Application.DataBase.Usuario.Commands;
 using TSC.Expopunto.Application.DataBase.Usuario.Queries;
 using TSC.Expopunto.Application.DataBase.UsuariosPerfil.Commands;
 using TSC.Expopunto.Application.DataBase.UsuariosPerfil.Queries;
 using TSC.Expopunto.Application.DataBase.UsuariosSede.Commands;
 using TSC.Expopunto.Application.DataBase.UsuariosSede.Queries;
-using TSC.Expopunto.Application.Validators.Perfil;
-using TSC.Expopunto.Application.Validators.PerfilMenu;
-using TSC.Expopunto.Application.Validators.UsuarioPerfil;
+using TSC.Expopunto.Application.Interfaces.Services;
+using TSC.Expopunto.Application.DataBase.Reporte.Queries;
+using TSC.Expopunto.Application.Security;
 
 namespace TSC.Expopunto.Application
 {
@@ -66,6 +74,7 @@ namespace TSC.Expopunto.Application
             // Registrar pipeline para validación
             services.AddTransient(typeof(IPipelineBehavior<,>), typeof(ValidationBehavior<,>));
 
+            services.AddScoped<IPasswordService, PasswordService>();
 
             // Inyección de dependencias de comandos y queries
             services.AddTransient<IUsuarioCommand, UsuarioCommand>();
@@ -100,7 +109,9 @@ namespace TSC.Expopunto.Application
             services.AddTransient<IPerfilMenuCommand, PerfilMenuCommand>();
             services.AddTransient<IPerfilMenuQuery, PerfilMenuQuery>();
 
+            services.AddTransient<IParametroCommand, ParametroCommand>();
             services.AddTransient<IParametroQuery, ParametroQuery>();
+
 
             services.AddTransient<ICategoriaQuery, CategoriaQuery>();
             services.AddTransient<ICategoriaCommand, CategoriaCommand>();
@@ -111,25 +122,34 @@ namespace TSC.Expopunto.Application
             services.AddTransient<IUsuariosSedeCommand, UsuariosSedeCommand>();
             services.AddTransient<IUsuariosSedeQuery, UsuariosSedeQuery>();
 
-            services.AddTransient<IFormaPagoQuery,  FormaPagoQuery>();
+            services.AddTransient<IFormaPagoQuery, FormaPagoQuery>();
 
             services.AddTransient<IMedioPagoQuery, MedioPagoQuery>();
 
             services.AddTransient<IUnidadMedidaQuery, UnidadMedidaQuery>();
-            #region Validators
-            services.AddScoped<IValidator<PerfilModel>, CrearPerfilValidator>();
-            services.AddScoped<IValidator<PerfilMenuModel>, PerfilMenuValidator>();
-            services.AddScoped<IValidator<UsuariosPerfilModel>, UsuariosPerfilValidator>();
 
-            #endregion
             services.AddTransient<IPersonaCommand, PersonaCommand>();
             services.AddTransient<IPersonaQuery, PersonaQuery>();
 
+
+            services.AddTransient<ITipoPersonaQuery, TipoPersonaQuery>();
+
+            services.AddTransient<IReporteQuery, ReporteQuery>();
+            services.AddTransient<IPrendasQuery, PrendasQuery>();
+
+
+            services.AddTransient<ILineaCreditoCommand, LineaCreditoCommand>();
+            services.AddTransient<ILineaCreditoQuery, LineaCreditoQuery>();
+
+            services.AddTransient<IProductoVarianteQuery, ProductoVarianteQuery>();
+            
             services.AddTransient<IDescuentoQuery, DescuentoQuery>();
             services.AddTransient<IDescuentoCommand, DescuentoCommand>();
 
             //services.AddTransient<IDapperCommandService, DapperCommandService>();
 
+
+            services.AddTransient<IKardexQuery, KardexQuery>();
 
             return services;
         }

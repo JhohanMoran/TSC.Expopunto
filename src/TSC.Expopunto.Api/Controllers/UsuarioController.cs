@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Options;
-using System.Runtime.InteropServices;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TSC.Expopunto.Application.DataBase.Usuario.Commands;
 using TSC.Expopunto.Application.DataBase.Usuario.Queries;
 using TSC.Expopunto.Application.DataBase.Usuario.Queries.Models;
@@ -10,6 +10,7 @@ using TSC.Expopunto.Common;
 
 namespace TSC.Expopunto.Api.Controllers
 {
+    [Authorize]
     [Route("api/v1/usuario")]
     [ApiController]
     [TypeFilter(typeof(ExceptionManager))]
@@ -17,13 +18,16 @@ namespace TSC.Expopunto.Api.Controllers
     {
         private readonly IUsuarioCommand _usuarioCommand;
         private readonly IUsuarioQuery _usuarioQuery;
+        private readonly IMediator _mediator;
         public UsuarioController(
             IUsuarioCommand usuarioCommand, 
-            IUsuarioQuery usuarioQuery
+            IUsuarioQuery usuarioQuery,
+            IMediator mediator
         )
         {
             _usuarioCommand = usuarioCommand;
             _usuarioQuery = usuarioQuery;
+            _mediator = mediator;
         }
 
         [HttpPost("crear")]
@@ -112,18 +116,21 @@ namespace TSC.Expopunto.Api.Controllers
         {
             var data = await _usuarioQuery.ListarTodosAsync(param);
 
-            if (data == null || data.Count == 0)
-            {
-                return StatusCode(
-                   StatusCodes.Status404NotFound,
-                   ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No existe usuarios")
-               );
-            }
-
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
                 );
+        }
+
+        [HttpGet("listar-todos")]
+        public async Task<IActionResult> ListarTodos()
+        {
+            var data = await _usuarioQuery.ListarTodosAsync();
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
         }
 
         [HttpGet("obtener-por-id/{idUsuario:int}")]
@@ -149,6 +156,55 @@ namespace TSC.Expopunto.Api.Controllers
                );
 
             }
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+                );
+        }
+
+        [AllowAnonymous]
+        [HttpPost("login")]
+        public async Task<IActionResult> Login(
+           [FromBody] LoginUsuarioQuery parametros
+        )
+        {
+            var data = await _mediator.Send(new LoginUsuarioQuery(parametros.idPerfil, parametros.Usuario, parametros.Contrasena));  
+
+            if (data == null)
+            {
+                return StatusCode(
+                   StatusCodes.Status404NotFound,
+                   ResponseApiService.Response(StatusCodes.Status404NotFound, data, "Usuario no encontrado")
+               );
+            }
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+        }
+
+        /// <summary>
+        /// Opción adicional y excepcional que no forma parte del CRUD estándar.
+        /// Permite reactivar a un usuario.
+        /// </summary>
+        [HttpPost("activar")]
+        public async Task<IActionResult> Activar(
+           [FromBody] UsuarioModel model
+        )
+        {
+            if (model.Id == 0)
+            {
+                return StatusCode(
+                StatusCodes.Status400BadRequest,
+                ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El id no es válido")
+                );
+            }
+            // opción adicional fuera del CRUD estándar reactiva al usuario
+            model.Opcion = 5;
+
+            var data = await _usuarioCommand.ProcesarAsync(model);
+
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")

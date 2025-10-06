@@ -7,7 +7,7 @@ using TSC.Expopunto.Application.DataBase.TipoPersona.Queries.Models;
 
 namespace TSC.Expopunto.Application.DataBase.TipoPersona.Queries
 {
-    public class TipoPersonaQuery:ITipoPersonaQuery
+    public class TipoPersonaQuery : ITipoPersonaQuery
     {
         private readonly IDapperQueryService _dapperService;
 
@@ -28,12 +28,12 @@ namespace TSC.Expopunto.Application.DataBase.TipoPersona.Queries
             return response.ToList();
         }
 
-        public async Task<TipoPersonaTodosModel> ObtenerTipoPersonaPorIdAsync(int IdTipoPersona)
+        public async Task<TipoPersonaTodosModel> ObtenerTipoPersonaPorCodigoAsync(string codigo)
         {
             var parameters = new
             {
                 pOpcion = 2,
-                pIdTipoPersona = IdTipoPersona
+                pIdTipoPersona = codigo
             };
 
             var response = await _dapperService.QueryFirstOrDefaultAsync<TipoPersonaTodosModel>("uspGetTiposPersona", parameters);

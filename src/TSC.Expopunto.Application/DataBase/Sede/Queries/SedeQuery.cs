@@ -1,13 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
-using TSC.Expopunto.Application.DataBase.Sede.Queries.Models;
+﻿using TSC.Expopunto.Application.DataBase.Sede.Queries.Models;
 using static System.Runtime.InteropServices.JavaScript.JSType;
-
 
 namespace TSC.Expopunto.Application.DataBase.Sede.Queries
 {
@@ -20,15 +12,24 @@ namespace TSC.Expopunto.Application.DataBase.Sede.Queries
             _dapperService = dapperService;
         }
 
-        public async Task<List<SedesTodosModel>> ListarTodosAsync(string? nombre = null)
+        public async Task<List<SedesTodosModel>> ListarAsync(string? nombre = null)
         {
             var parameters = new
             {
                 pOpcion = 1,
                 pFiltroNombre = string.IsNullOrWhiteSpace(nombre) ? null : nombre
             };
-            var response = await _dapperService.QueryAsync<SedesTodosModel>("uspGetSedes",
-            parameters);
+            var response = await _dapperService.QueryAsync<SedesTodosModel>("uspGetSedes", parameters);
+            return response.ToList();
+        }
+
+        public async Task<List<SedesTodosModel>> ListarTodosAsync()
+        {
+            var parameters = new
+            {
+                pOpcion = 3
+            };
+            var response = await _dapperService.QueryAsync<SedesTodosModel>("uspGetSedes", parameters);
             return response.ToList();
         }
 
@@ -39,8 +40,7 @@ namespace TSC.Expopunto.Application.DataBase.Sede.Queries
                 pOpcion = 2,
                 pIdSede = idSede
             };
-            var response = await _dapperService.QueryFirstOrDefaultAsync<SedesTodosModel>("uspGetSedes",
-            parameters);
+            var response = await _dapperService.QueryFirstOrDefaultAsync<SedesTodosModel>("uspGetSedes", parameters);
             return response;
         }
 

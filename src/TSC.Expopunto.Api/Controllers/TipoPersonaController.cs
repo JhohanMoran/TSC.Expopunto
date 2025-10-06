@@ -15,7 +15,8 @@ namespace TSC.Expopunto.Api.Controllers
         {
             _tipoPersonaQuery = tipoPersonaQuery;
         }
-        [HttpPost("listar-todos")]
+
+        [HttpGet("listar")]
         public async Task<IActionResult> ListarTodos()
         {
             var data = await _tipoPersonaQuery.ListarTodosAsync();
@@ -24,46 +25,41 @@ namespace TSC.Expopunto.Api.Controllers
             {
                 return StatusCode(
                     StatusCodes.Status204NoContent,
-                    ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No existe tipos de persona")
-
+                    ResponseApiService.Response(StatusCodes.Status204NoContent, data, "No existe tipos de persona")
                 );
             }
 
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
-                );
-
+            );
         }
 
-        [HttpPost("obtener-por-id")]
-        public async Task<IActionResult> ObtenerTipoPersonaPorId(
-            [FromQuery] int IdTipoPersona
-        )
+        [HttpGet("obtener-por-codigo")]
+        public async Task<IActionResult> ObtenerTipoPersonaPorCodigo([FromQuery] string codigo)
         {
-            if (IdTipoPersona == 0)
+            if (string.IsNullOrWhiteSpace(codigo))
             {
                 return StatusCode(
-                StatusCodes.Status400BadRequest,
-                ResponseApiService.Response(StatusCodes.Status200OK, null, "El Id del tipo de persona no es válido")
+                    StatusCodes.Status400BadRequest,
+                    ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El código del tipo de persona no es válido")
                 );
             }
 
-            var data = await _tipoPersonaQuery.ObtenerTipoPersonaPorIdAsync(IdTipoPersona);
+            var data = await _tipoPersonaQuery.ObtenerTipoPersonaPorCodigoAsync(codigo);
 
             if (data == null)
             {
                 return StatusCode(
                     StatusCodes.Status404NotFound,
                     ResponseApiService.Response(StatusCodes.Status404NotFound, data, "Tipo de persona no encontrada")
-
                 );
             }
 
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
-                );
+            );
         }
     }
 }
