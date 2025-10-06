@@ -5,8 +5,8 @@
         public int Id { get; set; }
         public string? Serie { get; set; }
         public string? Numero { get; set; }
-        public string Fecha { get; set; } = string.Empty;
-        public string Hora { get; set; } = string.Empty;
+        public DateTime Fecha { get; set; }
+        public TimeSpan Hora { get; set; }
         public int IdProveedor { get; set; }
         public string DocumentoProveedor { get; set; } = string.Empty;
         public string NombreProveedor { get; set; } = string.Empty;
@@ -17,5 +17,6 @@
 
         public List<DetalleGuiaEntradaDTO> Detalles { get; set; } = new();
         public int TotalRegistros { get; set; }
+        public string Auditoria { get; set; } = string.Empty;
     }
 }

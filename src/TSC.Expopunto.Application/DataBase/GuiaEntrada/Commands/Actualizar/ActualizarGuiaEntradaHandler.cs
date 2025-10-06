@@ -33,7 +33,11 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands
                     d.IdProducto,
                     d.IdUnidadMedida,
                     d.Cantidad,
-                    d.CostoUnitario
+                    d.CostoUnitario,
+                    d.Caja,
+                    d.CodigoEstilo,
+                    d.CodigoPedido,
+                    null
                 ))
                 .ToList();
 
@@ -46,6 +50,9 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands
                 request.IdProveedor,
                 request.TipoGuia,
                 request.Observacion,
+                request.TotalCantidad,
+                request.TotalCosto,
+                request.IdUsuario,
                 nuevosDetalles
             );
 
@@ -53,7 +60,7 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands
             GuiaEntradaEntity guiaEntradaRespuesta = await _repository.ActualizarGuiaEntradaAsync(guiaEntradaExistente);
 
             // 4. Retornar el detalle completo de la GuiaEntrada actualizada
-            var guiaEntradaDetalleRespuesta = await _repository.ObtenerDetalleGuiaEntradaPorIdVentaAsync(guiaEntradaRespuesta.Id);
+            var guiaEntradaDetalleRespuesta = await _repository.ObtenerDetalleGuiaEntradaPorIdGuiaAsync(guiaEntradaRespuesta.Id);
 
 
             return new GuiaEntradaDTO
@@ -73,7 +80,7 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands
                     IdGuiaEntrada = x.IdGuiaEntrada,
                     IdProducto = x.IdProducto,
                     IdUnidadMedida = x.IdUnidadMedida,
-                    Codigo = x.Codigo,
+                    CodUniMed = x.CodUniMed,
                     Cantidad = x.Cantidad,
                     CostoUnitario = x.CostoUnitario,
                     Caja = x.Caja,

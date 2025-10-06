@@ -5,8 +5,8 @@
         public int Id { get; set; }
         public string? Serie { get; set; }
         public string? Numero { get; set; }
-        public string Fecha { get; set; }
-        public string Hora { get; set; }
+        public DateTime Fecha { get; set; }
+        public TimeSpan Hora { get; set; }
         public int IdProveedor { get; set; }
         public string? TipoGuia { get; set; }
         public string? Observacion { get; set; }
@@ -25,13 +25,14 @@
             int id,
             string? serie,
             string? numero,
-            string? fecha,
-            string? hora,
+            DateTime fecha,
+            TimeSpan hora,
             int idPersonaProveedor,
             string? tipoGuia,
             string? observacion,
             decimal totalCantidad,
-            decimal totalCosto
+            decimal totalCosto,
+            int idUsuario
         )
         {
             Id = id;
@@ -44,15 +45,18 @@
             Observacion = observacion;
             TotalCantidad = totalCantidad;
             TotalCosto = totalCosto;
+            IdUsuario = idUsuario;
         }
         public void AgregarDetalle(
             int id,
             int idGuiaEntrada,
             int idProducto,
             int idUnidadMedida,
-            int cantidad,
-            decimal costoUnitario
-
+            decimal cantidad,
+            decimal costoUnitario,
+            string caja,
+            string codEstilo,
+            string codPedido
         )
         {
             _detalles.Add(new DetalleGuiaEntradaEntity(
@@ -61,8 +65,11 @@
                 idProducto,
                 idUnidadMedida,
                 cantidad,
-                costoUnitario
-
+                costoUnitario,
+                caja,
+                codEstilo,
+                codPedido,
+                null
             ));
         }
 
@@ -70,11 +77,14 @@
             int id,
             string? serie,
             string? numero,
-            string? fecha,
-            string? hora,
+            DateTime fecha,
+            TimeSpan hora,
             int idProveedor,
             string? tipoGuia,
             string? observacion,
+            decimal totalCantidad,
+            decimal totalCosto,
+            int idUsuario,
             List<DetalleGuiaEntradaEntity>? nuevosDetalles
         )
         {
@@ -86,7 +96,9 @@
             IdProveedor = idProveedor;
             TipoGuia = tipoGuia;
             Observacion = observacion;
-
+            TotalCantidad = totalCantidad;
+            TotalCosto = totalCosto;
+            IdUsuario = idUsuario;
 
             _detalles.Clear();
             _detalles.AddRange(nuevosDetalles);

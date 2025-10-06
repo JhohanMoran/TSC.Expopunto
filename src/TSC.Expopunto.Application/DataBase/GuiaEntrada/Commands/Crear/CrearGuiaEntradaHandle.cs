@@ -31,7 +31,8 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear
                 request.TipoGuia,
                 request.Observacion,
                 request.TotalCantidad,
-                request.TotalCosto
+                request.TotalCosto,
+                request.IdUsuario
             );
 
             foreach (var d in request.Detalles)
@@ -42,7 +43,10 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear
                     d.IdProducto,
                     d.IdUnidadMedida,
                     d.Cantidad,
-                    d.CostoUnitario
+                    d.CostoUnitario,
+                    d.Caja,
+                    d.CodigoEstilo,
+                    d.CodigoPedido
                 );
             }
 
