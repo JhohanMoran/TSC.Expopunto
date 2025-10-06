@@ -20,7 +20,8 @@ namespace TSC.Expopunto.Application.DataBase.TipoDocumento.Commands
 
                     p_id = model.id,
                     p_codigo = model.codigo,
-                    p_descripcion = model.descripcion,
+                    p_descripcionLarga = model.descripcionLarga,
+                    p_descripcionCorta = model.descripcionCorta,
 
                     p_idUsuario = model.idUsuario,
                     p_activo = model.activo
