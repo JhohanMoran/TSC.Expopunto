@@ -8,7 +8,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using TSC.Expopunto.Application.External.GetTokenJwt;
+using TSC.Expopunto.Application.Interfaces.Services;
 using TSC.Expopunto.External.GetTokenJwt;
+using TSC.Expopunto.External.PDF.Services;
 
 namespace TSC.Expopunto.External
 {
@@ -20,6 +22,7 @@ namespace TSC.Expopunto.External
         )
         {
             services.AddSingleton<IGetTokenJwtService, GetTokenJwtService>();
+            services.AddSingleton<IDocumentoPdfService, DocumentoPdfService>();
 
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(option =>
             {

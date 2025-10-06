@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TSC.Expopunto.Application.DataBase.Sede.Queries.Models
+﻿namespace TSC.Expopunto.Application.DataBase.Sede.Queries.Models
 {
     public class SedesTodosModel
     {
@@ -14,6 +8,5 @@ namespace TSC.Expopunto.Application.DataBase.Sede.Queries.Models
         public string  Estado { get; set; }
         public string Auditoria { get; set; }
         public int totalRegistro { get; set; }
-
     }
 }

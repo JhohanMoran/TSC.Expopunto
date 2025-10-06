@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using TSC.Expopunto.Application.DataBase.Venta.DTO;
-using TSC.Expopunto.Application.Interfaces.Venta;
+using TSC.Expopunto.Application.Interfaces.Repositories.Venta;
 using TSC.Expopunto.Common;
 
 namespace TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentas

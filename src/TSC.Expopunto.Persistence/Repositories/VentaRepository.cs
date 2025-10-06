@@ -3,7 +3,7 @@ using TSC.Expopunto.Application.DataBase.DetalleVenta.DTO;
 using TSC.Expopunto.Application.DataBase.Venta.DTO;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentas.Params;
 using TSC.Expopunto.Application.DataBase.VentasFormaPago.DTO;
-using TSC.Expopunto.Application.Interfaces.Venta;
+using TSC.Expopunto.Application.Interfaces.Repositories.Venta;
 using TSC.Expopunto.Common;
 using TSC.Expopunto.Domain.Entities.Venta;
 
@@ -192,7 +192,7 @@ namespace TSC.Expopunto.Persistence.Repositories
             return response.ToList();
         }
 
-        public async Task<VentaEntity> ObtenerVentaPorIdAsync(int id)
+        public async Task<VentaDTO> ObtenerVentaPorIdAsync(int id)
         {
             var parameters = new
             {
@@ -202,7 +202,7 @@ namespace TSC.Expopunto.Persistence.Repositories
 
             var response =
                 await _dapperQueryService
-                    .QueryFirstOrDefaultAsync<VentaEntity>("uspGetVentas", parameters);
+                    .QueryFirstOrDefaultAsync<VentaDTO>("uspGetVentas", parameters);
 
             return response;
         }

@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using TSC.Expopunto.Application.DataBase;
-using TSC.Expopunto.Application.Interfaces.GuiaEntrada;
-using TSC.Expopunto.Application.Interfaces.Venta;
+using TSC.Expopunto.Application.Interfaces.Repositories.GuiaEntrada;
+using TSC.Expopunto.Application.Interfaces.Repositories.Venta;
 using TSC.Expopunto.Persistence.DataBase;
 using TSC.Expopunto.Persistence.Repositories;
 

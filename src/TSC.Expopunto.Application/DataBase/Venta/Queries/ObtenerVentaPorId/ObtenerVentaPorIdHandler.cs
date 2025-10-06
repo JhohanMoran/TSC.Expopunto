@@ -1,10 +1,11 @@
 ﻿using MediatR;
-using TSC.Expopunto.Application.Interfaces.Venta;
+using TSC.Expopunto.Application.DataBase.Venta.DTO;
+using TSC.Expopunto.Application.Interfaces.Repositories.Venta;
 using TSC.Expopunto.Domain.Entities.Venta;
 
 namespace TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentaPorId
 {
-    public class ObtenerVentaPorIdHandler : IRequestHandler<ObtenerVentaPorIdQuery, VentaEntity>
+    public class ObtenerVentaPorIdHandler : IRequestHandler<ObtenerVentaPorIdQuery, VentaDTO>
     {
         private readonly IVentaRepository _repository;
         public ObtenerVentaPorIdHandler(IVentaRepository repository)
@@ -12,7 +13,7 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentaPorId
             _repository = repository;
         }
 
-        public async Task<VentaEntity> Handle(ObtenerVentaPorIdQuery request, CancellationToken cancellationToken)
+        public async Task<VentaDTO> Handle(ObtenerVentaPorIdQuery request, CancellationToken cancellationToken)
         {
             return await _repository.ObtenerVentaPorIdAsync(request.Id);
         }

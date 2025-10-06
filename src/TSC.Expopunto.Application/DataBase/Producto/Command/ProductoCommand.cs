@@ -14,10 +14,12 @@
             {
                 pOpcion = model.Opcion,
                 pId = model.Id,
-                pNombre = model.Nombre,
-                pDescripcion = model.Descripcion,
                 pIdCategoria = model.IdCategoria,
-                pIdUsuario = model.IdUsuario
+                pCodProducto =model.CodProducto,
+                pNombre = model.Nombre,
+                pGenero =model.Genero,
+                pIdUsuario = model.IdUsuario,
+                pActivo = model.Activo
             };
 
             var response = await _dapperCommandSevice.ExecuteScalarAsync("uspSetProducto", parameters);

@@ -3,7 +3,7 @@ using TSC.Expopunto.Application.DataBase.DetalleVenta.DTO;
 using TSC.Expopunto.Application.DataBase.Venta.Commands.Actualizar;
 using TSC.Expopunto.Application.DataBase.Venta.DTO;
 using TSC.Expopunto.Application.DataBase.VentasFormaPago.DTO;
-using TSC.Expopunto.Application.Interfaces.Venta;
+using TSC.Expopunto.Application.Interfaces.Repositories.Venta;
 using TSC.Expopunto.Domain.Entities.Venta;
 
 namespace TSC.Expopunto.Application.DataBase.Venta.Commands
@@ -51,7 +51,7 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands
                ))
                .ToList();
 
-            ventaExistente.Actualizar(
+            venta.Actualizar(
                 request.Id,
                 request.Fecha,
                 request.Hora,
@@ -69,7 +69,7 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands
             );
 
             // 3️. Guardar en BD
-            VentaEntity ventaRespuesta = await _repository.ActualizarVentaAsync(ventaExistente);
+            VentaEntity ventaRespuesta = await _repository.ActualizarVentaAsync(venta);
 
             // 4. Retornar el detalle completo de la venta actualizada
             var ventaDetalleRespuesta = await _repository.ObtenerDetalleVentaPorIdVentaAsync(ventaRespuesta.Id);
