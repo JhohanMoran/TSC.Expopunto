@@ -2,11 +2,9 @@
 using global::TSC.Expopunto.Application.Features;
 
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using TSC.Expopunto.Application.DataBase.Reporte.Queries;
 using TSC.Expopunto.Application.DataBase.Reporte.Queries.Models;
 using TSC.Expopunto.Application.Exceptions;
-using TSC.Expopunto.Common;
 
 namespace TSC.Expopunto.Api.Controllers
 {

@@ -28,6 +28,7 @@ using TSC.Expopunto.Application.DataBase.Persona.Queries;
 using TSC.Expopunto.Application.DataBase.Prendas.Queries;
 using TSC.Expopunto.Application.DataBase.Producto.Command;
 using TSC.Expopunto.Application.DataBase.Producto.Queries;
+using TSC.Expopunto.Application.DataBase.ProductoVariante.Commands;
 using TSC.Expopunto.Application.DataBase.ProductoVariante.Queries;
 using TSC.Expopunto.Application.DataBase.Reporte.Queries;
 using TSC.Expopunto.Application.DataBase.Sede.Commands;
@@ -147,6 +148,7 @@ namespace TSC.Expopunto.Application
 
 
             services.AddTransient<IKardexQuery, KardexQuery>();
+            services.AddTransient<IProductoVarianteCommand, ProductoVarianteCommand>();
 
             return services;
         }

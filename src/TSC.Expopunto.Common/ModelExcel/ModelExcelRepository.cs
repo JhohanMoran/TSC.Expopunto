@@ -97,7 +97,7 @@ namespace TSC.Expopunto.Common.ModelExcel
                         var valores = item.GetType().GetProperties();
                         for (int i = 0; i < valores.Length; i++)
                         {
-                            
+
                             var type = Nullable.GetUnderlyingType(valores[i].PropertyType) ?? valores[i].PropertyType;
 
                             if (type == typeof(string))
@@ -163,6 +163,6 @@ namespace TSC.Expopunto.Common.ModelExcel
             stream.Position = 0;
             return stream;
         }
-        
+
     }
 }

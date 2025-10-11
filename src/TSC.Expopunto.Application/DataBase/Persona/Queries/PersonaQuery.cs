@@ -1,5 +1,4 @@
 ﻿using TSC.Expopunto.Application.DataBase.Persona.Queries.Models;
-using TSC.Expopunto.Application.DataBase.ProductoVariante.Queries.Models;
 using TSC.Expopunto.Common;
 
 namespace TSC.Expopunto.Application.DataBase.Persona.Queries
@@ -26,7 +25,7 @@ namespace TSC.Expopunto.Application.DataBase.Persona.Queries
                 pFiltroActivo = true,//parametro.Activo
                 pPagina = parametro.Pagina,
                 pFilasPorPagina = parametro.FilasPorPagina,
-                pOrdenPor= parametro.OrdenarPor,
+                pOrdenPor = parametro.OrdenarPor,
                 pOrdenDireccion = parametro.OrdenDireccion
             };
 
@@ -77,7 +76,7 @@ namespace TSC.Expopunto.Application.DataBase.Persona.Queries
                 pOpcion = 4,
                 pIdPersona = 0,
                 pFiltroNombre = parametro.Nombre,
-                pFiltroCodTipoPersona =  "T",
+                pFiltroCodTipoPersona = "T",
                 pFiltroActivo = parametro.Activo,
                 pPagina = parametro.Pagina,
                 pFilasPorPagina = parametro.FilasPorPagina,
@@ -103,7 +102,7 @@ namespace TSC.Expopunto.Application.DataBase.Persona.Queries
             };
 
             var response = await _dapperService.QueryAsync<PersonaTodosModel>("uspGetPersonas", parameters);
-            
+
             var responseList = response.ToList();
             var totalRegistros = responseList.FirstOrDefault()?.TotalRegistros ?? 0;
 

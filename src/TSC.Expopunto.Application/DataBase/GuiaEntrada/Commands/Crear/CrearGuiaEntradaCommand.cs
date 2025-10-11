@@ -25,6 +25,6 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear
 
         ) : IRequest<GuiaEntradaDTO>
     {
-        //public int IdProveedor { get; internal set; }
+
     }
 }

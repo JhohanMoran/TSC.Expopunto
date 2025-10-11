@@ -23,11 +23,11 @@ namespace TSC.Expopunto.Api.Controllers
         {
             var response = await _prendasQuery.ListarPaginadoStockAptAsync(param);
 
-            if (response.Count == 0)
+            if (response == null || response.Count == 0)
             {
                 return StatusCode(
-                   StatusCodes.Status204NoContent,
-                   ResponseApiService.Response(StatusCodes.Status204NoContent, response, "No se encontraron registros.")
+                   StatusCodes.Status200OK,
+                   ResponseApiService.Response(StatusCodes.Status204NoContent, null, "No se encontraron prendas en stock.")
                 );
             }
             return StatusCode(
@@ -44,8 +44,8 @@ namespace TSC.Expopunto.Api.Controllers
             if (response.Count == 0)
             {
                 return StatusCode(
-                   StatusCodes.Status204NoContent,
-                   ResponseApiService.Response(StatusCodes.Status204NoContent, response, "No se encontraron registros.")
+                   StatusCodes.Status200OK,
+                   ResponseApiService.Response(StatusCodes.Status204NoContent, response, "No se encontraron clientes.")
                 );
             }
             return StatusCode(
@@ -62,8 +62,8 @@ namespace TSC.Expopunto.Api.Controllers
             if (response.Count == 0)
             {
                 return StatusCode(
-                   StatusCodes.Status204NoContent,
-                   ResponseApiService.Response(StatusCodes.Status204NoContent, response, "No se encontraron registros.")
+                   StatusCodes.Status200OK,
+                   ResponseApiService.Response(StatusCodes.Status204NoContent, response, "No se encontraron pedidos.")
                 );
             }
             return StatusCode(
@@ -80,8 +80,8 @@ namespace TSC.Expopunto.Api.Controllers
             if (response.Count == 0)
             {
                 return StatusCode(
-                   StatusCodes.Status204NoContent,
-                   ResponseApiService.Response(StatusCodes.Status204NoContent, response, "No se encontraron registros.")
+                   StatusCodes.Status200OK,
+                   ResponseApiService.Response(StatusCodes.Status204NoContent, response, "No se encontraron estilos clientes.")
                 );
             }
             return StatusCode(
@@ -98,8 +98,8 @@ namespace TSC.Expopunto.Api.Controllers
             if (response.Count == 0)
             {
                 return StatusCode(
-                   StatusCodes.Status204NoContent,
-                   ResponseApiService.Response(StatusCodes.Status204NoContent, response, "No se encontraron registros.")
+                   StatusCodes.Status200OK,
+                   ResponseApiService.Response(StatusCodes.Status204NoContent, response, "No se encontraron presentaciones.")
                 );
             }
             return StatusCode(

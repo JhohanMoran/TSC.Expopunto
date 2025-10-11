@@ -1,5 +1,4 @@
 ﻿using TSC.Expopunto.Application.DataBase.Perfil.Queries.Models;
-using TSC.Expopunto.Domain.Models;
 
 namespace TSC.Expopunto.Application.DataBase.Perfil.Queries
 {

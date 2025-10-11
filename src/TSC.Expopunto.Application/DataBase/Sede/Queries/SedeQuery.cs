@@ -1,5 +1,4 @@
 ﻿using TSC.Expopunto.Application.DataBase.Sede.Queries.Models;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace TSC.Expopunto.Application.DataBase.Sede.Queries
 {

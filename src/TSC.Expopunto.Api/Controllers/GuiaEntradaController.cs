@@ -53,11 +53,16 @@ namespace TSC.Expopunto.Api.Controllers
                     d.IdProducto,
                     d.IdUnidadMedida,
                     d.IdTalla,
+                    d.Talla,
                     d.Cantidad,
-                    d.CostoUnitario,
-                    d.Caja,
+                    d.NumCaja,
+                    d.Nombre,
                     d.CodigoEstilo,
                     d.CodigoPedido,
+                    d.Categoria,
+                    d.Genero,
+                    d.Color,
+                    d.CodigoSku,
                     d.IdUsuario
                 )).ToList()
             );
@@ -94,11 +99,16 @@ namespace TSC.Expopunto.Api.Controllers
                     d.IdProducto,
                     d.IdUnidadMedida,
                     d.IdTalla,
+                    d.Talla,
                     d.Cantidad,
-                    d.CostoUnitario,
-                    d.Caja,
+                    d.NumCaja,
+                    d.Nombre,
                     d.CodigoEstilo,
                     d.CodigoPedido,
+                    d.Categoria,
+                    d.Genero,
+                    d.Color,
+                    d.CodigoSku,
                     d.IdUsuario
                 )).ToList()
             );
@@ -118,6 +128,14 @@ namespace TSC.Expopunto.Api.Controllers
         )
         {
             var data = await _mediator.Send(new ObtenerGuiasEntradaQuery(parametros));
+
+            if (data == null || data.Data == null || data.Data.Count == 0)
+            {
+                return StatusCode(
+                    StatusCodes.Status200OK,
+                    ResponseApiService.Response(StatusCodes.Status204NoContent, null, "No se encontraron resultados")
+                );
+            }
 
             return StatusCode(
                 StatusCodes.Status200OK,

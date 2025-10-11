@@ -1,6 +1,5 @@
 ﻿using TSC.Expopunto.Application.DataBase.Persona.Queries.Models;
 using TSC.Expopunto.Common;
-using TSC.Expopunto.Domain.Models;
 
 namespace TSC.Expopunto.Application.DataBase.Persona.Queries
 {

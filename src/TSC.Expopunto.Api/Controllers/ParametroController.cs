@@ -1,13 +1,10 @@
 ﻿
 using Microsoft.AspNetCore.Mvc;
-using TSC.Expopunto.Application.DataBase.Parametro.Queries;
 using TSC.Expopunto.Application.DataBase.Parametro.Commands;
+using TSC.Expopunto.Application.DataBase.Parametro.Queries;
 using TSC.Expopunto.Application.DataBase.Parametro.Queries.Models;
 using TSC.Expopunto.Application.Exceptions;
 using TSC.Expopunto.Application.Features;
-
-using Microsoft.AspNetCore.Authorization;
-using TSC.Expopunto.Common;
 
 namespace TSC.Expopunto.Api.Controllers
 {

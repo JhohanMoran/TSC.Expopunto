@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TSC.Expopunto.Application.DataBase.Venta.DTO
+﻿namespace TSC.Expopunto.Application.DataBase.Venta.DTO
 {
     public class VentaMontoDTO
     {

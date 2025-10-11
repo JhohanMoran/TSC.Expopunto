@@ -31,7 +31,6 @@
             string? tipoGuia,
             string? observacion,
             decimal totalCantidad,
-            decimal totalCosto,
             int idUsuario
         )
         {
@@ -44,7 +43,6 @@
             TipoGuia = tipoGuia;
             Observacion = observacion;
             TotalCantidad = totalCantidad;
-            TotalCosto = totalCosto;
             IdUsuario = idUsuario;
         }
         public void AgregarDetalle(
@@ -53,10 +51,16 @@
             int idProducto,
             int idUnidadMedida,
             decimal cantidad,
-            decimal costoUnitario,
-            string caja,
+            int caja,
+            string nombre,
             string codEstilo,
-            string codPedido
+            string codPedido,
+            string categoria,
+            string genero,
+            string color,
+            string codigoSku,
+            string talla,
+            int idUsuario
         )
         {
             _detalles.Add(new DetalleGuiaEntradaEntity(
@@ -65,11 +69,16 @@
                 idProducto,
                 idUnidadMedida,
                 cantidad,
-                costoUnitario,
                 caja,
+                nombre,
                 codEstilo,
                 codPedido,
-                null
+                categoria,
+                genero,
+                color,
+                codigoSku,
+                talla,
+                idUsuario
             ));
         }
 
@@ -83,7 +92,6 @@
             string? tipoGuia,
             string? observacion,
             decimal totalCantidad,
-            decimal totalCosto,
             int idUsuario,
             List<DetalleGuiaEntradaEntity>? nuevosDetalles
         )
@@ -97,7 +105,6 @@
             TipoGuia = tipoGuia;
             Observacion = observacion;
             TotalCantidad = totalCantidad;
-            TotalCosto = totalCosto;
             IdUsuario = idUsuario;
 
             _detalles.Clear();

@@ -1,13 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TSC.Expopunto.Application.DataBase.Descuento.Commands;
-
-namespace TSC.Expopunto.Application.DataBase.Descuento.Commands
+﻿namespace TSC.Expopunto.Application.DataBase.Descuento.Commands
 {
-    public class DescuentoCommand :IDescuentoCommand
+    public class DescuentoCommand : IDescuentoCommand
     {
         public readonly IDapperCommandService _dapperService;
         public DescuentoCommand(IDapperCommandService dapperService)
@@ -29,7 +22,7 @@ namespace TSC.Expopunto.Application.DataBase.Descuento.Commands
                 pActivo = model.Activo
 
             };
-             var response = await _dapperService.ExecuteScalarAsync("uspSetDescuento",parameters);
+            var response = await _dapperService.ExecuteScalarAsync("uspSetDescuento", parameters);
 
             if (response > 0)
             {

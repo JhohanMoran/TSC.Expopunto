@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using TSC.Expopunto.Application.DataBase.TipoComprobante.Queries.Models;
+﻿using TSC.Expopunto.Application.DataBase.TipoComprobante.Queries.Models;
 
 namespace TSC.Expopunto.Application.DataBase.TipoComprobante.Queries
 {
@@ -27,7 +21,7 @@ namespace TSC.Expopunto.Application.DataBase.TipoComprobante.Queries
             return response.ToList();
         }
 
-        public async Task<TiposComprobanteTodosModel>ObtenerTipoComprobantePorIdAsync(int idTipoComprobante)
+        public async Task<TiposComprobanteTodosModel> ObtenerTipoComprobantePorIdAsync(int idTipoComprobante)
         {
             var parameters = new
             {

@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TSC.Expopunto.Application.DataBase.EntidadFinanciera.Commands
+﻿namespace TSC.Expopunto.Application.DataBase.EntidadFinanciera.Commands
 {
-    public class EntidadFinancieraCommand:IEntidadFinancieraCommand
+    public class EntidadFinancieraCommand : IEntidadFinancieraCommand
     {
         private readonly IDapperCommandService _dapperService;
 
@@ -18,9 +12,9 @@ namespace TSC.Expopunto.Application.DataBase.EntidadFinanciera.Commands
         }
 
 
-        public async Task<EntidadFinancieraModel> ProcesarAsync (EntidadFinancieraModel model)
+        public async Task<EntidadFinancieraModel> ProcesarAsync(EntidadFinancieraModel model)
         {
-            
+
 
             var response = await _dapperService.ExecuteScalarAsync("uspSetEntidadeFinanciera",
                 new

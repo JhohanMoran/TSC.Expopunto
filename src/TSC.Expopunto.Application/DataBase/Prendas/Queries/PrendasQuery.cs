@@ -1,4 +1,6 @@
-﻿using TSC.Expopunto.Application.DataBase.Prendas.Queries.Models;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using DocumentFormat.OpenXml.Wordprocessing;
+using TSC.Expopunto.Application.DataBase.Prendas.Queries.Models;
 
 namespace TSC.Expopunto.Application.DataBase.Prendas.Queries
 {
@@ -40,6 +42,15 @@ namespace TSC.Expopunto.Application.DataBase.Prendas.Queries
 
         public async Task<List<PrendasTodos>> ListarPaginadoStockAptAsync(PrendasParams param)
         {
+            var propiedadesConocidas = typeof(PrendasTodos)
+                .GetProperties()
+                .Where(prop => prop.Name != "Tallas" && prop.CanWrite)
+                .ToList();
+
+            var nombresConocidos = propiedadesConocidas
+                .Select(prop => prop.Name)
+                .ToHashSet(StringComparer.OrdinalIgnoreCase);
+
             var parametros = new
             {
                 pOpcion = 1,
@@ -55,9 +66,50 @@ namespace TSC.Expopunto.Application.DataBase.Prendas.Queries
 
             _dapperQuerySevice.UsarConexion("SQLConnectionSigeString");
 
-            var rows = await _dapperQuerySevice.QueryAsync<dynamic>("uspGetStockExpoPunto", parametros, 0);
+            var resultQuery = await _dapperQuerySevice.QueryAsync<dynamic>("uspGetStockExpoPunto", parametros, 0);
             var lista = new List<PrendasTodos>();
 
+            foreach(IDictionary<string, object> item in resultQuery)
+            {
+                var prenda = new PrendasTodos();
+
+                foreach(var prop in propiedadesConocidas)
+                {
+                    if(item.TryGetValue(prop.Name, out var valor))
+                    {
+                        if(prop.PropertyType == typeof(string))
+                        {
+                            prop.SetValue(prenda, valor?.ToString() ?? "");
+                        }
+                    }
+                    else if (IsNumericType(prop.PropertyType))
+                    {
+                        var valorNumerico = valor == null || string.IsNullOrWhiteSpace(valor.ToString())
+                            ? 0
+                            : Convert.ToInt32(valor);
+                        prop.SetValue(prenda, valorNumerico);
+                    }
+                    else
+                    {
+                        prop.SetValue(prenda, valor);
+                    }
+                }
+
+                prenda.Tallas = new Dictionary<string, int>();
+
+                // Todo lo demás son tallas
+                foreach (var kv in item)
+                {
+                    if (!nombresConocidos.Contains(kv.Key))
+                    {
+                        prenda.Tallas[kv.Key] = kv.Value == null ? 0 : Convert.ToInt32(kv.Value);
+                    }
+                }
+
+                lista.Add(prenda);
+            }
+            //Funciona pero se va a meojrar
+            /*
             foreach (IDictionary<string, object> row in rows)
             {
                 var prenda = new PrendasTodos
@@ -88,7 +140,7 @@ namespace TSC.Expopunto.Application.DataBase.Prendas.Queries
                 }
 
                 lista.Add(prenda);
-            }
+            }*/
 
             return lista;
         }
@@ -120,5 +172,24 @@ namespace TSC.Expopunto.Application.DataBase.Prendas.Queries
             var results = await _dapperQuerySevice.QueryAsync<PrendasDatosPrensentaciones>("uspGetStockExpoPunto", parametros, 0);
             return results.ToList();
         }
+
+        private bool IsNumericType(Type type)
+        {
+            return type == typeof(int) ||
+                   type == typeof(long) ||
+                   type == typeof(short) ||
+                   type == typeof(byte) ||
+                   type == typeof(decimal) ||
+                   type == typeof(double) ||
+                   type == typeof(float) ||
+                   type == typeof(int?) ||
+                   type == typeof(long?) ||
+                   type == typeof(short?) ||
+                   type == typeof(byte?) ||
+                   type == typeof(decimal?) ||
+                   type == typeof(double?) ||
+                   type == typeof(float?);
+        }
+
     }
 }

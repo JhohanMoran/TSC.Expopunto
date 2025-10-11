@@ -1,11 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion.Internal;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TSC.Expopunto.Application.DataBase.Descuento.Queries.Models
+﻿namespace TSC.Expopunto.Application.DataBase.Descuento.Queries.Models
 {
     public class DescuentosTodosModel
     {
@@ -14,7 +7,7 @@ namespace TSC.Expopunto.Application.DataBase.Descuento.Queries.Models
         public string Tipo { get; set; }
         public decimal Valor { get; set; }
         public DateTime FechaInicio { get; set; }
-        public DateTime FechaFin {  get; set; }
+        public DateTime FechaFin { get; set; }
         public bool Activo { get; set; }
         public string Auditoria { get; set; }
         public int TotalRegistros { get; set; }

@@ -63,7 +63,7 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands
                 request.IdTipoMoneda,
                 request.IdUsuarioVendedor,
                 request.IdUsuario,
-                request.Activo, 
+                request.Activo,
                 nuevosDetalles,
                 nuevasFormasPago
             );
@@ -84,11 +84,11 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands
                 IdTipoComprobante = ventaRespuesta.IdTipoComprobante,
                 Serie = ventaRespuesta.Serie,
                 Numero = ventaRespuesta.Numero,
-                IdPersona  = ventaRespuesta.IdPersona,
+                IdPersona = ventaRespuesta.IdPersona,
                 IdTipoMoneda = ventaRespuesta.IdTipoMoneda,
                 IdUsuarioVendedor = ventaRespuesta.IdUsuarioVendedor,
                 IdUsuario = ventaRespuesta.IdUsuario,
-                Activo = ventaRespuesta.Activo, 
+                Activo = ventaRespuesta.Activo,
 
                 Detalles = ventaDetalleRespuesta.Select(x => new DetalleVentaDTO
                 {
@@ -98,7 +98,7 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands
                     Cantidad = x.Cantidad,
                     PrecioUnitario = x.PrecioUnitario,
                     IdDescuento = x.IdDescuento,
-                    Activo = x.Activo   
+                    Activo = x.Activo
                 }).ToList(),
 
                 FormasPago = ventaFormasPagoRespuesta.Select(x => new VentasFormaPagoDTO

@@ -51,5 +51,19 @@ namespace TSC.Expopunto.Application.DataBase.Producto.Queries
             return response.ToList();
 
         }
+
+        public async Task<ProductosTodos> ListarPorNombre(int opcion, int idCategoria, string nombre, string genero)
+        {
+            var parametros = new
+            {
+                pOpcion = opcion,
+                pIdCategoria = idCategoria,
+                pFiltroNombre = nombre,
+                pGenero = genero
+            };
+
+            var response = await _dapperQuerySevice.QueryFirstOrDefaultAsync<ProductosTodos>("uspGetProductos", parametros);
+            return response;
+        }
     }
 }

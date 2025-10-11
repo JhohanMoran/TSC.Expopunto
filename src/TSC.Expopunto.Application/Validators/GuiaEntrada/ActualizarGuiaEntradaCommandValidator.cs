@@ -16,9 +16,6 @@ namespace TSC.Expopunto.Application.Validators.GuiaEntrada
 
             RuleForEach(x => x.Detalles).ChildRules(detalle =>
             {
-                detalle.RuleFor(d => d.IdProducto)
-                    .GreaterThan(0).WithMessage("Debe especificar un producto válido.");
-
                 detalle.RuleFor(d => d.Cantidad)
                     .GreaterThan(0).WithMessage("La cantidad debe ser mayor a 0.");
             });

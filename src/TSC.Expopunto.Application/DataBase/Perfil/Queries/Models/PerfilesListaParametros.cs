@@ -1,5 +1,4 @@
-﻿using TSC.Expopunto.Application.Features;
-using TSC.Expopunto.Common;
+﻿using TSC.Expopunto.Common;
 
 namespace TSC.Expopunto.Application.DataBase.Perfil.Queries.Models
 {

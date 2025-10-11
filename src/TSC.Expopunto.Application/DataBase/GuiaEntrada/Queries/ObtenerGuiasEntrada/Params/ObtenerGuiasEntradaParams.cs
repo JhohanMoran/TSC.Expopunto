@@ -4,8 +4,8 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEnt
 {
     public class ObtenerGuiasEntradaParams : BaseParamsList
     {
-            public int Opcion { get; set; }
-            public string? Serie { get; set; }
-            public string? Numero { get; set; }
+        public int Opcion { get; set; }
+        public string? Serie { get; set; }
+        public string? Numero { get; set; }
     }
 }
