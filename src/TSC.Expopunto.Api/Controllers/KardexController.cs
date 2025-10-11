@@ -47,5 +47,6 @@ namespace TSC.Expopunto.Api.Controllers
             var stream = _modelExcelRepository.ExportExcelDefault(data, "Control de Stock");
             return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Control_Stock.xlsx");
         }
+
     }
 }

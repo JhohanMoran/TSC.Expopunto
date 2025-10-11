@@ -5,6 +5,8 @@ using Microsoft.AspNetCore.Mvc;
 using TSC.Expopunto.Application.DataBase.Reporte.Queries;
 using TSC.Expopunto.Application.DataBase.Reporte.Queries.Models;
 using TSC.Expopunto.Application.Exceptions;
+using TSC.Expopunto.Common;
+using TSC.Expopunto.Common.ModelExcel;
 
 namespace TSC.Expopunto.Api.Controllers
 {
@@ -14,10 +16,12 @@ namespace TSC.Expopunto.Api.Controllers
     public class ReporteController : Controller
     {
         private readonly IReporteQuery _reporteQuery;
+        private readonly IModelExcelRepository _modelExcelRepository;
 
-        public ReporteController(IReporteQuery reporteQuery)
+        public ReporteController(IReporteQuery reporteQuery, IModelExcelRepository modelExcelRepository)
         {
             _reporteQuery = reporteQuery;
+            _modelExcelRepository = modelExcelRepository;
         }
 
         [HttpPost("listar")]
@@ -66,5 +70,15 @@ namespace TSC.Expopunto.Api.Controllers
                 ResponseApiService.Response(StatusCodes.Status200OK, detalles, "Exitoso")
             );
         }
+
+        [HttpGet("exportar")]
+        public FileResult ExportarExcel([FromQuery] ReportesListaParametros parametros)
+        {
+            var data = _reporteQuery.ListarExcel(parametros);
+            var stream = _modelExcelRepository.ExportExcelDefault(data, "Reporte de Ventas");
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Reporte_Ventas.xlsx");
+        }
+
+
     }
 }

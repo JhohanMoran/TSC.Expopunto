@@ -46,7 +46,33 @@ namespace TSC.Expopunto.Application.DataBase.Reporte.Queries
             };
 
             var response = await _dapperService.QueryAsync<DetalleVentaDto>(
-                "uspGetDetalleVenta",   // usa el nombre correcto del SP
+                "uspGetDetalleVenta",   
+                parameters
+            );
+
+            return response.ToList();
+        }
+
+        public List<ReporteExcelDto> ListarExcel(ReportesListaParametros parametros)
+        {
+            var parameters = new
+            {
+                pOpcion = 5, // opción para exportar 
+                pPagina = parametros.Pagina,
+                pFilasPorPagina = parametros.FilasPorPagina,
+                pOrdenPor = parametros.OrdenarPor ?? "SerieNumero",
+                pOrdenDireccion = parametros.OrdenDireccion ?? "ASC",
+                pIdPersona = parametros.IdPersona ?? 0,
+                pTipoComprobante = parametros.TipoComprobante,
+                pSede = parametros.Sede,
+                pSerie = parametros.Serie,
+                pNumero = parametros.Numero,
+                pFechaInicio = parametros.FechaInicio?.Date,
+                pFechaFin = parametros.FechaFin?.Date
+            };
+
+            var response = _dapperService.Query<ReporteExcelDto>(
+                "uspGetVentas",
                 parameters
             );
 

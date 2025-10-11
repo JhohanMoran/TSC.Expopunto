@@ -6,6 +6,8 @@ namespace TSC.Expopunto.Application.DataBase.Reporte.Queries
     {
         Task<List<ReporteVentasModel>> ListarReportesAsync(ReportesListaParametros parametro);
         Task<List<DetalleVentaDto>> ListarDetalleVentaAsync(int idVenta);
+        List<ReporteExcelDto> ListarExcel(ReportesListaParametros parametros);
+
 
     }
 }

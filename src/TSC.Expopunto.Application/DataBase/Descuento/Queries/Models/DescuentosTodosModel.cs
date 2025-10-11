@@ -7,7 +7,9 @@
         public string Tipo { get; set; }
         public decimal Valor { get; set; }
         public DateTime FechaInicio { get; set; }
-        public DateTime FechaFin { get; set; }
+        public DateTime FechaFin {  get; set; }
+        public string FechaInicioDisplay { get; set; }
+        public string FechaFinDisplay { get; set; }
         public bool Activo { get; set; }
         public string Auditoria { get; set; }
         public int TotalRegistros { get; set; }
