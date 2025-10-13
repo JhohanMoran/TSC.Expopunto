@@ -7,7 +7,6 @@ using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Actualizar;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Eliminar;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerDetallesGuiaEntradaPorIdGuia;
-using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiaEntradaPorNumeroSerie;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEntrada;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEntrada.Params;
 using TSC.Expopunto.Application.Exceptions;
@@ -135,28 +134,6 @@ namespace TSC.Expopunto.Api.Controllers
                     StatusCodes.Status200OK,
                     ResponseApiService.Response(StatusCodes.Status204NoContent, null, "No se encontraron resultados")
                 );
-            }
-
-            return StatusCode(
-                StatusCodes.Status200OK,
-                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
-            );
-
-        }
-
-        [HttpGet("listar-por-numero-serie")]
-        public async Task<IActionResult> ListarPorNumeroSerie(
-            [FromQuery] ObtenerGuiasEntradaParams parametros
-        )
-        {
-            var data = await _mediator.Send(new ObtenerGuiaEntradaPorNumeroSerieQuery(parametros.Opcion, parametros.Numero, parametros.Serie));
-
-            if (data == null)
-            {
-                return StatusCode(
-                        StatusCodes.Status404NotFound,
-                        ResponseApiService.Response(StatusCodes.Status404NotFound, null, "Guia no encontrada")
-                    );
             }
 
             return StatusCode(
