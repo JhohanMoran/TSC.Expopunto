@@ -18,5 +18,6 @@ namespace TSC.Expopunto.Application.Interfaces.Repositories.GuiaEntrada
         Task<PagedResult<GuiaEntradaDTO>> ObtenerGuiasEntradaAsync(ObtenerGuiasEntradaParams parametro);
         Task<List<DetalleGuiaEntradaDTO>> ObtenerDetalleGuiaEntradaPorIdGuiaAsync(int idGuiaEntrada);
         Task<GuiaEntradaEntity> ObtenerGuiaEntradaPorIdAsync(int id);
+        Task<GuiaEntradaDTO> ObtenerGuiaEntradaPorNumeroSerieAsync(ObtenerGuiasEntradaParams parametros);
     }
 }

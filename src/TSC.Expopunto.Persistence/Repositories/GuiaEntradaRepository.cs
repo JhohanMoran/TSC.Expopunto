@@ -216,6 +216,35 @@ namespace TSC.Expopunto.Persistence.Repositories
                 FilasPorPagina = parametros.FilasPorPagina
             };
         }
+
+        public async Task<GuiaEntradaDTO> ObtenerGuiaEntradaPorNumeroSerieAsync(
+               ObtenerGuiasEntradaParams parametros
+           )
+        {
+            var parameters = new
+            {
+                pOpcion = parametros.Opcion,
+                pSerie = parametros.Serie,
+                pNumero = parametros.Numero
+            };
+
+            var responseMulti = await _dapperQueryService.QueryMultipleAsync(
+                "uspGetGuiasEntrada",
+                async (multi) =>
+                {
+                    var guiaEntrada = await multi.ReadFirstOrDefaultAsync<GuiaEntradaDTO>();
+                    if (guiaEntrada != null)
+                    {
+                        var detalleGuiaEntrada = await multi.ReadAsync<DetalleGuiaEntradaDTO>();
+                        guiaEntrada.Detalles = detalleGuiaEntrada.ToList();
+                    }
+                    return guiaEntrada;
+                },
+                parameters
+                , 0);
+
+            return responseMulti;
+        }
     }
 }
 
