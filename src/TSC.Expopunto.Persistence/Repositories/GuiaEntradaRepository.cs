@@ -32,10 +32,13 @@ namespace TSC.Expopunto.Persistence.Repositories
                 pSerie = guiaEntrada.Serie,
                 pNumero = guiaEntrada.Numero,
                 pFecha = guiaEntrada.Fecha,
-                pIdPersonaProveedor = guiaEntrada.IdPersonaProveedor,
+                pHora = guiaEntrada.Hora,
                 pTipoGuia = guiaEntrada.TipoGuia,
-                pObservacion = guiaEntrada.Observacion
-                
+                pIdProveedor = guiaEntrada.IdProveedor,
+                pObservacion = guiaEntrada.Observacion,
+                pTotalCantidad = guiaEntrada.TotalCantidad,
+                pTotalCosto = guiaEntrada.TotalCosto,
+                pIdUsuario = guiaEntrada.IdUsuario,
             };
 
             var guiaEntradaId = await _dapperCommandService.ExecuteScalarAsync(
@@ -57,10 +60,12 @@ namespace TSC.Expopunto.Persistence.Repositories
                         pIdGuiaEntrada = guiaEntradaId,
                         pIdProducto = d.IdProducto,
                         pIdUnidadMedida = d.IdUnidadMedida,
-                        pIdTalla = d.IdTalla,
+                        //pIdTalla = d.IdTalla,
                         pCantidad = d.Cantidad,
-                        pCostoUnitario = d.CostoUnitario
-                        
+                        pCostoUnitario = d.CostoUnitario,
+                        pCaja = d.Caja,
+                        pCodigoEstilo = d.CodigoEstilo,
+                        pCodigoPedido = d.CodigoPedido
                     });
 
                 guiaEntrada.AsignarIdDetalle(index, detalleId, guiaEntradaId);
@@ -82,9 +87,13 @@ namespace TSC.Expopunto.Persistence.Repositories
                 pSerie = guiaEntrada.Serie,
                 pNumero = guiaEntrada.Numero,
                 pFecha = guiaEntrada.Fecha,
-                pIdPersonaProveedor = guiaEntrada.IdPersonaProveedor,
+                pHora = guiaEntrada.Hora,
                 pTipoGuia = guiaEntrada.TipoGuia,
-                pObservacion = guiaEntrada.Observacion
+                pIdProveedor = guiaEntrada.IdProveedor,
+                pObservacion = guiaEntrada.Observacion,
+                pTotalCantidad = guiaEntrada.TotalCantidad,
+                pTotalCosto = guiaEntrada.TotalCosto,
+                pIdUsuario = guiaEntrada.IdUsuario,
             };
 
             var guiaEntradaId = await _dapperCommandService.ExecuteScalarAsync(
@@ -106,11 +115,11 @@ namespace TSC.Expopunto.Persistence.Repositories
                         pIdGuiaEntrada = guiaEntradaId,
                         pIdProducto = d.IdProducto,
                         pIdUnidadMedida = d.IdUnidadMedida,
-                        pIdTalla = d.IdTalla,
                         pCantidad = d.Cantidad,
-                        pCostoUnitario = d.CostoUnitario
-
-                    
+                        pCostoUnitario = d.CostoUnitario,
+                        pCaja = d.Caja,
+                        pCodigoEstilo = d.CodigoEstilo,
+                        pCodigoPedido = d.CodigoPedido
                     });
 
                 guiaEntrada.AsignarIdDetalle(index, detalleId, guiaEntradaId);
@@ -120,7 +129,34 @@ namespace TSC.Expopunto.Persistence.Repositories
             return guiaEntrada;
         }
 
-        public async Task<List<DetalleGuiaEntradaDTO>> ObtenerDetalleGuiaEntradaPorIdVentaAsync(int idGuiaEntrada)
+        public async Task<int> EliminarDetalleEntradaAsync(DetalleGuiaEntradaEntity guiaEntrada)
+        {
+            var parameters = new
+            {
+                pOpcion = (int)OperationType.Delete,
+                pId = guiaEntrada.Id,
+                pIdUsuario = guiaEntrada.IdUsuario
+            };
+
+            int response = await _dapperCommandService.ExecuteScalarAsync("uspSetDetalleGuiaEntrada", parameters);
+            return response;
+        }
+
+
+        public async Task<int> EliminarGuiaEntradaAsync(GuiaEntradaEntity guiaEntrada)
+        {
+            var parameters = new
+            {
+                pOpcion = (int)OperationType.Delete,
+                pId = guiaEntrada.Id,
+                pIdUsuario = guiaEntrada.IdUsuario
+            };
+
+            int response = await _dapperCommandService.ExecuteScalarAsync("uspSetGuiaEntrada", parameters);
+            return response;
+        }
+
+        public async Task<List<DetalleGuiaEntradaDTO>> ObtenerDetalleGuiaEntradaPorIdGuiaAsync(int idGuiaEntrada)
         {
             var parameters = new
             {
@@ -156,7 +192,7 @@ namespace TSC.Expopunto.Persistence.Repositories
         {
             var parameters = new
             {
-                pOpcion = 1,
+                pOpcion = parametros.Opcion,
 
                 pPagina = parametros.Pagina,
                 pFilasPorPagina = parametros.FilasPorPagina,
@@ -182,6 +218,34 @@ namespace TSC.Expopunto.Persistence.Repositories
             };
         }
 
+        public async Task<GuiaEntradaDTO> ObtenerGuiaEntradaPorNumeroSerieAsync(
+            ObtenerGuiasEntradaParams parametros
+        )
+        {
+            var parameters = new
+            {
+                pOpcion = parametros.Opcion,
+                pSerie = parametros.Serie,
+                pNumero = parametros.Numero
+            };
+
+            var responseMulti = await _dapperQueryService.QueryMultipleAsync(
+                "uspGetGuiasEntrada",
+                async (multi) =>
+                {
+                    var guiaEntrada = await multi.ReadFirstOrDefaultAsync<GuiaEntradaDTO>();
+                    if (guiaEntrada != null)
+                    {
+                        var detalleGuiaEntrada = await multi.ReadAsync<DetalleGuiaEntradaDTO>();
+                        guiaEntrada.Detalles = detalleGuiaEntrada.ToList();
+                    }
+                    return guiaEntrada;
+                },
+                parameters
+                , 0);
+
+            return responseMulti;
+        }
     }
 }
 

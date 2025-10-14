@@ -1,9 +1,4 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TSC.Expopunto.Application.DataBase.DetalleGuiaEntrada.Commands;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.DTO;
 using TSC.Expopunto.Common;
@@ -17,15 +12,19 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear
         int Id,
         string? Serie,
         string? Numero,
-        DateTime? Fecha,
-        int idPersonaProveedor,
+        DateTime Fecha,
+        TimeSpan Hora,
+        int IdProveedor,
         string? TipoGuia,
         string? Observacion,
+        int IdUsuario,
+        decimal TotalCantidad,
+        decimal TotalCosto,
 
         List<DetalleGuiaEntradaCommand>? Detalles
 
         ) : IRequest<GuiaEntradaDTO>
     {
-        public int? IdPersonaProveedor { get; internal set; }
+        //public int IdProveedor { get; internal set; }
     }
 }

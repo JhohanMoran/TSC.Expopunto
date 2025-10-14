@@ -1,21 +1,19 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-
-namespace TSC.Expopunto.Domain.Entities.GuiaEntrada
+﻿namespace TSC.Expopunto.Domain.Entities.GuiaEntrada
 {
     public class GuiaEntradaEntity
     {
         public int Id { get; set; }
         public string? Serie { get; set; }
         public string? Numero { get; set; }
-        public DateTime? Fecha { get; set; }
-        public int? IdPersonaProveedor { get; set; }
+        public DateTime Fecha { get; set; }
+        public TimeSpan Hora { get; set; }
+        public int IdProveedor { get; set; }
         public string? TipoGuia { get; set; }
         public string? Observacion { get; set; }
+        public decimal TotalCantidad { get; set; }
+        public decimal TotalCosto { get; set; }
+        public int IdUsuario { get; set; }
+
 
 
         private readonly List<DetalleGuiaEntradaEntity> _detalles = new();
@@ -27,29 +25,38 @@ namespace TSC.Expopunto.Domain.Entities.GuiaEntrada
             int id,
             string? serie,
             string? numero,
-            DateTime? fecha,
-            int? idPersonaProveedor,
+            DateTime fecha,
+            TimeSpan hora,
+            int idPersonaProveedor,
             string? tipoGuia,
-            string? observacion
+            string? observacion,
+            decimal totalCantidad,
+            decimal totalCosto,
+            int idUsuario
         )
         {
             Id = id;
             Serie = serie;
             Numero = numero;
             Fecha = fecha;
-            IdPersonaProveedor = idPersonaProveedor;
+            Hora = hora;
+            IdProveedor = idPersonaProveedor;
             TipoGuia = tipoGuia;
             Observacion = observacion;
+            TotalCantidad = totalCantidad;
+            TotalCosto = totalCosto;
+            IdUsuario = idUsuario;
         }
         public void AgregarDetalle(
             int id,
             int idGuiaEntrada,
             int idProducto,
             int idUnidadMedida,
-            int idTalla,
-            int cantidad,
-            decimal costoUnitario
-            
+            decimal cantidad,
+            decimal costoUnitario,
+            string caja,
+            string codEstilo,
+            string codPedido
         )
         {
             _detalles.Add(new DetalleGuiaEntradaEntity(
@@ -57,10 +64,12 @@ namespace TSC.Expopunto.Domain.Entities.GuiaEntrada
                 idGuiaEntrada,
                 idProducto,
                 idUnidadMedida,
-                idTalla,
                 cantidad,
-                costoUnitario
-                
+                costoUnitario,
+                caja,
+                codEstilo,
+                codPedido,
+                null
             ));
         }
 
@@ -68,10 +77,14 @@ namespace TSC.Expopunto.Domain.Entities.GuiaEntrada
             int id,
             string? serie,
             string? numero,
-            DateTime? fecha,
-            int? idPersonaProveedor,
+            DateTime fecha,
+            TimeSpan hora,
+            int idProveedor,
             string? tipoGuia,
             string? observacion,
+            decimal totalCantidad,
+            decimal totalCosto,
+            int idUsuario,
             List<DetalleGuiaEntradaEntity>? nuevosDetalles
         )
         {
@@ -79,10 +92,13 @@ namespace TSC.Expopunto.Domain.Entities.GuiaEntrada
             Serie = serie;
             Numero = numero;
             Fecha = fecha;
-            IdPersonaProveedor = idPersonaProveedor;
+            Hora = hora;
+            IdProveedor = idProveedor;
             TipoGuia = tipoGuia;
             Observacion = observacion;
-            
+            TotalCantidad = totalCantidad;
+            TotalCosto = totalCosto;
+            IdUsuario = idUsuario;
 
             _detalles.Clear();
             _detalles.AddRange(nuevosDetalles);

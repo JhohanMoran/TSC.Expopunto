@@ -10,11 +10,14 @@ namespace TSC.Expopunto.Application.Interfaces.Repositories.GuiaEntrada
         // Procesos
         Task<GuiaEntradaEntity> CrearGuiaEntradaAsync(GuiaEntradaEntity guiaEntrada);
         Task<GuiaEntradaEntity> ActualizarGuiaEntradaAsync(GuiaEntradaEntity guiaEntrada);
+        Task<int> EliminarGuiaEntradaAsync(GuiaEntradaEntity guiaEntrada);
+        Task<int> EliminarDetalleEntradaAsync(DetalleGuiaEntradaEntity guiaEntrada);
 
 
         // Listas
         Task<PagedResult<GuiaEntradaDTO>> ObtenerGuiasEntradaAsync(ObtenerGuiasEntradaParams parametro);
-        Task<List<DetalleGuiaEntradaDTO>> ObtenerDetalleGuiaEntradaPorIdVentaAsync(int idGuiaEntrada);
+        Task<List<DetalleGuiaEntradaDTO>> ObtenerDetalleGuiaEntradaPorIdGuiaAsync(int idGuiaEntrada);
         Task<GuiaEntradaEntity> ObtenerGuiaEntradaPorIdAsync(int id);
+        Task<GuiaEntradaDTO> ObtenerGuiaEntradaPorNumeroSerieAsync(ObtenerGuiasEntradaParams parametros);
     }
 }

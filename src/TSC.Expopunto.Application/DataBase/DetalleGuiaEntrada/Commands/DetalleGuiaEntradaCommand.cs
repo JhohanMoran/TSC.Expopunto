@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TSC.Expopunto.Application.DataBase.DetalleGuiaEntrada.Commands
+﻿namespace TSC.Expopunto.Application.DataBase.DetalleGuiaEntrada.Commands
 {
     public record DetalleGuiaEntradaCommand
     (
@@ -13,8 +7,11 @@ namespace TSC.Expopunto.Application.DataBase.DetalleGuiaEntrada.Commands
         int IdProducto,
         int IdUnidadMedida,
         int IdTalla,
-        int Cantidad,
-        decimal CostoUnitario
-
+        decimal Cantidad,
+        decimal CostoUnitario,
+        string Caja,
+        string CodigoEstilo,
+        string CodigoPedido,
+        int IdUsuario
     );
 }

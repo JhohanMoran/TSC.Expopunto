@@ -1,11 +1,13 @@
-﻿using FluentValidation;
-using MediatR;
+﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using TSC.Expopunto.Api.Models.GuiasEntrada;
 
 using TSC.Expopunto.Application.DataBase.DetalleGuiaEntrada.Commands;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Actualizar;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Eliminar;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerDetallesGuiaEntradaPorIdGuia;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiaEntradaPorNumeroSerie;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEntrada;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEntrada.Params;
 using TSC.Expopunto.Application.Exceptions;
@@ -37,9 +39,13 @@ namespace TSC.Expopunto.Api.Controllers
                 request.Serie,
                 request.Numero,
                 request.Fecha,
-                request.IdPersonaProveedor,
+                request.Hora,
+                request.IdProveedor,
                 request.TipoGuia,
                 request.Observacion,
+                request.IdUsuario,
+                request.TotalCantidad,
+                request.TotalCosto,
 
                 request.Detalles.Select(d => new DetalleGuiaEntradaCommand(
                     d.Id,
@@ -49,7 +55,7 @@ namespace TSC.Expopunto.Api.Controllers
                     d.IdTalla,
                     d.Cantidad,
                     d.CostoUnitario
-
+                    
                 )).ToList()
             );
 
@@ -72,9 +78,13 @@ namespace TSC.Expopunto.Api.Controllers
                 request.Serie,
                 request.Numero,
                 request.Fecha,
-                request.IdPersonaProveedor,
+                request.Hora,
+                request.IdProveedor,
                 request.TipoGuia,
                 request.Observacion,
+                request.TotalCantidad,
+                request.TotalCosto,
+                request.IdUsuario,
                 request.Detalles.Select(d => new DetalleGuiaEntradaCommand(
                     d.Id,
                     d.IdGuiaEntrada,
@@ -82,7 +92,11 @@ namespace TSC.Expopunto.Api.Controllers
                     d.IdUnidadMedida,
                     d.IdTalla,
                     d.Cantidad,
-                    d.CostoUnitario
+                    d.CostoUnitario,
+                    d.Caja,
+                    d.CodigoEstilo,
+                    d.CodigoPedido,
+                    d.IdUsuario
                 )).ToList()
             );
 
@@ -109,6 +123,78 @@ namespace TSC.Expopunto.Api.Controllers
 
         }
 
+        [HttpGet("listar-por-numero-serie")]
+        public async Task<IActionResult> ListarPorNumeroSerie(
+            [FromQuery] ObtenerGuiasEntradaParams parametros
+        )
+        {
+            var data = await _mediator.Send(new ObtenerGuiaEntradaPorNumeroSerieQuery(parametros.Opcion, parametros.Numero, parametros.Serie));
+
+            if (data == null)
+            {
+                return StatusCode(
+                        StatusCodes.Status404NotFound,
+                        ResponseApiService.Response(StatusCodes.Status404NotFound, null, "Guia no encontrada")
+                    );
+            }
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+
+        }
+
+        [HttpGet("listar-detalles-por-id-guia")]
+        public async Task<IActionResult> ListarPorIdGuia(
+            [FromQuery] int idGuia
+        )
+        {
+            var data = await _mediator.Send(new ObtenerDetallesGuiaEntradaPorIdGuiaQuery(idGuia));
+
+            if (data == null)
+            {
+                return StatusCode(
+                        StatusCodes.Status404NotFound,
+                        ResponseApiService.Response(StatusCodes.Status404NotFound, null, "Guia no encontrada")
+                    );
+            }
+            else if (data.Count() == 0)
+            {
+                return StatusCode(
+                        StatusCodes.Status204NoContent,
+                        ResponseApiService.Response(StatusCodes.Status204NoContent, null, "No se encontraron detalles")
+                    );
+            }
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+
+        }
+
+        [HttpPost("eliminar")]
+        public async Task<IActionResult> Eliminar([FromBody] ActualizarGuiaEntradaCommand param)
+        {
+            var data = await this._mediator.Send(new EliminarGuiaEntradaCommand(param.Id));
+
+            return StatusCode(
+                    StatusCodes.Status200OK,
+                    ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+                );
+        }
+
+        [HttpPost("eliminar-detalle")]
+        public async Task<IActionResult> EliminarDetalle([FromBody] DetalleGuiaEntradaRequest param)
+        {
+            var data = await this._mediator.Send(new EliminarDetalleGuiaEntradaCommand(param.Id, param.IdUsuario));
+
+            return StatusCode(
+                    StatusCodes.Status200OK,
+                    ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+                );
+        }
     }
 }
 

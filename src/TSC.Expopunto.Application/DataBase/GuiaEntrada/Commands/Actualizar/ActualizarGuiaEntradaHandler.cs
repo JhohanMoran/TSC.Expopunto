@@ -1,9 +1,4 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Actualizar;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.DTO;
 using TSC.Expopunto.Application.Interfaces.Repositories.GuiaEntrada;
@@ -37,9 +32,12 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands
                     d.IdGuiaEntrada,
                     d.IdProducto,
                     d.IdUnidadMedida,
-                    d.IdTalla,
                     d.Cantidad,
-                    d.CostoUnitario
+                    d.CostoUnitario,
+                    d.Caja,
+                    d.CodigoEstilo,
+                    d.CodigoPedido,
+                    null
                 ))
                 .ToList();
 
@@ -48,9 +46,13 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands
                 request.Serie,
                 request.Numero,
                 request.Fecha,
-                request.IdPersonaProveedor ,
+                request.Hora,
+                request.IdProveedor,
                 request.TipoGuia,
                 request.Observacion,
+                request.TotalCantidad,
+                request.TotalCosto,
+                request.IdUsuario,
                 nuevosDetalles
             );
 
@@ -58,7 +60,7 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands
             GuiaEntradaEntity guiaEntradaRespuesta = await _repository.ActualizarGuiaEntradaAsync(guiaEntradaExistente);
 
             // 4. Retornar el detalle completo de la GuiaEntrada actualizada
-            var guiaEntradaDetalleRespuesta = await _repository.ObtenerDetalleGuiaEntradaPorIdVentaAsync(guiaEntradaRespuesta.Id);
+            var guiaEntradaDetalleRespuesta = await _repository.ObtenerDetalleGuiaEntradaPorIdGuiaAsync(guiaEntradaRespuesta.Id);
 
 
             return new GuiaEntradaDTO
@@ -67,21 +69,25 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands
                 Serie = guiaEntradaRespuesta.Serie,
                 Numero = guiaEntradaRespuesta.Numero,
                 Fecha = guiaEntradaRespuesta.Fecha,
-                IdPersonaProveedor = guiaEntradaRespuesta.IdPersonaProveedor,
+                IdProveedor = guiaEntradaRespuesta.IdProveedor,
                 TipoGuia = guiaEntradaRespuesta.TipoGuia,
                 Observacion = guiaEntradaRespuesta.Observacion,
-                
+
 
                 Detalles = guiaEntradaDetalleRespuesta.Select(x => new DetalleGuiaEntradaDTO
                 {
-                    Id = x.Id,             // Id asignado en la BD
-                    IdGuiaEntrada = x.IdGuiaEntrada,   // también ya viene actualizado
+                    Id = x.Id, // Id asignado en la BD
+                    IdGuiaEntrada = x.IdGuiaEntrada,
                     IdProducto = x.IdProducto,
                     IdUnidadMedida = x.IdUnidadMedida,
-                    IdTalla = x.IdTalla,
+                    CodUniMed = x.CodUniMed,
                     Cantidad = x.Cantidad,
-                    CostoUnitario = x.CostoUnitario
-                    
+                    CostoUnitario = x.CostoUnitario,
+                    Caja = x.Caja,
+                    CodigoEstilo = x.CodigoEstilo,
+                    CodigoPedido = x.CodigoPedido
+
+
                 }).ToList()
             };
         }

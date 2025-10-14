@@ -1,10 +1,4 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.DTO;
 using TSC.Expopunto.Application.Interfaces.Repositories.GuiaEntrada;
 using TSC.Expopunto.Domain.Entities.GuiaEntrada;
@@ -32,10 +26,13 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear
                 request.Serie,
                 request.Numero,
                 request.Fecha,
-                request.IdPersonaProveedor,
+                request.Hora,
+                request.IdProveedor,
                 request.TipoGuia,
-                request.Observacion
-                
+                request.Observacion,
+                request.TotalCantidad,
+                request.TotalCosto,
+                request.IdUsuario
             );
 
             foreach (var d in request.Detalles)
@@ -45,9 +42,11 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear
                     d.IdGuiaEntrada,
                     d.IdProducto,
                     d.IdUnidadMedida,
-                    d.IdTalla,
                     d.Cantidad,
-                    d.CostoUnitario
+                    d.CostoUnitario,
+                    d.Caja,
+                    d.CodigoEstilo,
+                    d.CodigoPedido
                 );
             }
 
@@ -61,16 +60,18 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear
                 Serie = guiaEntradaRespuesta.Serie,
                 Numero = guiaEntradaRespuesta.Numero,
                 Fecha = guiaEntradaRespuesta.Fecha,
-                IdPersonaProveedor = guiaEntradaRespuesta.IdPersonaProveedor,
+                Hora = guiaEntrada.Hora,
+                IdProveedor = guiaEntradaRespuesta.IdProveedor,
                 TipoGuia = guiaEntradaRespuesta.TipoGuia,
                 Observacion = guiaEntradaRespuesta.Observacion,
+                TotalCantidad = guiaEntradaRespuesta.TotalCantidad,
+                TotalCosto = guiaEntradaRespuesta.TotalCosto,
                 Detalles = guiaEntradaRespuesta.Detalles.Select(x => new DetalleGuiaEntradaDTO
                 {
                     Id = x.Id,             // Id asignado en la BD
                     IdGuiaEntrada = x.IdGuiaEntrada,   // también ya viene actualizado
                     IdProducto = x.IdProducto,
                     IdUnidadMedida = x.IdUnidadMedida,
-                    IdTalla = x.IdTalla,
                     Cantidad = x.Cantidad,
                     CostoUnitario = x.CostoUnitario,
                 }).ToList()

@@ -1,9 +1,4 @@
 ﻿using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear;
 
 namespace TSC.Expopunto.Application.Validators.GuiaEntrada
@@ -12,7 +7,7 @@ namespace TSC.Expopunto.Application.Validators.GuiaEntrada
     {
         public CrearGuiaEntradaCommandValidator()
         {
-            RuleFor(x => x.IdPersonaProveedor)
+            RuleFor(x => x.IdProveedor)
             .GreaterThan(0).WithMessage("El proveedor es obligatorio.");
 
             RuleFor(x => x.Fecha)

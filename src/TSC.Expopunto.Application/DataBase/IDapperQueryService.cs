@@ -1,4 +1,7 @@
-﻿namespace TSC.Expopunto.Application.DataBase
+﻿using Dapper;
+using Microsoft.AspNetCore.Mvc;
+
+namespace TSC.Expopunto.Application.DataBase
 {
     public interface IDapperQueryService
     {
@@ -6,5 +9,6 @@
         Task<T> QueryFirstOrDefaultAsync<T>(string procedureName, object parameters = null);
         Task<IEnumerable<T>> QueryAsync<T>(string procedureName, object parameters = null, int? timeOut = null);
         IEnumerable<T> Query<T>(string procedureName, object parameters = null);
+        Task<TResult> QueryMultipleAsync<TResult>(string procedureName,Func<SqlMapper.GridReader, Task<TResult>> map, object parameters = null, int? timeOut = null);
     }
 }
