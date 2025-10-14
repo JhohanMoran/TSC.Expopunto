@@ -33,6 +33,8 @@ using TSC.Expopunto.Application.DataBase.Descuento.Commands;
 using TSC.Expopunto.Application.DataBase.Descuento.Queries;
 using TSC.Expopunto.Application.DataBase.Sede.Commands;
 using TSC.Expopunto.Application.DataBase.Sede.Queries;
+using TSC.Expopunto.Application.DataBase.SedeSerie.Commands;
+using TSC.Expopunto.Application.DataBase.SedeSerie.Queries;
 using TSC.Expopunto.Application.DataBase.TipoComprobante.Queries;
 using TSC.Expopunto.Application.DataBase.TipoDocumento.Commands;
 using TSC.Expopunto.Application.DataBase.TipoDocumento.Queries;
@@ -89,6 +91,9 @@ namespace TSC.Expopunto.Application
             services.AddTransient<ISedeCommand, SedeCommand>();
             services.AddTransient<ISedeQuery, SedeQuery>();
 
+            services.AddTransient<ISedeSerieCommand, SedeSerieCommand>();
+            services.AddTransient<ISedeSerieQuery, SedeSerieQuery>();
+
             services.AddTransient<ITipoComprobanteQuery, TipoComprobanteQuery>();
             services.AddTransient<ITipoMonedaQuery, TipoMonedaQuery>();
 
@@ -142,7 +147,7 @@ namespace TSC.Expopunto.Application
             services.AddTransient<ILineaCreditoQuery, LineaCreditoQuery>();
 
             services.AddTransient<IProductoVarianteQuery, ProductoVarianteQuery>();
-            
+
             services.AddTransient<IDescuentoQuery, DescuentoQuery>();
             services.AddTransient<IDescuentoCommand, DescuentoCommand>();
 

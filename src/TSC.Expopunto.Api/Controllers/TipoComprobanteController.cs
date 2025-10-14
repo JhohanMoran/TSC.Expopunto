@@ -27,7 +27,7 @@ namespace TSC.Expopunto.Api.Controllers
             if (data == null || data.Count == 0)
             {
                 return StatusCode(
-                    StatusCodes.Status204NoContent,
+                    StatusCodes.Status404NotFound,
                     ResponseApiService.Response(StatusCodes.Status404NotFound, data, "No exiten Tipos Comprobantes"));
             }
 

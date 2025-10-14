@@ -37,7 +37,7 @@ namespace TSC.Expopunto.Api.Controllers
 
 
         [HttpPost("actualizar")]
-        public async Task<IActionResult> Actualizarf(
+        public async Task<IActionResult> Actualizar(
              [FromBody] SedeModel model
             )
         {
@@ -60,9 +60,11 @@ namespace TSC.Expopunto.Api.Controllers
 
             if (idSede == 0)
             {
-                return StatusCode(
-                    StatusCodes.Status400BadRequest,
-                    ResponseApiService.Response(StatusCodes.Status200OK, null, "El ID de la sede  no es válido"));
+                return BadRequest(ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El ID no es válido"));
+
+                //return StatusCode(
+                //    StatusCodes.Status400BadRequest,
+                //    ResponseApiService.Response(StatusCodes.Status200OK, null, "El ID de la sede  no es válido"));
             }
 
             var model = new SedeModel()

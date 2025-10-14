@@ -40,7 +40,7 @@ namespace TSC.Expopunto.Api.Controllers
                 request.IdPersonaProveedor,
                 request.TipoGuia,
                 request.Observacion,
-                
+
                 request.Detalles.Select(d => new DetalleGuiaEntradaCommand(
                     d.Id,
                     d.IdGuiaEntrada,
@@ -49,7 +49,7 @@ namespace TSC.Expopunto.Api.Controllers
                     d.IdTalla,
                     d.Cantidad,
                     d.CostoUnitario
-                    
+
                 )).ToList()
             );
 
@@ -76,7 +76,7 @@ namespace TSC.Expopunto.Api.Controllers
                 request.TipoGuia,
                 request.Observacion,
                 request.Detalles.Select(d => new DetalleGuiaEntradaCommand(
-                     d.Id,
+                    d.Id,
                     d.IdGuiaEntrada,
                     d.IdProducto,
                     d.IdUnidadMedida,
