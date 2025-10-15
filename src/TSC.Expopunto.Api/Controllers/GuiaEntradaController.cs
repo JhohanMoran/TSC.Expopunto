@@ -28,44 +28,49 @@ namespace TSC.Expopunto.Api.Controllers
             _mediator = mediator;
         }
 
-        //[HttpPost("crear")]
-        //public async Task<IActionResult> Crear(
-        //    [FromBody] CrearGuiaEntradaRequest request
-        //)
-        //{
-        //    var command = new CrearGuiaEntradaCommand(
-        //        OperationType.Create,
-        //        request.Id,
-        //        request.Serie,
-        //        request.Numero,
-        //        request.Fecha,
-        //        request.Hora,
-        //        request.IdProveedor,
-        //        request.TipoGuia,
-        //        request.Observacion,
-        //        request.IdUsuario,
-        //        request.TotalCantidad,
-        //        request.TotalCosto,
+        [HttpPost("crear")]
+        public async Task<IActionResult> Crear(
+            [FromBody] CrearGuiaEntradaRequest request
+        )
+        {
+            var command = new CrearGuiaEntradaCommand(
+                OperationType.Create,
+                request.Id,
+                request.Serie,
+                request.Numero,
+                request.Fecha,
+                request.Hora,
+                request.IdProveedor,
+                request.TipoGuia,
+                request.Observacion,
+                request.IdUsuario,
+                request.TotalCantidad,
+                request.TotalCosto,
 
-        //        request.Detalles.Select(d => new DetalleGuiaEntradaCommand(
-        //            d.Id,
-        //            d.IdGuiaEntrada,
-        //            d.IdProducto,
-        //            d.IdUnidadMedida,
-        //            d.IdTalla,
-        //            d.Cantidad,
-        //            d.CostoUnitario
+                request.Detalles.Select(d => new DetalleGuiaEntradaCommand(
+                    d.Id,
+                    d.IdGuiaEntrada,
+                    d.IdProducto,
+                    d.IdUnidadMedida,
+                    d.IdTalla,
+                    d.Cantidad,
+                    d.CostoUnitario,
+                    d.Caja,
+                    d.CodigoEstilo,
+                    d.CodigoPedido,
+                    d.IdUsuario
+                
 
-        //        )).ToList()
-        //    );
+                )).ToList()
+            );
 
-        //    var data = await _mediator.Send(command);
+            var data = await _mediator.Send(command);
 
-        //    return StatusCode(
-        //        StatusCodes.Status201Created,
-        //        ResponseApiService.Response(StatusCodes.Status201Created, data, "Exitoso")
-        //    );
-        //}
+            return StatusCode(
+                StatusCodes.Status201Created,
+                ResponseApiService.Response(StatusCodes.Status201Created, data, "Exitoso")
+            );
+        }
 
         [HttpPost("actualizar")]
         public async Task<IActionResult> Actualizar(

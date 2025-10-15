@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -39,6 +40,7 @@ namespace TSC.Expopunto.Application.DataBase.Sede.Commands
             //}
             return model;
         }
+        
 
     }
 }

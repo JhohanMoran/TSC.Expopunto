@@ -52,7 +52,7 @@ namespace TSC.Expopunto.Api.Controllers
 
 
         }
-
+        
         [HttpPost("eliminar")]
         public async Task<IActionResult> Eliminar(
              [FromBody] int idSede)
