@@ -32,6 +32,8 @@ namespace TSC.Expopunto.Api.Controllers
                 ResponseApiService.Response(StatusCodes.Status201Created, data, "Registrado correctamente"));
         }
 
+
+
         [HttpPost("actualizar")]
         public async Task<IActionResult> Actualizar([FromBody] SedeSerieModel model)
         {

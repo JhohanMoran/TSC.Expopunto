@@ -29,9 +29,10 @@ namespace TSC.Expopunto.Application.DataBase.SedeSerie.Commands
                     pActivo = model.Activo
                 });
 
-            if (response > 0)
-                model.Id = response;
-
+            //if (response > 0)
+            //    model.Id = response;
+            if (response != null && int.TryParse(response.ToString(), out int id))
+                model.Id = id;
             return model;
         }
     }
