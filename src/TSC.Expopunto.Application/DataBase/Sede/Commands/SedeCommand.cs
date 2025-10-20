@@ -1,4 +1,11 @@
-﻿namespace TSC.Expopunto.Application.DataBase.Sede.Commands
+﻿using Newtonsoft.Json;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace TSC.Expopunto.Application.DataBase.Sede.Commands
 {
     public class SedeCommand : ISedeCommand
     {
@@ -23,15 +30,17 @@
                     pActivo = model.Activo
 
                 });
-            if (response > 1)
+            if (response != null && Convert.ToInt32(response) > 0)
             {
-                model.Id = response;
+                model.Id = Convert.ToInt32(response);
             }
+            //if (response > 1)
+            //{
+            //    model.Id = response;
+            //}
             return model;
         }
-
-
-
+        
 
     }
 }

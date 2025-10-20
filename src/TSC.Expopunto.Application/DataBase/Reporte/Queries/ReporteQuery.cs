@@ -46,7 +46,7 @@ namespace TSC.Expopunto.Application.DataBase.Reporte.Queries
             };
 
             var response = await _dapperService.QueryAsync<DetalleVentaDto>(
-                "uspGetDetalleVenta",   
+                "uspGetDetalleVenta",
                 parameters
             );
 
@@ -57,7 +57,7 @@ namespace TSC.Expopunto.Application.DataBase.Reporte.Queries
         {
             var parameters = new
             {
-                pOpcion = 5, // opción para exportar 
+                pOpcion = 5, // opción para exportar
                 pPagina = parametros.Pagina,
                 pFilasPorPagina = parametros.FilasPorPagina,
                 pOrdenPor = parametros.OrdenarPor ?? "SerieNumero",
@@ -78,8 +78,6 @@ namespace TSC.Expopunto.Application.DataBase.Reporte.Queries
 
             return response.ToList();
         }
-
-
 
     }
 }

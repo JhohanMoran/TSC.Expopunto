@@ -64,6 +64,8 @@ namespace TSC.Expopunto.Api.Controllers
                     d.Color,
                     d.CodigoSku,
                     d.IdUsuario
+                
+
                 )).ToList()
             );
 
@@ -94,7 +96,7 @@ namespace TSC.Expopunto.Api.Controllers
                 request.TotalCosto,
                 request.IdUsuario,
                 request.Detalles.Select(d => new DetalleGuiaEntradaCommand(
-                     d.Id,
+                    d.Id,
                     d.IdGuiaEntrada,
                     d.IdProducto,
                     d.IdUnidadMedida,

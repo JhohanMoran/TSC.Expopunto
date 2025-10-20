@@ -2,6 +2,7 @@
 {
     public interface ISedeCommand
     {
-        Task<SedeModel> ProcesarAsync(SedeModel model);
+        Task<SedeModel>ProcesarAsync(SedeModel model);
+
     }
 }
