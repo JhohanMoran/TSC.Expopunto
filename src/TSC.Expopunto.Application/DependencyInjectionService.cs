@@ -8,6 +8,7 @@ using TSC.Expopunto.Application.Configuration;
 using TSC.Expopunto.Application.DataBase.Accesos.Queries;
 using TSC.Expopunto.Application.DataBase.Categoria.Command;
 using TSC.Expopunto.Application.DataBase.Categoria.Queries;
+using TSC.Expopunto.Application.DataBase.CuotasDescuento.Queries;
 using TSC.Expopunto.Application.DataBase.Descuento.Commands;
 using TSC.Expopunto.Application.DataBase.Descuento.Queries;
 using TSC.Expopunto.Application.DataBase.DescuentoProductoVariante.Commands;
@@ -151,6 +152,8 @@ namespace TSC.Expopunto.Application
 
             services.AddTransient<IDescuentoQuery, DescuentoQuery>();
             services.AddTransient<IDescuentoCommand, DescuentoCommand>();
+
+            services.AddTransient<ICuotasDescuentoQuery, CuotasDescuentoQuery>();
 
             services.AddTransient<IDescuentoProductoVarianteCommand, DescuentoProductoVarianteCommand>();
             services.AddTransient<IDescuentoProductoVarianteQuery, DescuentoProductoVarianteQuery>();

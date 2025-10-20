@@ -14,6 +14,6 @@
         /// <param name="headers">Lista opcional de encabezados de columnas. Si es null, se usarán las propiedades de <typeparamref name="T"/>.</param>
         /// <param name="maxWidth">Ancho máximo de las columnas (opcional).</param>
         /// <returns>Un <see cref="MemoryStream"/> que contiene el archivo Excel generado.</returns>
-        MemoryStream ExportExcelDefault<T>(List<T> data, string title, List<string>? headers = null, double? maxWidth = null);
+        MemoryStream ExportExcelDefault<T>(List<T> data,string title, List<string>? headers = null, double? maxWidth = null, bool sticky = false, bool showHeaders = true);
     }
 }
