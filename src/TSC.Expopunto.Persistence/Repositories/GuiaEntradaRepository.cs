@@ -196,7 +196,10 @@ namespace TSC.Expopunto.Persistence.Repositories
                 pOrdenDireccion = parametros.OrdenDireccion,
 
                 pSerie = parametros.Serie,
-                pNumero = parametros.Numero
+                pNumero = parametros.Numero,
+                pIdProveedor = parametros.IdProveedor,
+                pFechaDesde = parametros.FechaDesde,
+                pFechaHasta = parametros.FechaHasta
             };
 
             var response = await _dapperQueryService
@@ -215,8 +218,8 @@ namespace TSC.Expopunto.Persistence.Repositories
         }
 
         public async Task<GuiaEntradaDTO> ObtenerGuiaEntradaPorNumeroSerieAsync(
-            ObtenerGuiasEntradaParams parametros
-        )
+               ObtenerGuiasEntradaParams parametros
+           )
         {
             var parameters = new
             {
