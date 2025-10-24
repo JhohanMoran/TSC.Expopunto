@@ -94,7 +94,7 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear
                             Genero = item.Genero,
                             IdUsuario = item.IdUsuario,
                             Activo = 1,
-                            NumCaja = item.NumCaja
+                            NumCaja = item.NumCaja.ToString()
                         };
 
                         var responseProducto = await this._productoCommand.ProcesarAsync(nuevoProducto);
@@ -145,11 +145,14 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear
                     d.IdGuiaEntrada,
                     d.IdProducto,
                     d.IdUnidadMedida,
+                    "",
                     d.Cantidad,
-                    d.NumCaja,
+                    d.NumCaja.ToString(),
+                    "",
                     d.Nombre,
                     d.CodigoEstilo,
                     d.CodigoPedido,
+                    0,
                     d.Categoria,
                     d.Genero,
                     d.Color,
@@ -177,11 +180,23 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear
                 TotalCosto = guiaEntradaRespuesta.TotalCosto,
                 Detalles = guiaEntradaRespuesta.Detalles.Select(x => new DetalleGuiaEntradaDTO
                 {
-                    Id = x.Id,             // Id asignado en la BD
-                    IdGuiaEntrada = x.IdGuiaEntrada,   // también ya viene actualizado
+
+                    Id = x.Id, // Id asignado en la BD
+                    IdGuiaEntrada = x.IdGuiaEntrada,  // también ya viene actualizado
                     IdProducto = x.IdProducto,
                     IdUnidadMedida = x.IdUnidadMedida,
+                    CodUniMed = x.CodUniMed,
                     Cantidad = x.Cantidad,
+                    NumCaja = x.NumCaja,
+                    CodProducto = x.CodProducto,
+                    Nombre = x.Nombre,
+                    CodigoEstilo = x.CodigoEstilo,
+                    CodigoPedido = x.CodigoPedido,
+                    IdCategoria = x.IdCategoria,
+                    Categoria = x.Categoria,
+                    Genero = x.Genero,
+                    Color = x.Color,
+                    Talla = x.Talla,
                 }).ToList()
             };
         }
