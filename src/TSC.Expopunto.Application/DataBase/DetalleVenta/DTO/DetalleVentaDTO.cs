@@ -4,8 +4,9 @@
     {
         public int Id { get; set; }
         public int IdVenta { get; set; }
+        public int IdVentaTipoOperacion { get; set; }
         public int IdProductoVariante { get; set; }
-        public string DescripcionProducto { get; set; }
+        public string DescripcionProducto { get; set; } = string.Empty;
         public int Cantidad { get; set; }
         public decimal PrecioUnitario { get; set; }
         public int IdDescuento { get; set; }
@@ -13,6 +14,6 @@
         public decimal SubTotal { get; set; }
         public bool Activo { get; set; }
 
-        public string TipoDescuento { get; set; }
+        public string TipoDescuento { get; set; } = string.Empty;
     }
 }

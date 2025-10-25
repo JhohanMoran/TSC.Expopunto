@@ -22,6 +22,7 @@ namespace TSC.Expopunto.Application.DataBase.Sede.Queries
             return response.ToList();
         }
 
+     
         public async Task<List<SedesTodosModel>> ListarTodosAsync()
         {
             var parameters = new

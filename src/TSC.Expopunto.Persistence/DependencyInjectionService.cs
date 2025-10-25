@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using TSC.Expopunto.Application.DataBase;
 using TSC.Expopunto.Application.Interfaces.Repositories.GuiaEntrada;
 using TSC.Expopunto.Application.Interfaces.Repositories.Venta;
+using TSC.Expopunto.Application.Interfaces.Repositories.VentaTipoOperacion;
 using TSC.Expopunto.Persistence.DataBase;
 using TSC.Expopunto.Persistence.Repositories;
 
@@ -20,6 +21,7 @@ namespace TSC.Expopunto.Persistence
 
             services.AddScoped<IVentaRepository, VentaRepository>();
             services.AddScoped<IGuiaEntradaRepository, GuiaEntradaRepository>();
+            services.AddScoped<IVentaTipoOperacionRepository, VentaTipoOperacionRepository>();
 
             return services;
         }

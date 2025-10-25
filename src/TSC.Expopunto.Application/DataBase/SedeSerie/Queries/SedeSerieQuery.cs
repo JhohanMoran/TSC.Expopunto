@@ -46,5 +46,18 @@ namespace TSC.Expopunto.Application.DataBase.SedeSerie.Queries
             var result = await _dapperService.QueryAsync<SedeSerieTodosModel>("uspGetSedeSerie", parameters);
             return result.ToList();
         }
+
+        public async Task<List<SedeSerieTodosModel>> ListarSeriesPorSedeTipoComprobanteAsync(int idSede, int idTipoComprobante)
+        {
+            var parameters = new
+            {
+                pOpcion = 4,
+                pIdSede = idSede,
+                pIdTipoComprobante = idTipoComprobante
+            };
+            var response = await _dapperService.QueryAsync<SedeSerieTodosModel>("uspGetSedeSerie", parameters);
+            return response.ToList();
+        }
+
     }
 }

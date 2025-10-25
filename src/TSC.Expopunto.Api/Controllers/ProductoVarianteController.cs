@@ -19,9 +19,20 @@ namespace TSC.Expopunto.Api.Controllers
         }
 
         [HttpPost("listar-todos-por-paginacion")]
-        public async Task<IActionResult> ListarProductosVarianteTodosAsync([FromBody] ProductosVarianteParametros parametro)
+        public async Task<IActionResult> ListarProductosVarianteTodos([FromBody] ProductosVarianteParametros parametro)
         {
             var response = await _productoVarianteQuery.ListarProductosVarianteTodosAsync(parametro);
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, response, "Exitoso")
+            );
+        }
+
+        [HttpPost("listar-todos-precios-por-paginacion")]
+        public async Task<IActionResult> ListarProductosVarianteYPrecios([FromBody] ProductosVarianteParametros parametro)
+        {
+            var response = await _productoVarianteQuery.ListarProductosVarianteYPreciosAsync(parametro);
 
             return StatusCode(
                 StatusCodes.Status200OK,

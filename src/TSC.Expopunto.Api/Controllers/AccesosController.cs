@@ -44,5 +44,30 @@ namespace TSC.Expopunto.Api.Controllers
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
                 );
         }
+
+
+        [HttpGet("obtener-sedes-por-id-usuario/{idUsuario:int}")]
+        public async Task<IActionResult> ObtenerSedesPorIdUsuario(
+            [FromRoute] int idUsuario
+        )
+        {
+            if (idUsuario == 0)
+            {
+                return StatusCode(
+                    StatusCodes.Status400BadRequest,
+                    ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El ID de Usuario no es válido")
+                );
+            }
+
+            var data = await _accesosQuery.ObtenerSedesPorIdUsuarioAsync(idUsuario);
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+        }
+
+
+
     }
 }

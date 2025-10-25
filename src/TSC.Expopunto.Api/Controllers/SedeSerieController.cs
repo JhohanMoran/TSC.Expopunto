@@ -83,5 +83,18 @@ namespace TSC.Expopunto.Api.Controllers
             var data = await _query.ListarTodosAsync();
             return Ok(ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso"));
         }
+
+        [HttpGet("listar-series-por-sede-tipo-comprobante/{idSede:int}/{idTipoComprobante:int}")]
+        public async Task<IActionResult> ListarSeriesPorSedeTipoComprobante(
+          [FromRoute] int idSede,
+          [FromRoute] int idTipoComprobante
+      )
+        {
+            var data = await _query.ListarSeriesPorSedeTipoComprobanteAsync(idSede, idTipoComprobante);
+
+            return StatusCode(StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitosos")
+            );
+        }
     }
 }

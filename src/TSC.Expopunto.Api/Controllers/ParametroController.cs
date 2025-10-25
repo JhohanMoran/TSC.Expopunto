@@ -77,6 +77,17 @@ namespace TSC.Expopunto.Api.Controllers
             );
         }
 
+        [HttpGet("obtener-formulas-venta")]
+        public async Task<IActionResult> ObtenerParametrosFormulaVenta()
+        {
+            var data = await _parametroQuery.ObtenerParametrosFormulaVenta();
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+        }
+
     }
 }
 
