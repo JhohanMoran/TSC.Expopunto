@@ -17,13 +17,14 @@ namespace TSC.Expopunto.External.PDF.Services
             using var writer = new PdfWriter(ms);
             using var pdf = new PdfDocument(writer);
 
-            //var logo = new Image(
-            //        iText.IO.Image.ImageDataFactory.Create("C:\\imagenes_2\\logo.png")
-            //    );
+            var path = Path.Combine(AppContext.BaseDirectory, "resources", "logo.png");
+            var logo = new Image(
+                    iText.IO.Image.ImageDataFactory.Create(path)
+                );
 
-            //logo.SetWidth(60); // ancho en puntos (1 punto ≈ 0.35 mm)
-            //logo.SetHeight(60);
-            //logo.SetHorizontalAlignment(HorizontalAlignment.CENTER);
+            logo.SetWidth(60); // ancho en puntos (1 punto ≈ 0.35 mm)
+            logo.SetHeight(60);
+            logo.SetHorizontalAlignment(HorizontalAlignment.CENTER);
 
             // Ticket de 80mm ancho, altura estimada
             var pageSize = new iText.Kernel.Geom.PageSize(396, 612);
@@ -36,7 +37,7 @@ namespace TSC.Expopunto.External.PDF.Services
                 .SetTextAlignment(TextAlignment.CENTER);
             empresa.Add("\nRUC: 20123456789");
 
-            //document.Add(logo);
+            document.Add(logo);
             document.Add(empresa);
             document.Add(new Paragraph("-------------------------------")
                 .SetTextAlignment(TextAlignment.CENTER).SetFontSize(7));
@@ -51,7 +52,7 @@ namespace TSC.Expopunto.External.PDF.Services
             // ---- DATOS CLIENTE ----
             document.Add(new Paragraph($"Proveedor: {parametro.NombreProveedor}").SetFontSize(8));
             document.Add(new Paragraph($"Doc: {parametro.DocumentoProveedor}").SetFontSize(8));
-            document.Add(new Paragraph($"Fecha: {parametro.Fecha:dd/MM/yyyy} {parametro.Hora}").SetFontSize(8));
+            document.Add(new Paragraph($"Fecha: {parametro.Fecha:dd/MM/yyyy} {parametro.Hora:HH:mm}").SetFontSize(8));
             document.Add(new Paragraph($"Observación: {parametro.Observacion}").SetFontSize(8));
 
             document.Add(new Paragraph("-------------------------------")
@@ -62,16 +63,16 @@ namespace TSC.Expopunto.External.PDF.Services
             var detalleTable = new Table(new float[] { 2, 3, 2, 2, 2, 2, 2, 2, 2, 1 }).UseAllAvailableWidth();
 
 
-            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Cod. Producto").SetFontSize(7).SetBold()));
-            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Nmbre Producto").SetFontSize(7).SetBold()));
+            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Cod. Prenda").SetFontSize(7).SetBold()));
+            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Nombre Prenda").SetFontSize(7).SetBold()));
             detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Num. Caja").SetFontSize(7).SetBold()));
             detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Cod. Estilo").SetFontSize(7).SetBold()));
             detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Cod. Pedido").SetFontSize(7).SetBold()));
             detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Categoría").SetFontSize(7).SetBold()));
-            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Genero").SetFontSize(7).SetBold()));
+            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Género").SetFontSize(7).SetBold()));
             detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Color").SetFontSize(7).SetBold()));
             detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Talla").SetFontSize(7).SetBold()));
-            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Caantidad").SetFontSize(7).SetBold()));
+            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Cantidad").SetFontSize(7).SetBold()));
 
             if (parametro.Detalles.Count() > 0)
             {
