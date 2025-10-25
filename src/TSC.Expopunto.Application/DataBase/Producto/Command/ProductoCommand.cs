@@ -1,4 +1,6 @@
-﻿namespace TSC.Expopunto.Application.DataBase.Producto.Command
+﻿using TSC.Expopunto.Application.DataBase.ProductoVariante.Commands.Models;
+
+namespace TSC.Expopunto.Application.DataBase.Producto.Command
 {
     public class ProductoCommand : IProductoCommand
     {
@@ -20,7 +22,14 @@
                 pGenero = model.Genero,
                 pIdUsuario = model.IdUsuario,
                 pActivo = model.Activo,
-                pNumCaja = model.NumCaja
+                pNumCaja = model.NumCaja,
+                pIdProductoVariante = model.IdProductoVariante,
+                pIdTalla = model.IdTalla,
+                pIdColor = model.IdColor,
+                pCodigoSKU = model.CodigoSKU,
+                pIdHistorialPrecio = model.IdHistorialPrecio,
+                pPrecioVenta = model.PrecioVenta,
+                pPrecioCosto = model.PrecioCosto
             };
 
             var response = await _dapperCommandSevice.ExecuteScalarAsync("uspSetProducto", parameters);
