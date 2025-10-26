@@ -1,102 +1,305 @@
-﻿using iText.Kernel.Pdf;
+﻿using iText.Kernel.Colors;
+using iText.Kernel.Events;
+using iText.Kernel.Pdf;
 using iText.Layout;
+using iText.Layout.Borders;
 using iText.Layout.Element;
 using iText.Layout.Properties;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.DTO;
+using TSC.Expopunto.Application.DataBase.Parametro.Queries.Models;
+using TSC.Expopunto.Application.DataBase.Persona.Queries.Models;
+using TSC.Expopunto.Application.DataBase.Usuario.Queries.Models;
 using TSC.Expopunto.Application.DataBase.Venta.DTO;
 using TSC.Expopunto.Application.Interfaces.Services;
+using TSC.Expopunto.External.PDF.Handlers;
+//using iText.Kernel.Geom;
 
 namespace TSC.Expopunto.External.PDF.Services
 {
     public class DocumentoPdfService : IDocumentoPdfService
     {
-        public byte[] GenerarGuiaEntradaPdf(GuiaEntradaDTO parametro)
+        public byte[] GenerarGuiaEntradaPdf(GuiaEntradaDTO parametro, List<ParametrosModel> dataEmpresa, PersonaTodosModel? dataProveedor, UsuariosTodosModel dataUsuario)
         {
 
             using var ms = new MemoryStream();
             using var writer = new PdfWriter(ms);
             using var pdf = new PdfDocument(writer);
 
-            var path = Path.Combine(AppContext.BaseDirectory, "resources", "logo.png");
-            var logo = new Image(
-                    iText.IO.Image.ImageDataFactory.Create(path)
-                );
+            var contenedorEncabezado = new Div()
+            .SetTextAlignment(TextAlignment.LEFT)
+            .SetMargin(25);
 
-            logo.SetWidth(60); // ancho en puntos (1 punto ≈ 0.35 mm)
-            logo.SetHeight(60);
-            logo.SetHorizontalAlignment(HorizontalAlignment.CENTER);
+            var contenedorGuia = new Div()
+            .SetTextAlignment(TextAlignment.CENTER)
+            .SetVerticalAlignment(VerticalAlignment.MIDDLE)
+            .SetHorizontalAlignment(HorizontalAlignment.CENTER)
+            .SetMargin(25);
 
-            // Ticket de 80mm ancho, altura estimada
-            var pageSize = new iText.Kernel.Geom.PageSize(396, 612);
+            var path = Path.Combine(AppContext.BaseDirectory, "wwwroot", "resources", "logo.png");
+            var logo = new Image(iText.IO.Image.ImageDataFactory.Create(path));
+            logo.SetWidth(80); // ancho en puntos (1 punto ≈ 0.35 mm)
+            logo.SetHeight(80);
+            logo.SetHorizontalAlignment(HorizontalAlignment.LEFT);
+
+            string direccion, razonSocial, telefono, ruc;
+
+            //Tablas
+            var headerTable = new Table(new float[] { 1, 1 }).UseAllAvailableWidth()
+                .SetMargin(25);
+
+            var proveedorTable = new Table(UnitValue.CreatePercentArray(new float[] { 25, 75 }))
+                .SetWidth(UnitValue.CreatePercentValue(100))
+                .SetBorder(Border.NO_BORDER)
+                .SetMarginLeft(25)
+                .SetMarginRight(25)
+                .SetMarginBottom(25);
+
+            var observacionesTable = new Table(new float[] { 1 }).UseAllAvailableWidth()
+               .SetMarginLeft(25)
+               .SetMarginRight(25)
+               .SetMarginBottom(25);
+
+            razonSocial = dataEmpresa.FirstOrDefault(item => item.Codigo == "P00002")?.Valor ?? "";
+            direccion = dataEmpresa.FirstOrDefault(item => item.Codigo == "P00003")?.Valor ?? "";
+            telefono = dataEmpresa.FirstOrDefault(item => item.Codigo == "P00004")?.Valor ?? "";
+            ruc = dataEmpresa.FirstOrDefault(item => item.Codigo == "P00033")?.Valor ?? "";
+
+            //Datos principales
+            //Empresa
+            // A4
+            var pageSize = new iText.Kernel.Geom.PageSize(595, 842);// 595x842 pt = 210x297 mm
             var document = new Document(pdf, pageSize);
-            document.SetMargins(5, 5, 5, 5); // márgenes muy pequeños
+            document.SetMargins(15, 15, 15, 15);
 
             // ---- ENCABEZADO ----
-            var empresa = new Paragraph("Expo Punto")
-                .SetBold().SetFontSize(9)
-                .SetTextAlignment(TextAlignment.CENTER);
-            empresa.Add("\nRUC: 20123456789");
+            var empresa = new Paragraph(razonSocial)
+                .SetBold().SetFontSize(12)
+                .SetTextAlignment(TextAlignment.LEFT)
+                .SetFontSize(12);
 
-            document.Add(logo);
-            document.Add(empresa);
-            document.Add(new Paragraph("-------------------------------")
-                .SetTextAlignment(TextAlignment.CENTER).SetFontSize(7));
+            var pRuc = new Paragraph()
+                .Add(new Text("Ruc : ").SetBold())
+                .Add(new Text(ruc))
+                .SetFontSize(12);
 
-            var comprobante = new Paragraph($"{parametro.Serie}-{parametro.Numero}")
-                .SetBold().SetFontSize(9).SetTextAlignment(TextAlignment.CENTER);
-            document.Add(comprobante);
+            var pDireccion = new Paragraph()
+                    .Add(new Text("Dirección : ").SetBold())
+                    .Add(new Text(direccion))
+                    .SetFontSize(12);
 
-            document.Add(new Paragraph("-------------------------------")
-                .SetTextAlignment(TextAlignment.CENTER).SetFontSize(7));
+            var pTelefono = new Paragraph()
+                    .Add(new Text("Teléfono : ").SetBold())
+                    .Add(new Text(telefono))
+                    .SetFontSize(12);
 
-            // ---- DATOS CLIENTE ----
-            document.Add(new Paragraph($"Proveedor: {parametro.NombreProveedor}").SetFontSize(8));
-            document.Add(new Paragraph($"Doc: {parametro.DocumentoProveedor}").SetFontSize(8));
-            document.Add(new Paragraph($"Fecha: {parametro.Fecha:dd/MM/yyyy} {parametro.Hora:HH:mm}").SetFontSize(8));
-            document.Add(new Paragraph($"Observación: {parametro.Observacion}").SetFontSize(8));
+            contenedorEncabezado.Add(logo);
+            contenedorEncabezado.Add(empresa);
+            contenedorEncabezado.Add(pRuc);
+            contenedorEncabezado.Add(pDireccion);
+            contenedorEncabezado.Add(pTelefono);
 
-            document.Add(new Paragraph("-------------------------------")
-                .SetTextAlignment(TextAlignment.CENTER).SetFontSize(7));
+            var cellLeft = new Cell().Add(contenedorEncabezado).SetBorder(Border.NO_BORDER);
+            headerTable.AddCell(cellLeft);
 
-            // ---- DETALLES PRODUCTOS ----
+            //Datos principales de guía
+
+            var pGuia = new Paragraph()
+                .Add($"GUÍA DE REMISION - {parametro.TipoGuia}")
+                .SetBold()
+                .SetFontSize(12);
+
+            var pNumGuia = new Paragraph()
+                .Add($"N° {parametro.Serie}-{parametro.Numero}")
+                .SetBold()
+                .SetFontSize(12);
+
+            contenedorGuia.Add(pGuia);
+            contenedorGuia.Add(pNumGuia);
+
+            var cellRigth = new Cell().Add(contenedorGuia).SetBorder(new SolidBorder(ColorConstants.BLACK, 1))
+                .SetVerticalAlignment(VerticalAlignment.MIDDLE)
+                .SetHorizontalAlignment(HorizontalAlignment.CENTER);
+            headerTable.AddCell(cellRigth);
+
+            document.Add(headerTable);
+
+
+
+            // ---- DATOS PROVEEDOR ----
+
+            int totalFilas = 5;
+
+            // Función local para saber si es la primera o última fila
+            bool EsPrimeraFila(int fila) => fila == 1;
+            bool EsUltimaFila(int fila) => fila == totalFilas;
+
+            // --- Fila 1 ---
+            int fila = 1;
+            proveedorTable.AddCell(new Cell()
+                .Add(new Paragraph("Proveedor :").SetBold().SetFontSize(9))
+                .SetTextAlignment(TextAlignment.LEFT)
+                .SetBorderTop(EsPrimeraFila(fila) ? new SolidBorder(1) : Border.NO_BORDER)
+                .SetBorderLeft(new SolidBorder(1))
+                .SetBorderRight(Border.NO_BORDER)
+                .SetBorderBottom(EsUltimaFila(fila) ? new SolidBorder(1) : Border.NO_BORDER));
+
+            proveedorTable.AddCell(new Cell()
+                .Add(new Paragraph(parametro.NombreProveedor).SetFontSize(9))
+                .SetBorderTop(EsPrimeraFila(fila) ? new SolidBorder(1) : Border.NO_BORDER)
+                .SetBorderLeft(Border.NO_BORDER)
+                .SetBorderRight(new SolidBorder(1))
+                .SetBorderBottom(EsUltimaFila(fila) ? new SolidBorder(1) : Border.NO_BORDER));
+
+            // --- Fila 2 ---
+            fila = 2;
+            proveedorTable.AddCell(new Cell()
+                .Add(new Paragraph("Ruc :").SetBold().SetFontSize(9))
+                .SetTextAlignment(TextAlignment.LEFT)
+                .SetBorderTop(EsPrimeraFila(fila) ? new SolidBorder(1) : Border.NO_BORDER)
+                .SetBorderLeft(new SolidBorder(1))
+                .SetBorderRight(Border.NO_BORDER)
+                .SetBorderBottom(EsUltimaFila(fila) ? new SolidBorder(1) : Border.NO_BORDER));
+
+            proveedorTable.AddCell(new Cell()
+                .Add(new Paragraph(parametro.DocumentoProveedor).SetFontSize(9))
+                .SetBorderTop(EsPrimeraFila(fila) ? new SolidBorder(1) : Border.NO_BORDER)
+                .SetBorderLeft(Border.NO_BORDER)
+                .SetBorderRight(new SolidBorder(1))
+                .SetBorderBottom(EsUltimaFila(fila) ? new SolidBorder(1) : Border.NO_BORDER));
+
+            // --- Fila 3 ---
+            fila = 3;
+            proveedorTable.AddCell(new Cell()
+                .Add(new Paragraph("Dirección :").SetBold().SetFontSize(9))
+                .SetTextAlignment(TextAlignment.LEFT)
+                .SetBorderTop(EsPrimeraFila(fila) ? new SolidBorder(1) : Border.NO_BORDER)
+                .SetBorderLeft(new SolidBorder(1))
+                .SetBorderRight(Border.NO_BORDER)
+                .SetBorderBottom(EsUltimaFila(fila) ? new SolidBorder(1) : Border.NO_BORDER));
+
+            proveedorTable.AddCell(new Cell()
+                .Add(new Paragraph(dataProveedor?.Direccion ?? "").SetFontSize(9))
+                .SetBorderTop(EsPrimeraFila(fila) ? new SolidBorder(1) : Border.NO_BORDER)
+                .SetBorderLeft(Border.NO_BORDER)
+                .SetBorderRight(new SolidBorder(1))
+                .SetBorderBottom(EsUltimaFila(fila) ? new SolidBorder(1) : Border.NO_BORDER));
+
+            // --- Fila 4 ---
+            fila = 4;
+            proveedorTable.AddCell(new Cell()
+                .Add(new Paragraph("Fecha de emisión :").SetBold().SetFontSize(9))
+                .SetTextAlignment(TextAlignment.LEFT)
+                .SetBorderTop(EsPrimeraFila(fila) ? new SolidBorder(1) : Border.NO_BORDER)
+                .SetBorderLeft(new SolidBorder(1))
+                .SetBorderRight(Border.NO_BORDER)
+                .SetBorderBottom(EsUltimaFila(fila) ? new SolidBorder(1) : Border.NO_BORDER));
+
+            proveedorTable.AddCell(new Cell()
+                .Add(new Paragraph(parametro.Fecha.ToString("dd/MM/yyyy")).SetFontSize(9))
+                .SetBorderTop(EsPrimeraFila(fila) ? new SolidBorder(1) : Border.NO_BORDER)
+                .SetBorderLeft(Border.NO_BORDER)
+                .SetBorderRight(new SolidBorder(1))
+                .SetBorderBottom(EsUltimaFila(fila) ? new SolidBorder(1) : Border.NO_BORDER));
+
+            // --- Fila 5 ---
+            fila = 5;
+            proveedorTable.AddCell(new Cell()
+                .Add(new Paragraph("Hora de emisión :").SetBold().SetFontSize(9))
+                .SetTextAlignment(TextAlignment.LEFT)
+                .SetBorderTop(EsPrimeraFila(fila) ? new SolidBorder(1) : Border.NO_BORDER)
+                .SetBorderLeft(new SolidBorder(1))
+                .SetBorderRight(Border.NO_BORDER)
+                .SetBorderBottom(EsUltimaFila(fila) ? new SolidBorder(1) : Border.NO_BORDER));
+
+            proveedorTable.AddCell(new Cell()
+                .Add(new Paragraph(parametro.Hora.ToString(@"hh\:mm")).SetFontSize(9))
+                .SetBorderTop(EsPrimeraFila(fila) ? new SolidBorder(1) : Border.NO_BORDER)
+                .SetBorderLeft(Border.NO_BORDER)
+                .SetBorderRight(new SolidBorder(1))
+                .SetBorderBottom(EsUltimaFila(fila) ? new SolidBorder(1) : Border.NO_BORDER));
+
+            document.Add(proveedorTable);
+
+            // ---- DETALLES GUIA ----
             // Columnas más simples para que encajen en el ancho
-            var detalleTable = new Table(new float[] { 2, 3, 2, 2, 2, 2, 2, 2, 2, 1 }).UseAllAvailableWidth();
+            var detalleTable = new Table(new float[] { 2, 3, 2, 2, 2, 2, 2, 1 })
+                .UseAllAvailableWidth()
+                .SetMarginLeft(25)
+                .SetMarginRight(25)
+                .SetMarginBottom(25);
 
+            var cabeceras = new List<string>{
+                "Cod. Prenda",
+                "Nombre Prenda",
+                "Unid. Medida",
+                "Num. Caja",
+                "Talla",
+                "Cod. Estilo",
+                "Cod. Pedido",
+                "Cantidad"
+            };
 
-            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Cod. Prenda").SetFontSize(7).SetBold()));
-            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Nombre Prenda").SetFontSize(7).SetBold()));
-            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Num. Caja").SetFontSize(7).SetBold()));
-            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Cod. Estilo").SetFontSize(7).SetBold()));
-            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Cod. Pedido").SetFontSize(7).SetBold()));
-            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Categoría").SetFontSize(7).SetBold()));
-            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Género").SetFontSize(7).SetBold()));
-            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Color").SetFontSize(7).SetBold()));
-            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Talla").SetFontSize(7).SetBold()));
-            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Cantidad").SetFontSize(7).SetBold()));
+            foreach (var cab in cabeceras)
+            {
+                detalleTable.AddHeaderCell(new Cell().Add(
+                    new Paragraph(cab)
+                    .SetFontSize(7)
+                    .SetBold())
+                    .SetBackgroundColor(ColorConstants.LIGHT_GRAY)
+                    );
+            }
 
             if (parametro.Detalles.Count() > 0)
             {
                 foreach (var item in parametro.Detalles)
                 {
-                    detalleTable.AddCell(new Paragraph(item.CodProducto).SetFontSize(7));
-                    detalleTable.AddCell(new Paragraph(item.Nombre).SetFontSize(7));
-                    detalleTable.AddCell(new Paragraph(item.NumCaja).SetFontSize(7));
-                    detalleTable.AddCell(new Paragraph(item.CodigoEstilo).SetFontSize(7));
-                    detalleTable.AddCell(new Paragraph(item.CodigoPedido).SetFontSize(7));
-                    detalleTable.AddCell(new Paragraph(item.Categoria).SetFontSize(7));
-                    detalleTable.AddCell(new Paragraph(item.Genero).SetFontSize(7));
-                    detalleTable.AddCell(new Paragraph(item.Color).SetFontSize(7));
-                    detalleTable.AddCell(new Paragraph(item.Talla).SetFontSize(7));
-                    detalleTable.AddCell(new Paragraph(item.Cantidad.ToString()).SetFontSize(7));
+                    detalleTable.AddCell(new Paragraph(item.CodProducto).SetFontSize(7).SetTextAlignment(TextAlignment.CENTER));
+                    detalleTable.AddCell(new Paragraph(item.Nombre).SetFontSize(7).SetTextAlignment(TextAlignment.CENTER));
+                    detalleTable.AddCell(new Paragraph(item.CodUniMed).SetFontSize(7).SetTextAlignment(TextAlignment.CENTER));
+                    detalleTable.AddCell(new Paragraph(item.NumCaja).SetFontSize(7).SetTextAlignment(TextAlignment.CENTER));
+                    detalleTable.AddCell(new Paragraph(item.Talla).SetFontSize(7).SetTextAlignment(TextAlignment.CENTER));
+                    detalleTable.AddCell(new Paragraph(item.CodigoEstilo).SetFontSize(7).SetTextAlignment(TextAlignment.CENTER));
+                    detalleTable.AddCell(new Paragraph(item.CodigoPedido).SetFontSize(7).SetTextAlignment(TextAlignment.CENTER));
+                    detalleTable.AddCell(new Paragraph(Convert.ToInt32(item.Cantidad).ToString()).SetFontSize(7).SetTextAlignment(TextAlignment.RIGHT));
                 }
 
             }
 
+            //Total
+            var totalCantidad = parametro.Detalles.Sum(item => item.Cantidad);
+
+            detalleTable.AddCell(new Paragraph("Total").SetFontSize(7).SetTextAlignment(TextAlignment.CENTER));
+            detalleTable.AddCell(new Paragraph(""));
+            detalleTable.AddCell(new Paragraph(""));
+            detalleTable.AddCell(new Paragraph(""));
+            detalleTable.AddCell(new Paragraph(""));
+            detalleTable.AddCell(new Paragraph(""));
+            detalleTable.AddCell(new Paragraph(""));
+            detalleTable.AddCell(new Paragraph(Convert.ToInt32(totalCantidad).ToString()).SetFontSize(7).SetTextAlignment(TextAlignment.RIGHT));
+
             document.Add(detalleTable);
 
-            document.Add(new Paragraph("-------------------------------")
-                .SetTextAlignment(TextAlignment.CENTER).SetFontSize(7));
+            var pObservaciones = new Paragraph("Observaciones : ")
+                .SetBold()
+                .SetFontSize(7)
+                .SetMarginLeft(25)
+                .SetMarginBottom(5)
+                .SetTextAlignment(TextAlignment.LEFT);
 
+
+            observacionesTable.AddCell(new Cell()
+                    .Add(new Paragraph(parametro.Observacion))
+                    .SetFontSize(9)
+                    .SetTextAlignment(TextAlignment.LEFT)
+                );
+
+            document.Add(pObservaciones);
+            document.Add(observacionesTable);
+
+
+            string footer = $"Usuario : {dataUsuario?.Usuario ?? ""}";
+
+            pdf.AddEventHandler(PdfDocumentEvent.END_PAGE, new FooterEventHandler(document, footer));
 
             document.Close();
             return ms.ToArray();
