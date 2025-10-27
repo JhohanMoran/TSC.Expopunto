@@ -57,17 +57,21 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands
                     d.IdGuiaEntrada,
                     d.IdProducto,
                     d.IdUnidadMedida,
+                    "",
                     d.Cantidad,
-                    d.NumCaja,
+                    d.NumCaja.ToString(),
+                    "",
                     d.Nombre,
                     d.CodigoEstilo,
                     d.CodigoPedido,
+                    0,
                     d.Categoria,
                     d.Genero,
                     d.Color,
                     d.CodigoSku,
                     d.Talla,
                     d.IdUsuario
+
 
                 ))
                 .ToList();

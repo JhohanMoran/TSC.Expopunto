@@ -2,7 +2,7 @@
 using iText.Layout;
 using iText.Layout.Element;
 using iText.Layout.Properties;
-
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.DTO;
 using TSC.Expopunto.Application.DataBase.Venta.DTO;
 using TSC.Expopunto.Application.Interfaces.Services;
 
@@ -10,6 +10,97 @@ namespace TSC.Expopunto.External.PDF.Services
 {
     public class DocumentoPdfService : IDocumentoPdfService
     {
+        public byte[] GenerarGuiaEntradaPdf(GuiaEntradaDTO parametro)
+        {
+
+            using var ms = new MemoryStream();
+            using var writer = new PdfWriter(ms);
+            using var pdf = new PdfDocument(writer);
+
+            //var logo = new Image(
+            //        iText.IO.Image.ImageDataFactory.Create("C:\\imagenes_2\\logo.png")
+            //    );
+
+            //logo.SetWidth(60); // ancho en puntos (1 punto ≈ 0.35 mm)
+            //logo.SetHeight(60);
+            //logo.SetHorizontalAlignment(HorizontalAlignment.CENTER);
+
+            // Ticket de 80mm ancho, altura estimada
+            var pageSize = new iText.Kernel.Geom.PageSize(396, 612);
+            var document = new Document(pdf, pageSize);
+            document.SetMargins(5, 5, 5, 5); // márgenes muy pequeños
+
+            // ---- ENCABEZADO ----
+            var empresa = new Paragraph("Expo Punto")
+                .SetBold().SetFontSize(9)
+                .SetTextAlignment(TextAlignment.CENTER);
+            empresa.Add("\nRUC: 20123456789");
+
+            //document.Add(logo);
+            document.Add(empresa);
+            document.Add(new Paragraph("-------------------------------")
+                .SetTextAlignment(TextAlignment.CENTER).SetFontSize(7));
+
+            var comprobante = new Paragraph($"{parametro.Serie}-{parametro.Numero}")
+                .SetBold().SetFontSize(9).SetTextAlignment(TextAlignment.CENTER);
+            document.Add(comprobante);
+
+            document.Add(new Paragraph("-------------------------------")
+                .SetTextAlignment(TextAlignment.CENTER).SetFontSize(7));
+
+            // ---- DATOS CLIENTE ----
+            document.Add(new Paragraph($"Proveedor: {parametro.NombreProveedor}").SetFontSize(8));
+            document.Add(new Paragraph($"Doc: {parametro.DocumentoProveedor}").SetFontSize(8));
+            document.Add(new Paragraph($"Fecha: {parametro.Fecha:dd/MM/yyyy} {parametro.Hora}").SetFontSize(8));
+            document.Add(new Paragraph($"Observación: {parametro.Observacion}").SetFontSize(8));
+
+            document.Add(new Paragraph("-------------------------------")
+                .SetTextAlignment(TextAlignment.CENTER).SetFontSize(7));
+
+            // ---- DETALLES PRODUCTOS ----
+            // Columnas más simples para que encajen en el ancho
+            var detalleTable = new Table(new float[] { 2, 3, 2, 2, 2, 2, 2, 2, 2, 1 }).UseAllAvailableWidth();
+
+
+            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Cod. Producto").SetFontSize(7).SetBold()));
+            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Nmbre Producto").SetFontSize(7).SetBold()));
+            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Num. Caja").SetFontSize(7).SetBold()));
+            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Cod. Estilo").SetFontSize(7).SetBold()));
+            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Cod. Pedido").SetFontSize(7).SetBold()));
+            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Categoría").SetFontSize(7).SetBold()));
+            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Genero").SetFontSize(7).SetBold()));
+            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Color").SetFontSize(7).SetBold()));
+            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Talla").SetFontSize(7).SetBold()));
+            detalleTable.AddHeaderCell(new Cell().Add(new Paragraph("Caantidad").SetFontSize(7).SetBold()));
+
+            if (parametro.Detalles.Count() > 0)
+            {
+                foreach (var item in parametro.Detalles)
+                {
+                    detalleTable.AddCell(new Paragraph(item.CodProducto).SetFontSize(7));
+                    detalleTable.AddCell(new Paragraph(item.Nombre).SetFontSize(7));
+                    detalleTable.AddCell(new Paragraph(item.NumCaja).SetFontSize(7));
+                    detalleTable.AddCell(new Paragraph(item.CodigoEstilo).SetFontSize(7));
+                    detalleTable.AddCell(new Paragraph(item.CodigoPedido).SetFontSize(7));
+                    detalleTable.AddCell(new Paragraph(item.Categoria).SetFontSize(7));
+                    detalleTable.AddCell(new Paragraph(item.Genero).SetFontSize(7));
+                    detalleTable.AddCell(new Paragraph(item.Color).SetFontSize(7));
+                    detalleTable.AddCell(new Paragraph(item.Talla).SetFontSize(7));
+                    detalleTable.AddCell(new Paragraph(item.Cantidad.ToString()).SetFontSize(7));
+                }
+
+            }
+
+            document.Add(detalleTable);
+
+            document.Add(new Paragraph("-------------------------------")
+                .SetTextAlignment(TextAlignment.CENTER).SetFontSize(7));
+
+
+            document.Close();
+            return ms.ToArray();
+        }
+
         public byte[] GenerarPdf(VentaDTO parametro)
         {
             using var ms = new MemoryStream();

@@ -164,7 +164,7 @@ namespace TSC.Expopunto.Persistence.Repositories
                 await _dapperQueryService
                     .QueryAsync<DetalleGuiaEntradaDTO>("uspGetDetalleGuiaEntrada", parameters);
 
-            return response.ToList();
+            return response?.ToList() ?? new List<DetalleGuiaEntradaDTO>(); 
         }
 
         public async Task<GuiaEntradaEntity> ObtenerGuiaEntradaPorIdAsync(int id)

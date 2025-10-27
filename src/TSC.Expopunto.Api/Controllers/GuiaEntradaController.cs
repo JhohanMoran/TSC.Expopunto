@@ -12,6 +12,7 @@ using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEntrada
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEntrada.Params;
 using TSC.Expopunto.Application.Exceptions;
 using TSC.Expopunto.Application.Features;
+using TSC.Expopunto.Application.Features.GuiaEntrada.Queries.ObtenerGuiaEntradaPorNumeroSerie;
 using TSC.Expopunto.Common;
 
 namespace TSC.Expopunto.Api.Controllers
@@ -152,6 +153,28 @@ namespace TSC.Expopunto.Api.Controllers
         )
         {
             var data = await _mediator.Send(new ObtenerGuiaEntradaPorNumeroSerieQuery(parametros.Opcion, parametros.Numero, parametros.Serie));
+
+            if (data == null)
+            {
+                return StatusCode(
+                        StatusCodes.Status404NotFound,
+                        ResponseApiService.Response(StatusCodes.Status404NotFound, null, "Guia no encontrada")
+                    );
+            }
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+
+        }
+
+        [HttpPost("listar-por-numero-serie-pdf")]
+        public async Task<IActionResult> ListarPorNumeroSeriePdf(
+           [FromBody] ObtenerGuiasEntradaParams parametros
+       )
+        {
+            var data = await _mediator.Send(new ObtenerGuiaEntradaPorNumeroSerieQueryPdf(parametros.Opcion, parametros.Numero, parametros.Serie));
 
             if (data == null)
             {
