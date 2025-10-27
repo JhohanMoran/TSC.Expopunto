@@ -18,5 +18,6 @@
         public int IdHistorialPrecio { get; set; }
         public decimal PrecioVenta { get; set; }
         public decimal PrecioCosto { get; set; }
+        public bool AplicaICBP { get; set; }
     }
 }

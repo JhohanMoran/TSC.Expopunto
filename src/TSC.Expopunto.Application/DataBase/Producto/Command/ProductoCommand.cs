@@ -29,7 +29,8 @@ namespace TSC.Expopunto.Application.DataBase.Producto.Command
                 pCodigoSKU = model.CodigoSKU,
                 pIdHistorialPrecio = model.IdHistorialPrecio,
                 pPrecioVenta = model.PrecioVenta,
-                pPrecioCosto = model.PrecioCosto
+                pPrecioCosto = model.PrecioCosto,
+                pAplicaICBP = model.AplicaICBP
             };
 
             var response = await _dapperCommandSevice.ExecuteScalarAsync("uspSetProducto", parameters);

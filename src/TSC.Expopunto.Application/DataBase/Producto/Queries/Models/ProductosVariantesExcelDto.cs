@@ -34,9 +34,12 @@ namespace TSC.Expopunto.Application.DataBase.Producto.Queries.Models
         public string CodigoSKU { get; set; }
 
         [Display(Name = "Precio Costo")]
-        public int PrecioCosto { get; set; }
+        public decimal PrecioCosto { get; set; }
 
         [Display(Name = "Precio Venta")]
-        public int PrecioVenta { get; set; }
+        public decimal PrecioVenta { get; set; }
+
+        [Display(Name = "Aplica ICBP")]
+        public string AplicaICBP { get; set; }
     }
 }
