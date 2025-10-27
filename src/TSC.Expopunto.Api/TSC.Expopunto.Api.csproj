@@ -25,4 +25,10 @@
     <ProjectReference Include="..\TSC.Expopunto.Persistence\TSC.Expopunto.Persistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Content Update="wwwroot\resources\logo.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
+
 </Project>

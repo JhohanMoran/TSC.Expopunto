@@ -31,5 +31,21 @@ namespace TSC.Expopunto.Application.DataBase.Parametro.Queries
 
             return response?.ToList() ?? new List<ParametrosModel>();
         }
+
+        public async Task<List<ParametrosModel>> ListarParametrosPorCodigoAsync(ParametrosListaParametros parametro)
+        {
+            var parameters = new
+            {
+                pOpcion = 3,
+                pCodigosParametros = parametro.Codigos
+            };
+
+            var response = await _dapperService.QueryAsync<ParametrosModel>(
+                "uspGetParametros",
+                parameters
+            );
+
+            return response?.ToList() ?? new List<ParametrosModel>();
+        }
     }
 }
