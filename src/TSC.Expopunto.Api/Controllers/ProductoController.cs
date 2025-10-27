@@ -5,6 +5,7 @@ using TSC.Expopunto.Application.DataBase.Producto.Queries.Models;
 using TSC.Expopunto.Application.Exceptions;
 using TSC.Expopunto.Application.Features;
 using TSC.Expopunto.Common;
+using TSC.Expopunto.Common.ModelExcel;
 
 namespace TSC.Expopunto.Api.Controllers
 {
@@ -15,11 +16,13 @@ namespace TSC.Expopunto.Api.Controllers
     {
         private readonly IProductoQuery _productoQuery;
         private readonly IProductoCommand _productoCommand;
+        private readonly IModelExcelRepository _modelExcelRepository;
 
-        public ProductoController(IProductoQuery productoQuery, IProductoCommand productoCommand)
+        public ProductoController(IProductoQuery productoQuery, IProductoCommand productoCommand, IModelExcelRepository modelExcelRepository)
         {
             _productoQuery = productoQuery;
             _productoCommand = productoCommand;
+            _modelExcelRepository = modelExcelRepository;
         }
         [HttpGet("listar-paginado")]
         public async Task<IActionResult> ListarPaginado([FromQuery] ProductoParams param)
@@ -189,6 +192,14 @@ namespace TSC.Expopunto.Api.Controllers
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
             );
 
+        }
+
+        [HttpGet("exportar")]
+        public IActionResult ExportarExcelVariantes([FromQuery] ProductoParams param)
+        {
+            var data = _productoQuery.ListarProdVariantesExcel(param);
+            var stream = _modelExcelRepository.ExportExcelDefault(data, "Reporte de Prendas");
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Reporte_prendas.xlsx");
         }
     }
 }

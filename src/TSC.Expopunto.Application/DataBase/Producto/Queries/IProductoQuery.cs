@@ -11,5 +11,6 @@ namespace TSC.Expopunto.Application.DataBase.Producto.Queries
         Task<List<ProductosVariantesTodos>> ListarProdVariantesAsync(ProductoParams param);
         Task<List<TallasTodos>> ListarTallasAsync();
         Task<List<ColoresTodos>> ListarColoresAsync();
+        List<ProductosVariantesExcelDto> ListarProdVariantesExcel(ProductoParams param);
     }
 }

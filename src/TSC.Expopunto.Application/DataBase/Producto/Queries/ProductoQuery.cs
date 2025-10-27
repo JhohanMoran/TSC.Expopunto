@@ -105,5 +105,21 @@ namespace TSC.Expopunto.Application.DataBase.Producto.Queries
             var response = await _dapperQuerySevice.QueryAsync<ColoresTodos>("uspGetProductos", parametros);
             return response.ToList();
         }
+
+        public List<ProductosVariantesExcelDto> ListarProdVariantesExcel(ProductoParams param)
+        {
+            var parametros = new
+            {
+                pOpcion = 8,
+                pOrdenColumna = param.OrdenarPor,
+                pOrdenDireccion = param.OrdenDireccion,
+                pPagina = param.Pagina,
+                pFilasPorPagina = param.FilasPorPagina,
+                pFiltroActivo = param.Activo,
+                pFiltroNombre = param.Nombre
+            };
+            var response = _dapperQuerySevice.Query<ProductosVariantesExcelDto>("uspGetProductos", parametros);
+            return response.ToList();
+        }
     }
 }
