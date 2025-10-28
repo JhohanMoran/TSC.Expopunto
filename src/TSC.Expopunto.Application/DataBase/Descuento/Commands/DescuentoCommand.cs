@@ -44,8 +44,19 @@ namespace TSC.Expopunto.Application.DataBase.Descuento.Commands
             {
                 foreach (var detalle in detalles)
                 {
-                    detalle.IdDescuento = model.Id; 
-                    detalle.Opcion = (int)OperationType.Create;
+                    detalle.IdDescuento = model.Id;
+
+                    
+                        if (detalle.Id > 0)
+                        {
+                            detalle.Opcion = (int)OperationType.Update;
+                        }
+                        else
+                        {
+                            detalle.Opcion = (int)OperationType.Create;
+                        }
+                    
+
                     await _detalleCommand.ProcesarAsync(detalle);
                 }
             }
