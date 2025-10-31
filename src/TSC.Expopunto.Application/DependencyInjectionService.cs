@@ -9,6 +9,7 @@ using TSC.Expopunto.Application.DataBase.Accesos.Queries;
 using TSC.Expopunto.Application.DataBase.Categoria.Command;
 using TSC.Expopunto.Application.DataBase.Categoria.Queries;
 using TSC.Expopunto.Application.DataBase.CuotasDescuento.Queries;
+using TSC.Expopunto.Application.DataBase.Dashboard.Queries;
 using TSC.Expopunto.Application.DataBase.Descuento.Commands;
 using TSC.Expopunto.Application.DataBase.Descuento.Queries;
 using TSC.Expopunto.Application.DataBase.DescuentoProductoVariante.Commands;
@@ -163,6 +164,8 @@ namespace TSC.Expopunto.Application
 
             services.AddTransient<IKardexQuery, KardexQuery>();
             services.AddTransient<IProductoVarianteCommand, ProductoVarianteCommand>();
+
+            services.AddTransient<IDashboardQuery, DashboardQuery>();
 
             return services;
         }
