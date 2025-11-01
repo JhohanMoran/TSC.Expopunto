@@ -32,7 +32,7 @@ namespace TSC.Expopunto.Api.Controllers
         [HttpPost("listar-todos-precios-por-paginacion")]
         public async Task<IActionResult> ListarProductosVarianteYPrecios([FromBody] ProductosVarianteParametros parametro)
         {
-            var response = await _productoVarianteQuery.ListarProductosVarianteYPreciosAsync(parametro);
+            var response = await _productoVarianteQuery.ListarProductosVarianteModelAsync(parametro);
 
             return StatusCode(
                 StatusCodes.Status200OK,

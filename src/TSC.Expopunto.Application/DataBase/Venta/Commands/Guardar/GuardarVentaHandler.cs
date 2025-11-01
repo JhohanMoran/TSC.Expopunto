@@ -7,16 +7,16 @@ using TSC.Expopunto.Domain.Entities.Venta;
 
 namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Crear
 {
-    public class CrearVentaHandler : IRequestHandler<CrearVentaCommand, VentaDTO>
+    public class GuardarVentaHandler : IRequestHandler<GuardarVentaCommand, VentaDTO>
     {
         private readonly IVentaRepository _repository;
 
-        public CrearVentaHandler(IVentaRepository repository)
+        public GuardarVentaHandler(IVentaRepository repository)
         {
             _repository = repository;
         }
 
-        public async Task<VentaDTO> Handle(CrearVentaCommand request, CancellationToken cancellationToken)
+        public async Task<VentaDTO> Handle(GuardarVentaCommand request, CancellationToken cancellationToken)
         {
             VentaEntity venta = new VentaEntity();
 
@@ -32,6 +32,10 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Crear
                 request.IdPersona,
                 request.IdTipoMoneda,
                 request.IdUsuarioVendedor,
+                request.DescuentoTotal,
+                request.SubTotal,
+                request.Impuesto,
+                request.Total,
                 request.IdUsuario,
                 true
             );
@@ -42,9 +46,15 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Crear
                     d.Id,
                     d.IdVenta,
                     d.IdProductoVariante,
+                    d.IdTipoOperacion,
+                    d.CodigoTipoOperacion,
+                    d.Descripcion,
                     d.Cantidad,
                     d.PrecioUnitario,
+                    d.AplicaICBP,
                     d.IdDescuento,
+                    d.ValorDescuento,
+                    d.SubTotal,
                     d.Activo
                 );
             }
@@ -55,26 +65,31 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Crear
                     d.Id,
                     d.IdVenta,
                     d.IdFormaPago,
-                    d.DescripcionFormaPago,
                     d.Monto,
-                    d.ReferenciaPago
+                    d.ReferenciaPago,
+                    d.RutaIcono
                 );
             }
 
             // 2. Guardar en BD (Dapper/SP)
-            VentaEntity ventaRespuesta = await _repository.CrearVentaAsync(venta);
+            VentaEntity ventaRespuesta = await _repository.GuardarVentaAsync(venta);
 
             // Retornar un DTO
             return new VentaDTO
             {
                 Id = ventaRespuesta.Id, // ahora ya tiene el Id asignado desde la BD
-                Fecha = ventaRespuesta.Fecha,
+                Fecha = ventaRespuesta.Fecha,   
                 IdTipoComprobante = ventaRespuesta.IdTipoComprobante,
                 Serie = ventaRespuesta.Serie,
                 Numero = ventaRespuesta.Numero,
                 IdPersona = ventaRespuesta.IdPersona,
                 IdTipoMoneda = ventaRespuesta.IdTipoMoneda,
                 IdUsuarioVendedor = ventaRespuesta.IdUsuarioVendedor,
+                NombreVendedor = ventaRespuesta.NombreVendedor,
+                DescuentoTotal = ventaRespuesta.DescuentoTotal,
+                SubTotal = ventaRespuesta.SubTotal,
+                Impuesto = ventaRespuesta.Impuesto,
+                Total = ventaRespuesta.Total,
                 IdUsuario = ventaRespuesta.IdUsuario,
                 Activo = ventaRespuesta.Activo,
                 Detalles = ventaRespuesta.Detalles.Select(x => new DetalleVentaDTO
@@ -82,19 +97,25 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Crear
                     Id = x.Id,             // Id asignado en la BD
                     IdVenta = x.IdVenta,   // también ya viene actualizado
                     IdProductoVariante = x.IdProductoVariante,
+                    IdTipoOperacion = x.IdTipoOperacion,
+                    CodigoTipoOperacion = x.CodigoTipoOperacion,
+                    Descripcion = x.Descripcion,
                     Cantidad = x.Cantidad,
                     PrecioUnitario = x.PrecioUnitario,
+                    AplicaICBP = x.AplicaICBP,
                     IdDescuento = x.IdDescuento,
+                    ValorDescuento = x.ValorDescuento,
+                    SubTotal = x.SubTotal,
                     Activo = x.Activo
                 }).ToList(),
                 FormasPago = ventaRespuesta.FormasPago.Select(x => new VentasFormaPagoDTO
                 {
                     Id = x.Id,
                     IdVenta = x.IdVenta,
-                    VentaDescripcionFormaPago = x.DescripcionFormaPago,
                     Monto = x.Monto,
                     ReferenciaPago = x.ReferenciaPago,
-                    IdFormaPago = x.IdFormaPago
+                    IdFormaPago = x.IdFormaPago,
+                    RutaIcono = x.RutaIcono
                 }).ToList(),
 
             };

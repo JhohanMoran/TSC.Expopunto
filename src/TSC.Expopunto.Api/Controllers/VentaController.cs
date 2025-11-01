@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using TSC.Expopunto.Api.Models.Ventas;
 using TSC.Expopunto.Application.DataBase.DetalleVenta.Commands;
 using TSC.Expopunto.Application.DataBase.DetalleVenta.Queries;
-using TSC.Expopunto.Application.DataBase.Venta.Commands.Actualizar;
 using TSC.Expopunto.Application.DataBase.Venta.Commands.Crear;
 using TSC.Expopunto.Application.DataBase.Venta.Commands.EliminarVenta;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentas;
@@ -30,13 +29,12 @@ namespace TSC.Expopunto.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("crear")]
-        public async Task<IActionResult> Crear(
-            [FromBody] CrearVentaRequest request
+        [HttpPost("save")]
+        public async Task<IActionResult> Guardar(
+            [FromBody] GuardarVentaRequest request
         )
         {
-            var command = new CrearVentaCommand(
-                OperationType.Create,
+            var command = new GuardarVentaCommand(
                 request.Id,
                 request.Fecha,
                 request.Hora,
@@ -47,24 +45,35 @@ namespace TSC.Expopunto.Api.Controllers
                 request.IdPersona,
                 request.IdTipoMoneda,
                 request.IdUsuarioVendedor,
+                request.DescuentoTotal,
+                request.SubTotal,
+                request.Impuesto,
+                request.Total,
                 request.IdUsuario,
                 true,
                 request.Detalles.Select(d => new DetalleVentaCommand(
                     d.Id,
                     d.IdVenta,
                     d.IdProductoVariante,
+                    d.IdTipoOperacion,
+                    d.CodigoTipoOperacion,
+                    d.Descripcion,
                     d.Cantidad,
                     d.PrecioUnitario,
+                    d.AplicaICBP,
                     d.IdDescuento,
+                    d.ValorDescuento,
+                    d.SubTotal,
                     true
                 )).ToList(),
                 request.FormasPago.Select(d => new VentaFormaPagoCommand(
                     d.Id,
                     d.IdVenta,
                     d.IdFormaPago,
-                    d.DescripcionFormaPago,
                     d.Monto,
-                    d.ReferenciaPago
+                    d.ReferenciaPago,
+                    d.RutaIcono,
+                    d.Activo
                 )).ToList()
             );
 
@@ -76,50 +85,7 @@ namespace TSC.Expopunto.Api.Controllers
             );
         }
 
-        [HttpPost("actualizar")]
-        public async Task<IActionResult> Actualizar(
-            [FromBody] ActualizarVentaRequest request
-        )
-        {
-            var command = new ActualizarVentaCommand(
-                OperationType.Update,
-                request.Id,
-                request.Fecha,
-                request.Hora,
-                request.IdSede,
-                request.IdTipoComprobante,
-                request.Serie,
-                request.Numero,
-                request.IdPersona,
-                request.IdTipoMoneda,
-                request.IdUsuarioVendedor,
-                request.IdUsuario,
-                request.Activo,
-                request.Detalles.Select(d => new DetalleVentaCommand(
-                    d.Id,
-                    d.IdVenta,
-                    d.IdProductoVariante,
-                    d.Cantidad,
-                    d.PrecioUnitario,
-                    d.IdDescuento,
-                    d.Activo
-                )).ToList(),
-                request.FormasPago.Select(d => new VentaFormaPagoCommand(
-                    d.Id,
-                    d.IdVenta,
-                    d.IdFormaPago,
-                    d.DescripcionFormaPago,
-                    d.Monto,
-                    d.ReferenciaPago
-                )).ToList()
-            );
-
-            var data = await _mediator.Send(command);
-
-            return StatusCode(
-                StatusCodes.Status200OK,
-                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso"));
-        }
+    
 
         [HttpPost("eliminar")]
         public async Task<IActionResult> Eliminar(

@@ -38,7 +38,7 @@ namespace TSC.Expopunto.Application.DataBase.ProductoVariante.Queries
             };
         }
 
-        public async Task<PagedResult<ProductosVarianteYPrecios>> ListarProductosVarianteYPreciosAsync(ProductosVarianteParametros parametro)
+        public async Task<PagedResult<ProductosVarianteModel>> ListarProductosVarianteModelAsync(ProductosVarianteParametros parametro)
         {
             var parametros = new
             {
@@ -49,13 +49,13 @@ namespace TSC.Expopunto.Application.DataBase.ProductoVariante.Queries
 
                 pFiltro = parametro.Filtro
             };
-
-            var response = await _dapperQuerySevice.QueryAsync<ProductosVarianteYPrecios>("uspGetProductoVariante", parametros);
+            
+            var response = await _dapperQuerySevice.QueryAsync<ProductosVarianteModel>("uspGetProductoVariante", parametros);
 
             var responseList = response.ToList();
             var totalRegistros = responseList.FirstOrDefault()?.TotalRegistros ?? 0;
 
-            return new PagedResult<ProductosVarianteYPrecios>
+            return new PagedResult<ProductosVarianteModel>
             {
                 Data = responseList,
                 Total = totalRegistros,

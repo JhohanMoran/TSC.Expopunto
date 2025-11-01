@@ -353,7 +353,7 @@ namespace TSC.Expopunto.External.PDF.Services
 
             foreach (var item in parametro.Detalles)
             {
-                detalleTable.AddCell(new Paragraph(item.DescripcionProducto).SetFontSize(7));
+                detalleTable.AddCell(new Paragraph(item.Descripcion).SetFontSize(7));
                 detalleTable.AddCell(new Paragraph(item.Cantidad.ToString()).SetFontSize(7));
                 detalleTable.AddCell(new Paragraph(item.SubTotal.ToString("C")).SetFontSize(7));
             }

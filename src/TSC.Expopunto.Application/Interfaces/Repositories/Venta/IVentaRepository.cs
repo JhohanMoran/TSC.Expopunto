@@ -10,8 +10,7 @@ namespace TSC.Expopunto.Application.Interfaces.Repositories.Venta
     public interface IVentaRepository
     {
         // Procesos
-        Task<VentaEntity> CrearVentaAsync(VentaEntity venta);
-        Task<VentaEntity> ActualizarVentaAsync(VentaEntity venta);
+        Task<VentaEntity> GuardarVentaAsync(VentaEntity venta);
         Task<int> EliminarVentaAsync(int id, int idUsuario);
 
         // Listas
