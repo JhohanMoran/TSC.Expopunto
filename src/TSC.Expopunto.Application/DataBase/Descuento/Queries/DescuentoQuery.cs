@@ -25,6 +25,8 @@ namespace TSC.Expopunto.Application.DataBase.Descuento.Queries
 
             var response = await _dapperService.QueryAsync<DescuentosTodosModel>("uspGetDescuentos", parameters);
             return response.ToList();
+
+           
         }
 
         public async Task<List<DescuentosTodosModel>> ListarComboDescuentosAsync()
@@ -46,8 +48,31 @@ namespace TSC.Expopunto.Application.DataBase.Descuento.Queries
                 pId = idDescuento
             };
 
-            var response = await _dapperService.QueryFirstOrDefaultAsync<DescuentosTodosModel>("uspGetDescuentos", parameters);
-            return response;
+            var filas = await _dapperService.QueryAsync<DescuentosTodosModel>("uspGetDescuentos", parameters);
+            var listaFilas = filas.ToList();
+
+            if (!listaFilas.Any())
+                return null;
+
+            var descuento = listaFilas.First();
+
+            descuento.Detalles = listaFilas
+                .Where(f => f.IdDetalle.HasValue && f.IdDetalle > 0)
+                .Select(f => new DescuentosTodosModel
+                {
+                    Id = f.IdDetalle.Value,
+                    IdDetalle = f.IdDetalle,
+                    IdProductoVariante = f.IdProductoVariante,
+                    CodProducto = f.CodProducto,
+                    NombreProducto = f.NombreProducto,
+                    Color = f.Color,
+                    Talla = f.Talla,
+                    ActivoDetalle = f.ActivoDetalle
+                })
+                .ToList();
+
+            return descuento;
+
         }
 
         public async Task<List<DescuentosTodosModel>> ListarDescuentosPorEstadoAsync(bool? activo)

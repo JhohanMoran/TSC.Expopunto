@@ -13,6 +13,17 @@
         public bool Activo { get; set; }
         public string Auditoria { get; set; }
         public int TotalRegistros { get; set; }
+        public int? IdDetalle { get; set; }
+        public string CodProducto { get; set; }
+        public string NombreProducto { get; set; }
+        public string Color { get; set; }
+        public string Talla { get; set; }
+
+        public bool ActivoDetalle { get; set; }
+
+        public int IdProductoVariante { get; set; }
+
+        public List<DescuentosTodosModel> Detalles { get; set; } = new List<DescuentosTodosModel>();
 
     }
 }
