@@ -21,8 +21,9 @@ namespace TSC.Expopunto.Application.DataBase.Producto.Queries.Models
         public string Genero { get; set; }
         public string CodigoSKU { get; set; }
         public int IdHistorialPrecios { get; set; }
-        public int PrecioVenta { get; set; }
-        public int PrecioCosto { get; set; }
+        public decimal PrecioVenta { get; set; }
+        public decimal PrecioCosto { get; set; }
+        public bool AplicaICBP { get; set; }
         public string Auditoria { get; set; } = string.Empty;
         public bool Activo { get; set; }
         public int TotalRegistros { get; set; }
