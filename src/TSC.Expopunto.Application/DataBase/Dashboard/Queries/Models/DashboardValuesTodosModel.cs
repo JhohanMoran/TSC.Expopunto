@@ -10,5 +10,7 @@
         public decimal PorcentajeCambioGanancia { get; set; }
         public int ClientesNuevos { get; set; }
         public decimal PorcentajeCambioClientes { get; set; }
+        public decimal PromedioMensualVentasTotales { get; set; }
+        public decimal PorcentajeCambioVsPromedio { get; set; }
     }
 }

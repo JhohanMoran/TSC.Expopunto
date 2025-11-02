@@ -37,13 +37,15 @@ namespace TSC.Expopunto.Application.DataBase.Dashboard.Queries
                     var charts = new DashboardChartsModel();                   
                     var numVentas = await multi.ReadAsync<ChartsNumVentasModel>();
                     var montoVentas = await multi.ReadAsync<ChartsMontoVentasModel>();
-                    var personaVentas = await multi.ReadAsync<ChartsPersonaVentasModel>();
+                    var FormasPagoVentas = await multi.ReadAsync<ChartsFormasPagoVentasModel>();
                     var actividadReciente = await multi.ReadFirstOrDefaultAsync<ActividadRecienteModel>();
+                    var estadisticasRapidas = await multi.ReadFirstOrDefaultAsync<EstadisticasRapidasModel>();
 
                     charts.ChartsNumVentas = numVentas.ToList();
                     charts.ChartsMontoVentas = montoVentas.ToList();
-                    charts.ChartsPersonaVentas = personaVentas.ToList();
+                    charts.ChartsFormasPagoVentas = FormasPagoVentas.ToList();
                     charts.ActividadReciente = actividadReciente;
+                    charts.EstadisticasRapidas = estadisticasRapidas;
 
                     return charts;
                 },
