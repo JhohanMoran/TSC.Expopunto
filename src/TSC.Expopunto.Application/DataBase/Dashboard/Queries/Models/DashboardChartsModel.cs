@@ -10,23 +10,25 @@ namespace TSC.Expopunto.Application.DataBase.Dashboard.Queries.Models
     {
         public List<ChartsNumVentasModel>? ChartsNumVentas { get; set; }
         public List<ChartsMontoVentasModel>? ChartsMontoVentas { get; set; }
-        public List<ChartsPersonaVentasModel>? ChartsPersonaVentas { get; set; }
+        public List<ChartsFormasPagoVentasModel>? ChartsFormasPagoVentas { get; set; }
         public ActividadRecienteModel? ActividadReciente { get; set; }
+        public EstadisticasRapidasModel? EstadisticasRapidas { get; set; }
     }
     public class ChartsNumVentasModel
     {
-        public string Fecha { get; set; } = string.Empty;
+        public string SemanaAnio { get; set; } = string.Empty;
         public int NumeroVentas { get; set; }
     }
     public class ChartsMontoVentasModel
     {
-        public string Fecha { get; set; } = string.Empty;
+        public string MesAnio { get; set; } = string.Empty;
         public decimal MontoVenta { get; set; }
     }
-    public class ChartsPersonaVentasModel
+    public class ChartsFormasPagoVentasModel
     {
-        public string CodTipoPersona { get; set; } = string.Empty;
-        public string TipoPersona { get; set; } = string.Empty;
+        public int IdFormaPago { get; set; }
+        public string DescripcionFormaPago { get; set; } = string.Empty;
+        public string RutaIcono { get; set; } = string.Empty;
         public int NumVentas { get; set; }
         public decimal PorcentajeVentas { get; set; }
     }
@@ -36,5 +38,12 @@ namespace TSC.Expopunto.Application.DataBase.Dashboard.Queries.Models
         public string FechaVenta { get; set; } = string.Empty;
         public string NombrePersona { get; set; } = string.Empty;
         public decimal MontoVenta { get; set; }
+    }
+    public class EstadisticasRapidasModel
+    {
+        public int VentasActivas { get; set; }
+        public int VentasAnuladas { get; set; }
+        public int GuiasPendientesRevision { get; set; }
+        public int VentasPendientesRevision { get; set; }
     }
 }
