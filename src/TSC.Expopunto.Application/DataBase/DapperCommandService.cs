@@ -18,6 +18,11 @@ namespace TSC.Expopunto.Infrastructure.DataBase
             _connectionString = configuration.GetConnectionString("DefaultConnection");
         }
 
+        public Task ExecuteAsync(string sql, object param = null, CommandType commandType = CommandType.StoredProcedure)
+        {
+            throw new NotImplementedException();
+        }
+
         public async Task<int> ExecuteScalarAsync(string procedureName, object parameters)
         {
             using var connection = new SqlConnection(_connectionString);
@@ -27,6 +32,11 @@ namespace TSC.Expopunto.Infrastructure.DataBase
                 parameters,
                 commandType: CommandType.StoredProcedure
             );
+        }
+
+        public Task<T> QueryFirstOrDefaultAsync<T>(string v, object parameters)
+        {
+            throw new NotImplementedException();
         }
     }
 }
