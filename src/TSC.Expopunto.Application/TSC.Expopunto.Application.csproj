@@ -11,14 +11,17 @@
     <Compile Remove="DataBase\Comprobante\**" />
     <Compile Remove="DataBase\NewFolder1\**" />
     <Compile Remove="DataBase\Reporte\Queries\Models\NewFolder\**" />
+    <Compile Remove="DataBase\SedeCompleta\NewFolder\**" />
     <EmbeddedResource Remove="DataBase\Cliente\**" />
     <EmbeddedResource Remove="DataBase\Comprobante\**" />
     <EmbeddedResource Remove="DataBase\NewFolder1\**" />
     <EmbeddedResource Remove="DataBase\Reporte\Queries\Models\NewFolder\**" />
+    <EmbeddedResource Remove="DataBase\SedeCompleta\NewFolder\**" />
     <None Remove="DataBase\Cliente\**" />
     <None Remove="DataBase\Comprobante\**" />
     <None Remove="DataBase\NewFolder1\**" />
     <None Remove="DataBase\Reporte\Queries\Models\NewFolder\**" />
+    <None Remove="DataBase\SedeCompleta\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>

@@ -37,6 +37,8 @@ using TSC.Expopunto.Application.DataBase.ProductoVariante.Queries;
 using TSC.Expopunto.Application.DataBase.Reporte.Queries;
 using TSC.Expopunto.Application.DataBase.Sede.Commands;
 using TSC.Expopunto.Application.DataBase.Sede.Queries;
+using TSC.Expopunto.Application.DataBase.SedeCompleta.Commands;
+using TSC.Expopunto.Application.DataBase.SedeCompleta.Queries;
 using TSC.Expopunto.Application.DataBase.SedeSerie.Commands;
 using TSC.Expopunto.Application.DataBase.SedeSerie.Queries;
 using TSC.Expopunto.Application.DataBase.TipoComprobante.Queries;
@@ -161,7 +163,8 @@ namespace TSC.Expopunto.Application
 
             //services.AddTransient<IDapperCommandService, DapperCommandService>();
 
-
+            services.AddTransient<ISedeCompletaCommand, SedeCompletaCommand>();
+            services.AddTransient<ISedeCompletaQuery, SedeCompletaQuery>();
             services.AddTransient<IKardexQuery, KardexQuery>();
             services.AddTransient<IProductoVarianteCommand, ProductoVarianteCommand>();
 

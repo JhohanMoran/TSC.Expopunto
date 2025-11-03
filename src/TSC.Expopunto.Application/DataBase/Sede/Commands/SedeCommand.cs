@@ -1,9 +1,4 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using TSC.Expopunto.Application.DataBase.Sede.Queries.Models;
 
 namespace TSC.Expopunto.Application.DataBase.Sede.Commands
 {
@@ -34,13 +29,18 @@ namespace TSC.Expopunto.Application.DataBase.Sede.Commands
             {
                 model.Id = Convert.ToInt32(response);
             }
-            //if (response > 1)
-            //{
-            //    model.Id = response;
-            //}
+
             return model;
         }
-        
-
+        public async Task<SedesTodosModel> ObtenerSedePorIdAsync(int idSede)
+        {
+            var parameters = new
+            {
+                pOpcion = 2,
+                pIdSede = idSede
+            };
+            var response = await _dapperService.QueryFirstOrDefaultAsync<SedesTodosModel>("uspGetSedes", parameters);
+            return response;
+        }
     }
 }

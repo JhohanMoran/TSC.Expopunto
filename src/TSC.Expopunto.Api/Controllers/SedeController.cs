@@ -21,38 +21,42 @@ namespace TSC.Expopunto.Api.Controllers
             _sedeCommand = sedeCommand;
             _sedeQuery = sedeQuery;
         }
-
         [HttpPost("crear")]
-        public async Task<IActionResult> Crear(
-            [FromBody] SedeModel model
-            )
+        public async Task<IActionResult> Crear([FromBody] SedeModel model)
         {
             model.Opcion = (int)OperationType.Create;
 
-            var data = await _sedeCommand.ProcesarAsync(model);
+            // 1. Ejecuta el comando para crear la sede
+            var data = await _sedeCommand.ProcesarAsync(model); // ← data.Id ahora tiene el ID generado
+
+            // 2. Usa ese ID para obtener la sede completa con auditoría
+            var sedeConAuditoria = await _sedeQuery.ObtenerSedePorIdAsync(data.Id); //  data.Id, no model.Id
+
+            // 3. Devuelve el modelo de consulta (SedesTodosModel), no el de comando
             return StatusCode(
                 StatusCodes.Status201Created,
-                ResponseApiService.Response(StatusCodes.Status201Created, data, "Exitoso"));
+                ResponseApiService.Response(StatusCodes.Status201Created, sedeConAuditoria, "Exitoso")
+            );
         }
 
-
         [HttpPost("actualizar")]
-        public async Task<IActionResult> Actualizar(
-             [FromBody] SedeModel model
-            )
+        public async Task<IActionResult> Actualizar([FromBody] SedeModel model)
         {
             model.Opcion = (int)OperationType.Update;
 
+            // Ejecutamos el comando (actualiza la sede)
             var data = await _sedeCommand.ProcesarAsync(model);
 
+            // Luego consultamos la sede actualizada desde la BD
+            var sedeActualizada = await _sedeQuery.ObtenerSedePorIdAsync(model.Id);
+
+            // Retornamos la sede con los datos de auditoría actualizados
             return StatusCode(
                 StatusCodes.Status200OK,
-                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
-                );
-
-
+                ResponseApiService.Response(StatusCodes.Status200OK, sedeActualizada, "Exitoso")
+            );
         }
-        
+
         [HttpPost("eliminar")]
         public async Task<IActionResult> Eliminar(
              [FromBody] int idSede)
@@ -62,9 +66,7 @@ namespace TSC.Expopunto.Api.Controllers
             {
                 return BadRequest(ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El ID no es válido"));
 
-                //return StatusCode(
-                //    StatusCodes.Status400BadRequest,
-                //    ResponseApiService.Response(StatusCodes.Status200OK, null, "El ID de la sede  no es válido"));
+
             }
 
             var model = new SedeModel()
