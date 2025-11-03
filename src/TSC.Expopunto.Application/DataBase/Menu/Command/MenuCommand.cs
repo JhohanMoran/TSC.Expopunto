@@ -1,11 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TSC.Expopunto.Application.DataBase.Menu.Command
+﻿namespace TSC.Expopunto.Application.DataBase.Menu.Command
 {
     public class MenuCommand : IMenuCommand
     {
@@ -30,8 +23,8 @@ namespace TSC.Expopunto.Application.DataBase.Menu.Command
             };
 
             var response = await _dapperSevice.ExecuteScalarAsync("uspSetMenu", paremeters);
-            
-            if(response > 0)
+
+            if (response > 0)
             {
                 model.Id = response;
             }

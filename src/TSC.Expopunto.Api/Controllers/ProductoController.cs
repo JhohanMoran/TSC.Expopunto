@@ -116,5 +116,79 @@ namespace TSC.Expopunto.Api.Controllers
             );
 
         }
+        [HttpGet("listar-prod-variantes")]
+        public async Task<IActionResult> ListarProdVariantes([FromQuery] ProductoParams param)
+        {
+            var response = await _productoQuery.ListarProdVariantesAsync(param);
+
+            return StatusCode(
+                   StatusCodes.Status200OK,
+                   ResponseApiService.Response(StatusCodes.Status200OK, response, "Exitoso")
+                );
+        }
+        [HttpGet("listar-tallas")]
+        public async Task<IActionResult> ListarTallas()
+        {
+            var response = await _productoQuery.ListarTallasAsync();
+
+            return StatusCode(
+                   StatusCodes.Status200OK,
+                   ResponseApiService.Response(StatusCodes.Status200OK, response, "Exitoso")
+                );
+        }
+        [HttpGet("listar-colores")]
+        public async Task<IActionResult> ListarColores()
+        {
+            var response = await _productoQuery.ListarColoresAsync();
+
+            return StatusCode(
+                   StatusCodes.Status200OK,
+                   ResponseApiService.Response(StatusCodes.Status200OK, response, "Exitoso")
+                );
+        }
+        [HttpPost("crear-variante")]
+        public async Task<IActionResult> CrearVariante([FromBody] ProductoModel model
+        )
+        {
+            model.Opcion = 4;
+            var data = await _productoCommand.ProcesarAsync(model);
+            return StatusCode(
+                StatusCodes.Status201Created,
+                ResponseApiService.Response(StatusCodes.Status201Created, data, "Exitoso"));
+        }
+        [HttpPost("actualizar-variante")]
+        public async Task<IActionResult> ActualizarVariante([FromBody] ProductoModel model)
+        {
+            model.Opcion = 5;
+            var data = await _productoCommand.ProcesarAsync(model);
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+                );
+
+        }
+        [HttpPost("eliminar-variante")]
+        public async Task<IActionResult> EliminarVariante([FromBody] ProductoModel model)
+        {
+            if (model.IdProductoVariante == 0)
+            {
+                return StatusCode(
+                StatusCodes.Status400BadRequest,
+                ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El id del producto no es válido")
+                );
+            }
+
+            model.Opcion = 6;
+
+            var data = await _productoCommand.ProcesarAsync(model);
+
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+
+        }
     }
 }

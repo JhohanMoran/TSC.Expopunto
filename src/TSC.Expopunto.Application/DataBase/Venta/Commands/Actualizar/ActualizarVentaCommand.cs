@@ -20,7 +20,7 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Actualizar
         int? IdTipoMoneda,
         int? IdUsuarioVendedor,
         int? IdUsuario,
-        bool? Activo,   
+        bool? Activo,
 
         List<DetalleVentaCommand>? Detalles,
         List<VentaFormaPagoCommand>? FormasPago

@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TSC.Expopunto.Application.DataBase.Producto.Queries.Models;
-using TSC.Expopunto.Application.DataBase.ProductoVariante.Queries.Models;
-using TSC.Expopunto.Application.DataBase.Venta.DTO;
+﻿using TSC.Expopunto.Application.DataBase.ProductoVariante.Queries.Models;
 using TSC.Expopunto.Common;
 
 namespace TSC.Expopunto.Application.DataBase.ProductoVariante.Queries
@@ -27,7 +20,7 @@ namespace TSC.Expopunto.Application.DataBase.ProductoVariante.Queries
 
                 pPagina = parametro.Pagina,
                 pFilasPorPagina = parametro.FilasPorPagina,
-                
+
                 pFiltro = parametro.Filtro
             };
 

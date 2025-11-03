@@ -12,6 +12,7 @@ using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEntrada
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEntrada.Params;
 using TSC.Expopunto.Application.Exceptions;
 using TSC.Expopunto.Application.Features;
+using TSC.Expopunto.Application.Features.GuiaEntrada.Queries.ObtenerGuiaEntradaPorNumeroSerie;
 using TSC.Expopunto.Common;
 
 namespace TSC.Expopunto.Api.Controllers
@@ -53,11 +54,16 @@ namespace TSC.Expopunto.Api.Controllers
                     d.IdProducto,
                     d.IdUnidadMedida,
                     d.IdTalla,
+                    d.Talla,
                     d.Cantidad,
-                    d.CostoUnitario,
-                    d.Caja,
+                    d.NumCaja,
+                    d.Nombre,
                     d.CodigoEstilo,
                     d.CodigoPedido,
+                    d.Categoria,
+                    d.Genero,
+                    d.Color,
+                    d.CodigoSku,
                     d.IdUsuario
                 
 
@@ -96,11 +102,16 @@ namespace TSC.Expopunto.Api.Controllers
                     d.IdProducto,
                     d.IdUnidadMedida,
                     d.IdTalla,
+                    d.Talla,
                     d.Cantidad,
-                    d.CostoUnitario,
-                    d.Caja,
+                    d.NumCaja,
+                    d.Nombre,
                     d.CodigoEstilo,
                     d.CodigoPedido,
+                    d.Categoria,
+                    d.Genero,
+                    d.Color,
+                    d.CodigoSku,
                     d.IdUsuario
                 )).ToList()
             );
@@ -121,6 +132,14 @@ namespace TSC.Expopunto.Api.Controllers
         {
             var data = await _mediator.Send(new ObtenerGuiasEntradaQuery(parametros));
 
+            if (data == null || data.Data == null || data.Data.Count == 0)
+            {
+                return StatusCode(
+                    StatusCodes.Status200OK,
+                    ResponseApiService.Response(StatusCodes.Status204NoContent, null, "No se encontraron resultados")
+                );
+            }
+
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
@@ -134,6 +153,28 @@ namespace TSC.Expopunto.Api.Controllers
         )
         {
             var data = await _mediator.Send(new ObtenerGuiaEntradaPorNumeroSerieQuery(parametros.Opcion, parametros.Numero, parametros.Serie));
+
+            if (data == null)
+            {
+                return StatusCode(
+                        StatusCodes.Status404NotFound,
+                        ResponseApiService.Response(StatusCodes.Status404NotFound, null, "Guia no encontrada")
+                    );
+            }
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+
+        }
+
+        [HttpPost("listar-por-numero-serie-pdf")]
+        public async Task<IActionResult> ListarPorNumeroSeriePdf(
+           [FromBody] ObtenerGuiasEntradaParams parametros
+       )
+        {
+            var data = await _mediator.Send(new ObtenerGuiaEntradaPorNumeroSerieQueryPdf(parametros.Opcion, parametros.Numero, parametros.Serie));
 
             if (data == null)
             {

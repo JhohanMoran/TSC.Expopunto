@@ -1,11 +1,4 @@
-﻿using Azure;
-using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiaEntradaPorId;
+﻿using MediatR;
 using TSC.Expopunto.Application.Interfaces.Repositories.GuiaEntrada;
 using TSC.Expopunto.Domain.Entities.GuiaEntrada;
 
@@ -27,7 +20,7 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Eliminar
             };
 
             return await this._guiaEntradaRepository.EliminarGuiaEntradaAsync(guiaEntrada);
-            
+
         }
     }
 }

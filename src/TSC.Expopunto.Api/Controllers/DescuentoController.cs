@@ -37,13 +37,13 @@ namespace TSC.Expopunto.Api.Controllers
                 ? "DESC"
                 : "ASC";
 
-          
+
             Console.WriteLine($"DEBUG -> Pagina={parametro.Pagina}, Filas={parametro.FilasPorPagina}, OrdenarPor={parametro.OrdenarPor}, OrdenDireccion={parametro.OrdenDireccion}");
 
 
 
             var data = await _descuentoQuery.ListarDescuentosAsync(parametro);
-            
+
 
             if (data == null || data.Count == 0)
             {
@@ -142,7 +142,7 @@ namespace TSC.Expopunto.Api.Controllers
             }
 
             model.Opcion = (int)OperationType.Create;
-            var data = await _descuentoCommand.ProcesarAsync(model);
+            var data = await _descuentoCommand.ProcesarAsync(model, model.Detalles);
 
             return StatusCode(
                 StatusCodes.Status201Created,
@@ -161,7 +161,7 @@ namespace TSC.Expopunto.Api.Controllers
             }
 
             model.Opcion = (int)OperationType.Update;
-            var data = await _descuentoCommand.ProcesarAsync(model);
+            var data = await _descuentoCommand.ProcesarAsync(model, model.Detalles);
 
             return StatusCode(
                 StatusCodes.Status200OK,

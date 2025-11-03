@@ -15,7 +15,7 @@ namespace TSC.Expopunto.Application.Features
             if (statusCode >= 200 && statusCode < 300)
             {
                 success = true;
-            }   
+            }
 
             var result = new BaseResponseModel
             {
@@ -23,8 +23,8 @@ namespace TSC.Expopunto.Application.Features
                 Success = success,
                 Message = message ?? (success ? "Success" : "Error"),
                 Data = data
-            };                   
-            
+            };
+
             return result;
         }
     }

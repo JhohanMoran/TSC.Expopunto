@@ -45,6 +45,7 @@ app.UseSwaggerUI(options =>
 //app.UseAuthentication();
 //app.UseAuthorization();
 app.UseCors("AllowAngular");
+app.UseStaticFiles();
 app.MapControllers();
 app.Run();
 

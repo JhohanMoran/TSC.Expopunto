@@ -90,7 +90,7 @@ namespace TSC.Expopunto.Api.Controllers
 
             var data = await _menuQuery.ListarMenusPorIdAsync(idMenu);
 
-            if(data == null)
+            if (data == null)
             {
                 return StatusCode(
                 StatusCodes.Status404NotFound,

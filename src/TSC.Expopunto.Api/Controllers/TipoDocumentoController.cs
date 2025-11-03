@@ -2,7 +2,6 @@
 using TSC.Expopunto.Application.DataBase.TipoDocumento.Queries;
 using TSC.Expopunto.Application.Exceptions;
 using TSC.Expopunto.Application.Features;
-using TSC.Expopunto.Common;
 
 namespace TSC.Expopunto.Api.Controllers
 {

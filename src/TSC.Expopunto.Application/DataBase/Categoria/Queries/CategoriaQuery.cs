@@ -1,4 +1,5 @@
-﻿using TSC.Expopunto.Application.DataBase.Categoria.Queries.Models;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using TSC.Expopunto.Application.DataBase.Categoria.Queries.Models;
 using TSC.Expopunto.Application.DataBase.Producto.Queries.Models;
 
 namespace TSC.Expopunto.Application.DataBase.Categoria.Queries
@@ -45,6 +46,18 @@ namespace TSC.Expopunto.Application.DataBase.Categoria.Queries
             {
                 pOpcion = 1,
                 pId = id
+            };
+
+            var respnse = await _dapperQuerySevice.QueryFirstOrDefaultAsync<CategoriaTodos>("uspGetCategorias", parametros);
+            return respnse;
+        }
+
+        public async Task<CategoriaTodos> ListarPorNombreAsync(string nombre, int opcion)
+        {
+            var parametros = new
+            {
+                pOpcion = opcion,
+                pFiltroNombre = nombre
             };
 
             var respnse = await _dapperQuerySevice.QueryFirstOrDefaultAsync<CategoriaTodos>("uspGetCategorias", parametros);

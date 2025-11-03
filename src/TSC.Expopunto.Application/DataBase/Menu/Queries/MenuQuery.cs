@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using TSC.Expopunto.Application.DataBase.Menu.Queries.Models;
+﻿using TSC.Expopunto.Application.DataBase.Menu.Queries.Models;
 
 namespace TSC.Expopunto.Application.DataBase.Menu.Queries
 {
@@ -54,7 +49,7 @@ namespace TSC.Expopunto.Application.DataBase.Menu.Queries
         {
             List<MenusTodos> menusPadres = menus.Where(m => m.IdMenuPadre == null).OrderBy(m => m.Orden).ToList();
 
-            foreach(var menu in menusPadres)
+            foreach (var menu in menusPadres)
             {
                 menu.MenuHijo = ObtenerHijos(menus, menu.Id);
             }

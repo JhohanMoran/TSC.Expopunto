@@ -1,11 +1,5 @@
 ﻿using MediatR;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.DTO;
-using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEntrada.Params;
 using TSC.Expopunto.Application.Interfaces.Repositories.GuiaEntrada;
 using TSC.Expopunto.Common;
 
@@ -27,6 +21,6 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEnt
         {
             return await _repository.ObtenerGuiasEntradaAsync(request.Parametros);
         }
-    } 
-      
+    }
+
 }

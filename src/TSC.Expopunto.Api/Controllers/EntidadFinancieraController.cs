@@ -79,7 +79,7 @@ namespace TSC.Expopunto.Api.Controllers
         {
             var data = await _entidadFinancieraQuery.ListarTodosAsync();
 
-            if (data == null || data.Count ==0)
+            if (data == null || data.Count == 0)
             {
                 return StatusCode(
                     StatusCodes.Status204NoContent,

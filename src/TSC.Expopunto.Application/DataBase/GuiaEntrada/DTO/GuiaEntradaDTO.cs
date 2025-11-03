@@ -18,5 +18,6 @@
         public List<DetalleGuiaEntradaDTO> Detalles { get; set; } = new();
         public int TotalRegistros { get; set; }
         public string Auditoria { get; set; } = string.Empty;
+        public DateTime FechaHora { get; set; }
     }
 }

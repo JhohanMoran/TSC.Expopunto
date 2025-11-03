@@ -20,7 +20,7 @@ namespace TSC.Expopunto.Api.Controllers
         private readonly IUsuarioQuery _usuarioQuery;
         private readonly IMediator _mediator;
         public UsuarioController(
-            IUsuarioCommand usuarioCommand, 
+            IUsuarioCommand usuarioCommand,
             IUsuarioQuery usuarioQuery,
             IMediator mediator
         )
@@ -168,7 +168,7 @@ namespace TSC.Expopunto.Api.Controllers
            [FromBody] LoginUsuarioQuery parametros
         )
         {
-            var data = await _mediator.Send(new LoginUsuarioQuery(parametros.idPerfil, parametros.Usuario, parametros.Contrasena));  
+            var data = await _mediator.Send(new LoginUsuarioQuery(parametros.idPerfil, parametros.Usuario, parametros.Contrasena));
 
             if (data == null)
             {

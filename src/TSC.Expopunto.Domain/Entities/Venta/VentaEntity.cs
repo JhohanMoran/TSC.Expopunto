@@ -147,7 +147,7 @@ namespace TSC.Expopunto.Domain.Entities.Venta
             _formasPago.AddRange(nuevasFormasPago);
         }
 
-     
+
         public void AsignarIdDetalle(int index, int idDetalle, int idVenta)
         {
             if (index < 0 || index >= _detalles.Count)

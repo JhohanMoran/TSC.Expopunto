@@ -21,7 +21,7 @@ namespace TSC.Expopunto.Application.DataBase.TipoComprobante.Queries
             return response.ToList();
         }
 
-        public async Task<TiposComprobanteTodosModel>ObtenerTipoComprobantePorIdAsync(int idTipoComprobante)
+        public async Task<TiposComprobanteTodosModel> ObtenerTipoComprobantePorIdAsync(int idTipoComprobante)
         {
             var parameters = new
             {

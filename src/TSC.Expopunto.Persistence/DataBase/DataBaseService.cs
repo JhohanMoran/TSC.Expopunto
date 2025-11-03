@@ -9,9 +9,9 @@ namespace TSC.Expopunto.Persistence.DataBase
 {
     public class DataBaseService : DbContext, IDataBaseService
     {
-        public DataBaseService(DbContextOptions options): base(options)
+        public DataBaseService(DbContextOptions options) : base(options)
         {
-            
+
         }
 
         public DbSet<UsuarioEntity> Usuarios { get; set; }
@@ -20,7 +20,7 @@ namespace TSC.Expopunto.Persistence.DataBase
 
         public async Task<bool> SaveAsync()
         {
-            return await SaveChangesAsync() > 0;    
+            return await SaveChangesAsync() > 0;
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -29,7 +29,7 @@ namespace TSC.Expopunto.Persistence.DataBase
             EntityConfiguration(modelBuilder);
         }
 
-        private void EntityConfiguration (ModelBuilder modelBuilder)
+        private void EntityConfiguration(ModelBuilder modelBuilder)
         {
             new UsuarioConfiguration(modelBuilder.Entity<UsuarioEntity>());
             new ClienteConfiguration(modelBuilder.Entity<ClienteEntity>());

@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using TSC.Expopunto.Application.DataBase.LineaCredito.Commands;
 using TSC.Expopunto.Application.DataBase.LineaCredito.Queries;

@@ -1,13 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using TSC.Expopunto.Application.DataBase.Reporte.Queries.Models;
-using TSC.Expopunto.Application.DataBase.Venta.DTO;
+﻿using TSC.Expopunto.Application.DataBase.Reporte.Queries.Models;
 
 namespace TSC.Expopunto.Application.DataBase.Reporte.Queries
 {
@@ -32,7 +23,7 @@ namespace TSC.Expopunto.Application.DataBase.Reporte.Queries
                 pOrdenDireccion = parametro.OrdenDireccion ?? "ASC",
                 pIdPersona = parametro.IdPersona ?? 0,
                 pTipoComprobante = parametro.TipoComprobante,
-                pSede=parametro.Sede,
+                pSede = parametro.Sede,
                 pSerie = parametro.Serie,
                 pNumero = parametro.Numero,
                 pFechaInicio = parametro.FechaInicio?.Date,

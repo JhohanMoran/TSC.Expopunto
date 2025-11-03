@@ -31,7 +31,6 @@
             string? tipoGuia,
             string? observacion,
             decimal totalCantidad,
-            decimal totalCosto,
             int idUsuario
         )
         {
@@ -44,7 +43,6 @@
             TipoGuia = tipoGuia;
             Observacion = observacion;
             TotalCantidad = totalCantidad;
-            TotalCosto = totalCosto;
             IdUsuario = idUsuario;
         }
         public void AgregarDetalle(
@@ -52,11 +50,20 @@
             int idGuiaEntrada,
             int idProducto,
             int idUnidadMedida,
+            string codUniMed,
             decimal cantidad,
-            decimal costoUnitario,
-            string caja,
+            string numCaja,
+            string codProducto,
+            string nombre,
             string codEstilo,
-            string codPedido
+            string codPedido,
+            int idCategoria,
+            string categoria,
+            string genero,
+            string color,
+            string codigoSku,
+            string talla,
+            int idUsuario
         )
         {
             _detalles.Add(new DetalleGuiaEntradaEntity(
@@ -64,12 +71,20 @@
                 idGuiaEntrada,
                 idProducto,
                 idUnidadMedida,
+                codUniMed,
                 cantidad,
-                costoUnitario,
-                caja,
+                numCaja,
+                codProducto,
+                nombre,
                 codEstilo,
                 codPedido,
-                null
+                idCategoria,
+                categoria,
+                genero,
+                color,
+                codigoSku,
+                talla,
+                idUsuario
             ));
         }
 
@@ -83,7 +98,6 @@
             string? tipoGuia,
             string? observacion,
             decimal totalCantidad,
-            decimal totalCosto,
             int idUsuario,
             List<DetalleGuiaEntradaEntity>? nuevosDetalles
         )
@@ -97,7 +111,6 @@
             TipoGuia = tipoGuia;
             Observacion = observacion;
             TotalCantidad = totalCantidad;
-            TotalCosto = totalCosto;
             IdUsuario = idUsuario;
 
             _detalles.Clear();

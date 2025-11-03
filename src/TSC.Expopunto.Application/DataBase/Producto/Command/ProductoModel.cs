@@ -1,20 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace TSC.Expopunto.Application.DataBase.Producto.Command
+﻿namespace TSC.Expopunto.Application.DataBase.Producto.Command
 {
     public class ProductoModel
     {
-        public int Opcion {get;set;}
-        public int Id {get;set;}
+        public int Opcion { get; set; }
+        public int Id { get; set; }
         public int IdCategoria { get; set; }
-        public string CodProducto {get;set;}
+        public string CodProducto { get; set; } = string.Empty;
         public string Nombre { get; set; } = string.Empty;
-        public string Genero { get; set; }
+        public string Genero { get; set; } = string.Empty;
         public int IdUsuario { get; set; }
         public int Activo { get; set; }
+        public string NumCaja { get; set; }
+        public int IdProductoVariante { get; set; }
+        public int IdTalla { get; set; }
+        public int IdColor { get; set; }
+        public string CodigoSKU { get; set; } = string.Empty;
+        public int IdHistorialPrecio { get; set; }
+        public decimal PrecioVenta { get; set; }
+        public decimal PrecioCosto { get; set; }
     }
 }

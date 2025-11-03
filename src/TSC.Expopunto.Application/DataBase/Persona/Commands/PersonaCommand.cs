@@ -1,8 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-using System;
-using System.Threading.Tasks;
-
-namespace TSC.Expopunto.Application.DataBase.Persona.Commands
+﻿namespace TSC.Expopunto.Application.DataBase.Persona.Commands
 {
     public class PersonaCommand : IPersonaCommand
     {
