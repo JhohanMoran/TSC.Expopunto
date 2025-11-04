@@ -2,13 +2,10 @@
 using TSC.Expopunto.Application.DataBase.DetalleVenta.Commands;
 using TSC.Expopunto.Application.DataBase.Venta.DTO;
 using TSC.Expopunto.Application.DataBase.VentasFormaPago.Commands;
-using TSC.Expopunto.Common;
 
-namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Actualizar
+namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Crear
 {
-    public record ActualizarVentaCommand(
-        OperationType Operation,
-
+    public record GuardarVentaCommand(
         int Id,
         DateTime? Fecha,
         string Hora,
@@ -19,6 +16,10 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Actualizar
         int? IdPersona,
         int? IdTipoMoneda,
         int? IdUsuarioVendedor,
+        decimal? DescuentoTotal,
+        decimal? SubTotal,
+        decimal? Impuesto,
+        decimal? Total,
         int? IdUsuario,
         bool? Activo,
 

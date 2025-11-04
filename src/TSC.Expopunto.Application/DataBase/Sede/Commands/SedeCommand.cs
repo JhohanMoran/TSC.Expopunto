@@ -1,4 +1,5 @@
-﻿using TSC.Expopunto.Application.DataBase.Sede.Queries.Models;
+﻿using System.Text.Json;
+using TSC.Expopunto.Application.DataBase.Sede.Queries.Models;
 
 namespace TSC.Expopunto.Application.DataBase.Sede.Commands
 {
@@ -41,6 +42,21 @@ namespace TSC.Expopunto.Application.DataBase.Sede.Commands
             };
             var response = await _dapperService.QueryFirstOrDefaultAsync<SedesTodosModel>("uspGetSedes", parameters);
             return response;
+        }
+
+        public async Task ProcesarAsync(SedeCompletaModel model)
+        {
+            var jsonSeries = JsonSerializer.Serialize(model.Series);
+
+            await _dapperService.ExecuteAsync("uspGuardarSedeCompleto", new
+            {
+                pIdSede = model.Id ?? (object?)null,
+                pNombre = model.Nombre,
+                pDireccion = model.Direccion,
+                pIdUsuario = model.IdUsuario,
+                pSeriesJson = jsonSeries,
+                pActivo = model.Activo
+            });
         }
     }
 }

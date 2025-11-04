@@ -4,8 +4,9 @@
         int Id,
         int IdVenta,
         int IdFormaPago,
-        string DescripcionFormaPago,
         decimal Monto,
-        string ReferenciaPago
+        string ReferenciaPago,
+        string RutaIcono,
+        bool Activo
     );
 }

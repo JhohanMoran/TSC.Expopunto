@@ -1,4 +1,6 @@
-﻿using TSC.Expopunto.Application.DataBase;
+﻿using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+using System.Numerics;
+using TSC.Expopunto.Application.DataBase;
 using TSC.Expopunto.Application.DataBase.DetalleVenta.DTO;
 using TSC.Expopunto.Application.DataBase.Venta.DTO;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentas.Params;
@@ -22,61 +24,7 @@ namespace TSC.Expopunto.Persistence.Repositories
             _dapperQueryService = dapperQueryService;
         }
 
-        public async Task<VentaEntity> ActualizarVentaAsync(
-            VentaEntity venta
-        )
-        {
-            var parameters = new
-            {
-                pOpcion = (int)OperationType.Update,
-
-                pId = venta.Id,
-                pFecha = venta.Fecha,
-                pHora = venta.Hora,
-                pIdSede = venta.IdSede,
-                pIdTipoComprobante = venta.IdTipoComprobante,
-                pSerie = venta.Serie,
-                pNumero = venta.Numero,
-                pIdPersona = venta.IdPersona,
-                pIdTipoMoneda = venta.IdTipoMoneda,
-                pIdUsuarioVendedor = venta.IdUsuarioVendedor,
-
-                pIdUsuario = venta.IdUsuario,
-                pActivo = venta.Activo
-            };
-
-            var ventaId = await _dapperCommandService.ExecuteScalarAsync(
-                "uspSetVenta",
-                parameters
-            );
-
-            venta.AsignarId(ventaId);
-
-            int index = 0;
-            foreach (var d in venta.Detalles)
-            {
-                var detalleId = await _dapperCommandService.ExecuteScalarAsync(
-                    "uspSetDetalleVenta",
-                    new
-                    {
-                        pOpcion = d.Id == 0 ? (int)OperationType.Create : (int)OperationType.Update,
-                        pId = d.Id,
-                        pIdVenta = ventaId,
-                        pIdProductoVariante = d.IdProductoVariante,
-                        pCantidad = d.Cantidad,
-                        pIdDescuento = d.IdDescuento,
-                        pPrecioUnitario = d.PrecioUnitario,
-                        pActivo = d.Activo
-                    });
-
-                venta.AsignarIdDetalle(index, detalleId, ventaId);
-                index++;
-            }
-
-            return venta;
-        }
-
-        public async Task<VentaEntity> CrearVentaAsync(
+        public async Task<VentaEntity> GuardarVentaAsync(
             VentaEntity venta
         )
         {
@@ -84,12 +32,9 @@ namespace TSC.Expopunto.Persistence.Repositories
 
             try
             {
-
-
                 var parameters = new
                 {
-                    pOpcion = (int)OperationType.Create,
-
+                    pOpcion = venta.Id > 0 ? (int)OperationType.Update : (int)OperationType.Create,
                     pId = venta.Id,
                     pFecha = venta.Fecha,
                     pHora = venta.Hora,
@@ -100,7 +45,10 @@ namespace TSC.Expopunto.Persistence.Repositories
                     pIdPersona = venta.IdPersona,
                     pIdTipoMoneda = venta.IdTipoMoneda,
                     pIdUsuarioVendedor = venta.IdUsuarioVendedor,
-
+                    pDescuentoTotal = venta.DescuentoTotal,
+                    pSubTotal = venta.SubTotal,
+                    pImpuesto = venta.Impuesto,
+                    pTotal = venta.Total,
                     pIdUsuario = venta.IdUsuario,
                     pActivo = venta.Activo
                 };
@@ -119,13 +67,20 @@ namespace TSC.Expopunto.Persistence.Repositories
                         "uspSetDetalleVenta",
                         new
                         {
-                            pOpcion = (int)OperationType.Create,
-                            pId = 0,
+                            pOpcion = d.Id > 0 ? (int)OperationType.Update : (int)OperationType.Create,
+                            pId = d.Id,
                             pIdVenta = ventaId,
                             pIdProductoVariante = d.IdProductoVariante,
+                            pIdTipoOperacion = d.IdTipoOperacion,
+                            pCodigoTipoOperacion = d.CodigoTipoOperacion,
+                            pDescripcion = d.Descripcion,
                             pCantidad = d.Cantidad,
+                            pPrecioUnitario = d.PrecioUnitario,
+                            pAplicaICBP = d.AplicaICBP,
                             pIdDescuento = d.IdDescuento,
-                            pPrecioUnitario = d.PrecioUnitario
+                            pValorDescuento = d.ValorDescuento,
+                            pSubtotal = d.SubTotal,
+                            pActivo = d.Activo
                         });
 
                     venta.AsignarIdDetalle(index, detalleId, ventaId);
@@ -139,11 +94,10 @@ namespace TSC.Expopunto.Persistence.Repositories
                         "uspSetVentaFormaPago",
                         new
                         {
-                            pOpcion = (int)OperationType.Create,
-                            pId = 0,
+                            pOpcion = d.Id > 0 ? (int)OperationType.Update : (int)OperationType.Create,
+                            pId = d.Id,
                             pIdVenta = ventaId,
                             pIdFormaPago = d.IdFormaPago,
-                            pDescripcionFormaPago = d.DescripcionFormaPago,
                             pMonto = d.Monto,
                             pReferenciaPago = d.ReferenciaPago
                         });

@@ -47,5 +47,20 @@ namespace TSC.Expopunto.Application.DataBase.Parametro.Queries
 
             return response?.ToList() ?? new List<ParametrosModel>();
         }
+
+        public async Task<ParametrosFormulaVenta> ObtenerParametrosFormulaVenta()
+        {
+            var parameters = new
+            {
+                pOpcion = 2
+            };
+
+            var response = await _dapperService.QueryFirstOrDefaultAsync<ParametrosFormulaVenta>(
+                "uspGetParametros",
+                parameters
+            );
+
+            return response;
+        }
     }
 }

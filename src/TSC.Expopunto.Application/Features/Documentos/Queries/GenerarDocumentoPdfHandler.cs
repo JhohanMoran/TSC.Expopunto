@@ -18,10 +18,8 @@ namespace TSC.Expopunto.Application.Features.Documentos.Queries
 
         public async Task<byte[]?> Handle(GenerarDocumentoPdfQuery request, CancellationToken cancellationToken)
         {
-
             try
             {
-
                 // 1. Buscar Venta por Id
                 var vanta = await _repository.ObtenerVentaPorIdAsync(request.ventaId);
 
@@ -37,13 +35,12 @@ namespace TSC.Expopunto.Application.Features.Documentos.Queries
                     Id = x.Id,             // Id asignado en la BD
                     IdVenta = x.IdVenta,   // también ya viene actualizado
                     IdProductoVariante = x.IdProductoVariante,
-                    DescripcionProducto = x.DescripcionProducto,
+                    Descripcion = x.Descripcion,
                     Cantidad = x.Cantidad,
                     PrecioUnitario = x.PrecioUnitario,
                     IdDescuento = x.IdDescuento,
                     ValorDescuento = x.ValorDescuento,
                     SubTotal = x.SubTotal,
-                    TipoDescuento = x.TipoDescuento,
                     Activo = x.Activo
                 }).ToList();
 
@@ -62,7 +59,6 @@ namespace TSC.Expopunto.Application.Features.Documentos.Queries
 
                 // Generar PDF
                 return _documentoService.GenerarPdf(vanta);
-
             }
             catch (Exception ex)
             {

@@ -8,22 +8,23 @@
         public string DescripcionFormaPago { get; private set; }
         public decimal Monto { get; private set; }
         public string ReferenciaPago { get; private set; }
+        public string RutaIcono { get; set; } 
 
         public VentaFormasPagoEntity(
             int id,
             int idVenta,
             int idFormaPago,
-            string descripcionFormaPago,
             decimal monto,
-            string referenciaPago
+            string referenciaPago,
+            string rutaIcono
         )
         {
             this.Id = id;
             this.IdVenta = idVenta;
             this.IdFormaPago = idFormaPago;
-            this.DescripcionFormaPago = descripcionFormaPago;
             this.Monto = monto;
             this.ReferenciaPago = referenciaPago;
+            this.RutaIcono = rutaIcono;
         }
 
         public VentaFormasPagoEntity(int id, int idVenta)

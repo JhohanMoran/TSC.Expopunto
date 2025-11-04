@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TSC.Expopunto.Application.DataBase.Sede.Commands;
+using TSC.Expopunto.Application.DataBase.Sede.DTO;
 using TSC.Expopunto.Application.DataBase.Sede.Queries;
 using TSC.Expopunto.Application.Exceptions;
 using TSC.Expopunto.Application.Features;
@@ -123,6 +124,5 @@ namespace TSC.Expopunto.Api.Controllers
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitosos")
             );
         }
-
     }
 }
