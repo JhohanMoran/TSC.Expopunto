@@ -1,6 +1,6 @@
-﻿using TSC.Expopunto.Application.DataBase.SedeCompleta.Commands;
+﻿using TSC.Expopunto.Application.DataBase.Sede.Commands;
 
-namespace TSC.Expopunto.Application.DataBase.SedeCompleta.Queries.Models
+namespace TSC.Expopunto.Application.DataBase.Sede.Queries.Models
 {
     public class SedeCompletaDetalleModel
     {

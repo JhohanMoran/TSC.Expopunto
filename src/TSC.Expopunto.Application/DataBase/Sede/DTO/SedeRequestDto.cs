@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TSC.Expopunto.Application.DataBase.SedeCompleta.Dto
+namespace TSC.Expopunto.Application.DataBase.Sede.DTO
 {
     public class SedeRequestDto
     {

@@ -1,4 +1,4 @@
-﻿namespace TSC.Expopunto.Application.DataBase.SedeCompleta.Queries.Models
+﻿namespace TSC.Expopunto.Application.DataBase.Sede.Queries.Models
 {
     public class SedeCompletaReporteModel
     {

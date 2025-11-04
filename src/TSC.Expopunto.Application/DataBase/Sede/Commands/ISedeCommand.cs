@@ -9,7 +9,7 @@ namespace TSC.Expopunto.Application.DataBase.Sede.Commands
 {
     public interface ISedeCommand
     {
-        Task<SedeModel>ProcesarAsync(SedeModel model);
+        Task ProcesarAsync(SedeCompletaModel model);
         Task<SedesTodosModel> ObtenerSedePorIdAsync(int idSede);
 
     }
