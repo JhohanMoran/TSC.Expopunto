@@ -160,7 +160,6 @@ namespace TSC.Expopunto.Application
 
             //services.AddTransient<IDapperCommandService, DapperCommandService>();
 
-
             services.AddTransient<IKardexQuery, KardexQuery>();
             services.AddTransient<IProductoVarianteCommand, ProductoVarianteCommand>();
 
