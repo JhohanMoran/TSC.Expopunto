@@ -19,6 +19,7 @@ namespace TSC.Expopunto.Application.Interfaces.Repositories.Venta
         Task<VentaDTO> ObtenerVentaPorIdAsync(int id);
         Task<List<VentaMontoDTO>> ObtenerVentasPorIdPersonaAsync(int id);
         Task<List<VentasFormaPagoDTO>> ObtenerVentasFormaPagoPorIdVentaAsync(int idVenta);
+        Task<VentaDTO> ObtenerVentaPorSerieNumeroAsync(string serie, string numero);
 
     }
 }

@@ -136,9 +136,7 @@ namespace TSC.Expopunto.Application
 
             services.AddTransient<IUnidadMedidaQuery, UnidadMedidaQuery>();
 
-            services.AddTransient<IPersonaCommand, PersonaCommand>();
             services.AddTransient<IPersonaQuery, PersonaQuery>();
-
 
             services.AddTransient<ITipoPersonaQuery, TipoPersonaQuery>();
 

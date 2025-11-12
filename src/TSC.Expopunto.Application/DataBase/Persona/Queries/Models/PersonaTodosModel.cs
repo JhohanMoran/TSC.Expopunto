@@ -7,6 +7,7 @@
         public string TipoPersona { get; set; } = string.Empty;
         public int IdTipoDocumento { get; set; }
         public string TipoDocumento { get; set; } = string.Empty;
+        public string CodigoTipoDocumento { get; set; } = string.Empty;
         public string NumeroDocumento { get; set; } = string.Empty;
         public string? RazonSocial { get; set; }
         public string? Nombres { get; set; }
@@ -22,5 +23,7 @@
         public decimal MontoConsumidoTotalDolares { get; set; }
         public string FechaProximaAltaDisplay { get; set; } = string.Empty;
         public string NombrePersonaDisplay { get; set; } = string.Empty;
+        public string FechaAltaDisplay { get; set; } = string.Empty;
+
     }
 }

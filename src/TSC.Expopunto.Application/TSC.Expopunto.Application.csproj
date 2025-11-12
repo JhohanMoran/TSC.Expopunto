@@ -52,6 +52,7 @@
 
   <ItemGroup>
     <Folder Include="DataBase\CuotasDescuento\Commands\" />
+    <Folder Include="DataBase\DocumentoEstado\Commands\" />
     <Folder Include="DataBase\TipoPersona\Commands\" />
   </ItemGroup>
 

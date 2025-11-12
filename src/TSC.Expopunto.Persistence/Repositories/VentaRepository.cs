@@ -1,4 +1,5 @@
-﻿using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
 using System.Numerics;
 using TSC.Expopunto.Application.DataBase;
 using TSC.Expopunto.Application.DataBase.DetalleVenta.DTO;
@@ -113,9 +114,7 @@ namespace TSC.Expopunto.Persistence.Repositories
             {
                 throw;
             }
-
         }
-
         public async Task<int> EliminarVentaAsync(int id, int idUsuario)
         {
             var parameters = new
@@ -221,6 +220,30 @@ namespace TSC.Expopunto.Persistence.Repositories
                     .QueryAsync<VentaMontoDTO>("uspGetVentas", parameters);
 
             return response.ToList();
+        }
+
+        public async Task<VentaDTO> ObtenerVentaPorSerieNumeroAsync(string serie, string numero)
+        {
+            try
+            {
+                var parameters = new
+                {
+                    pOpcion = 6,
+                    pSerie = serie,
+                    pNumero = numero
+                };
+
+                var response =
+                    await _dapperQueryService
+                        .QueryFirstOrDefaultAsync<VentaDTO>("uspGetVentas", parameters);
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
     }
 }

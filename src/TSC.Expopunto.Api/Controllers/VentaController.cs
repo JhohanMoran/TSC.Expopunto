@@ -1,10 +1,13 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TSC.Expopunto.Api.Models.DocumentoEstado;
 using TSC.Expopunto.Api.Models.Ventas;
 using TSC.Expopunto.Application.DataBase.DetalleVenta.Commands;
 using TSC.Expopunto.Application.DataBase.DetalleVenta.Queries;
+using TSC.Expopunto.Application.DataBase.Venta.Commands.AnularVenta;
 using TSC.Expopunto.Application.DataBase.Venta.Commands.Crear;
 using TSC.Expopunto.Application.DataBase.Venta.Commands.EliminarVenta;
+using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentaPorSerieNumero;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentas;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentas.Params;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentasPorIdPersona;
@@ -29,7 +32,7 @@ namespace TSC.Expopunto.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("save")]
+        [HttpPost("guardar")]
         public async Task<IActionResult> Guardar(
             [FromBody] GuardarVentaRequest request
         )
@@ -80,12 +83,10 @@ namespace TSC.Expopunto.Api.Controllers
             var data = await _mediator.Send(command);
 
             return StatusCode(
-                StatusCodes.Status201Created,
-                ResponseApiService.Response(StatusCodes.Status201Created, data, "Exitoso")
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
             );
         }
-
-    
 
         [HttpPost("eliminar")]
         public async Task<IActionResult> Eliminar(
@@ -104,7 +105,6 @@ namespace TSC.Expopunto.Api.Controllers
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso"));
         }
-
 
         [HttpPost("listar")]
         public async Task<IActionResult> Listar(
@@ -164,6 +164,47 @@ namespace TSC.Expopunto.Api.Controllers
             var pdfBytes = await _mediator.Send(new GenerarDocumentoPdfQuery(idVenta));
 
             return File(pdfBytes, "application/pdf", $"documento-{idVenta.ToString()}.pdf");
+        }
+
+        [HttpPost("obtener-venta-por-serie-numero")]
+        public async Task<IActionResult> ObtenerVentaPorSerieNumero(
+           [FromBody] VentaPorSerieNumeroRequest parametros
+        )
+        {
+            var data = await _mediator.Send(new ObtenerVentaPorSerieNumeroQuery(parametros.Serie, parametros.Numero));
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+        }
+
+        [HttpPost("anular")]
+        public async Task<IActionResult> Anular(
+            [FromBody] AnularVentaRequest request
+        )
+        {
+            var command = new AnularVentaCommand(
+                request.IdVenta,
+                request.IdMotivoBaja,
+                request.Observacion,
+                request.IdUsuario
+            );
+
+            var data = await _mediator.Send(command);
+
+            if (data == null)
+            {
+                return StatusCode(
+                    StatusCodes.Status400BadRequest,
+                    ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "No se pudo realizar la anulación de la venta")
+                );
+            }
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
         }
 
     }

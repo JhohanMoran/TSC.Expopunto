@@ -30,6 +30,7 @@ namespace TSC.Expopunto.Application.DataBase.Venta.DTO
         public int? IdUsuario { get; set; }
         public bool? Activo { get; set; }
 
+
         public List<DetalleVentaDTO> Detalles { get; set; } = new();
         public List<VentasFormaPagoDTO> FormasPago { get; set; } = new();
 

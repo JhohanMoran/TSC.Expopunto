@@ -3,6 +3,7 @@ using TSC.Expopunto.Application.DataBase.DetalleVenta.DTO;
 using TSC.Expopunto.Application.DataBase.Venta.DTO;
 using TSC.Expopunto.Application.DataBase.VentasFormaPago.DTO;
 using TSC.Expopunto.Application.Interfaces.Repositories.Venta;
+using TSC.Expopunto.Common;
 using TSC.Expopunto.Domain.Entities.Venta;
 
 namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Crear
@@ -19,6 +20,22 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Crear
         public async Task<VentaDTO> Handle(GuardarVentaCommand request, CancellationToken cancellationToken)
         {
             VentaEntity venta = new VentaEntity();
+
+            var opcionProceso = venta.Id > 0 ? (int)OperationType.Update : (int)OperationType.Create;
+
+            if (request.Id > 0)
+            {
+                var ventaObtenidaPorId = await _repository.ObtenerVentaPorIdAsync(request.Id);
+
+                if (ventaObtenidaPorId == null)
+                    throw new Exception("La venta no existe.");
+
+                if (ventaObtenidaPorId.IdUsuario != request.IdUsuario)
+                    throw new Exception("Solo el usuario que creó la venta puede editarla.");
+
+                if (!venta.Fecha.HasValue || venta.Fecha.Value.Date != DateTime.Today)
+                    throw new Exception("Solo se puede editar una venta en la fecha en que fue creada.");
+            }
 
             // 1️. Construir la entidad
             venta = new VentaEntity(
