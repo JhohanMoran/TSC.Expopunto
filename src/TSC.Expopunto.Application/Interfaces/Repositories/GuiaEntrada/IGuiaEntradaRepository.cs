@@ -1,5 +1,6 @@
 ﻿using TSC.Expopunto.Application.DataBase.GuiaEntrada.DTO;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEntrada.Params;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasPendientesAprobar.Params;
 using TSC.Expopunto.Common;
 using TSC.Expopunto.Domain.Entities.GuiaEntrada;
 
@@ -19,5 +20,6 @@ namespace TSC.Expopunto.Application.Interfaces.Repositories.GuiaEntrada
         Task<List<DetalleGuiaEntradaDTO>> ObtenerDetalleGuiaEntradaPorIdGuiaAsync(int idGuiaEntrada);
         Task<GuiaEntradaEntity> ObtenerGuiaEntradaPorIdAsync(int id);
         Task<GuiaEntradaDTO> ObtenerGuiaEntradaPorNumeroSerieAsync(ObtenerGuiasEntradaParams parametros);
+        Task<PagedResult<GuiaEntradaDTO>> ObtenerGuiasPendientesAprobarAsync(ObtenerGuiasPendientesAprobarParams parametro);
     }
 }

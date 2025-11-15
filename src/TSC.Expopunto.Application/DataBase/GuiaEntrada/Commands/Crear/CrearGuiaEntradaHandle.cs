@@ -2,13 +2,17 @@
 using System.Data;
 using TSC.Expopunto.Application.DataBase.Categoria.Command;
 using TSC.Expopunto.Application.DataBase.Categoria.Queries;
+using TSC.Expopunto.Application.DataBase.Estados.DTO;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.DTO;
 using TSC.Expopunto.Application.DataBase.Producto.Command;
 using TSC.Expopunto.Application.DataBase.Producto.Queries;
 using TSC.Expopunto.Application.DataBase.ProductoVariante.Commands;
 using TSC.Expopunto.Application.DataBase.ProductoVariante.Commands.Models;
+using TSC.Expopunto.Application.Interfaces.Repositories.DocumentoEstado;
+using TSC.Expopunto.Application.Interfaces.Repositories.Estado;
 using TSC.Expopunto.Application.Interfaces.Repositories.GuiaEntrada;
 using TSC.Expopunto.Common;
+using TSC.Expopunto.Domain.Entities.DocumentoEstado;
 using TSC.Expopunto.Domain.Entities.GuiaEntrada;
 
 
@@ -23,6 +27,8 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear
         private readonly ICategoriaQuery _categoriaQuery;
         private readonly IProductoQuery _productoQuery;
         private readonly IProductoVarianteCommand _productoVarianteCommand;
+        private readonly IEstadoRepository _estadoRepository;
+        private readonly IDocumentoEstadoRepository _documentoEstadoRepository;
 
         public CrearGuiaEntradaHandle(
             IGuiaEntradaRepository repository,
@@ -30,7 +36,9 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear
             ICategoriaCommand categoriaCommand,
             ICategoriaQuery categoriaQuery,
             IProductoQuery productoQuery,
-            IProductoVarianteCommand productoVarianteCommand
+            IProductoVarianteCommand productoVarianteCommand,
+            IEstadoRepository estadoRepository,
+            IDocumentoEstadoRepository documentoEstadoRepository
          )
         {
             _repository = repository;
@@ -39,6 +47,8 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear
             _categoriaQuery = categoriaQuery;
             _productoQuery = productoQuery;
             _productoVarianteCommand = productoVarianteCommand;
+            _estadoRepository = estadoRepository;
+            _documentoEstadoRepository = documentoEstadoRepository;
         }
 
         public async Task<GuiaEntradaDTO> Handle(CrearGuiaEntradaCommand request, CancellationToken cancellationToken)
@@ -164,6 +174,35 @@ namespace TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear
 
             // 2. Guardar en BD (Dapper/SP)
             GuiaEntradaEntity guiaEntradaRespuesta = await _repository.CrearGuiaEntradaAsync(guiaEntrada);
+
+            // 3. Guardar el estado de documento pendiente
+            if (guiaEntradaRespuesta != null && guiaEntradaRespuesta.Id > 0)
+            {
+                const int idTipoProceso = 1; // 1:GUIA - 2:VENTAS
+                int idReferencia = guiaEntradaRespuesta.Id;
+
+                var estados = await _estadoRepository.ListarTodosAsync() ?? new List<EstadoDTO>();
+                var estadoPendiente = estados.FirstOrDefault(x => x.CodigoEstadosBase == "PEND" && x.IdTipoProceso == idTipoProceso && x.Activo);
+
+                if (estadoPendiente == null)
+                    throw new Exception($"No se encontró el estado 'PEND' para el tipo de proceso {idTipoProceso}.");
+
+                var parametroEstado = new DocumentoEstadoEntity(
+                    0,
+                    idTipoProceso,
+                    idReferencia,
+                    estadoPendiente.Id,
+                    request.IdUsuario
+                );
+
+                var respuestaEstado = await _documentoEstadoRepository.GuardarAsync(parametroEstado);
+
+                if (respuestaEstado == null)
+                {
+                    // Si es crítico que la guía no quede sin estado, implemente rollback/tx en el repositorio o aquí.
+                    throw new Exception("No se pudo registrar el estado pendiente del documento.");
+                }
+            }
 
             // Retornar un DTO
             return new GuiaEntradaDTO

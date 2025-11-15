@@ -4,12 +4,15 @@ using TSC.Expopunto.Api.Models.GuiasEntrada;
 
 using TSC.Expopunto.Application.DataBase.DetalleGuiaEntrada.Commands;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Actualizar;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Aprobar;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Eliminar;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerDetallesGuiaEntradaPorIdGuia;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiaEntradaPorNumeroSerie;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEntrada;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEntrada.Params;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasPendientesAprobar;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasPendientesAprobar.Params;
 using TSC.Expopunto.Application.Exceptions;
 using TSC.Expopunto.Application.Features;
 using TSC.Expopunto.Application.Features.GuiaEntrada.Queries.ObtenerGuiaEntradaPorNumeroSerie;
@@ -23,10 +26,12 @@ namespace TSC.Expopunto.Api.Controllers
     public class GuiaEntradaController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly IGuiaAprobacionCommand _guiaAprobacionCommand;
 
-        public GuiaEntradaController(IMediator mediator)
+        public GuiaEntradaController(IMediator mediator, IGuiaAprobacionCommand guiaAprobacionCommand)
         {
             _mediator = mediator;
+            _guiaAprobacionCommand = guiaAprobacionCommand;
         }
 
         [HttpPost("crear")]
@@ -240,6 +245,41 @@ namespace TSC.Expopunto.Api.Controllers
                     StatusCodes.Status200OK,
                     ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
                 );
+        }
+
+
+        [HttpPost("listar-pendientes-aprobar")]
+        public async Task<IActionResult> ListarPendientesAprobar(
+            [FromBody] ObtenerGuiasPendientesAprobarParams parametros
+        )
+        {
+            var data = await _mediator.Send(new ObtenerGuiasPendientesAprobarQuery(parametros));
+
+            if (data == null || data.Data == null || data.Data.Count == 0)
+            {
+                return StatusCode(
+                    StatusCodes.Status200OK,
+                    ResponseApiService.Response(StatusCodes.Status204NoContent, null, "No se encontraron resultados")
+                );
+            }
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+
+        }
+
+        [HttpPost("aprobar-guia")]
+        public async Task<IActionResult> AprobarGuia(
+            [FromBody] GuiaAprobacionModel model
+        )
+        {
+            model.Opcion = 1; // Opcion 1 para aprobar guias
+            await _guiaAprobacionCommand.AprobarGuiasEntradaAsync(model);
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, message: "Exitoso"));
         }
     }
 }
