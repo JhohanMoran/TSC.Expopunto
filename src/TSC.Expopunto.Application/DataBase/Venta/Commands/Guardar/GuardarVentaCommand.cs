@@ -16,13 +16,19 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Crear
         int? IdPersona,
         int? IdTipoMoneda,
         int? IdUsuarioVendedor,
-        decimal? DescuentoTotal,
-        decimal? SubTotal,
-        decimal? Impuesto,
-        decimal? Total,
-        int? IdUsuario,
-        bool? Activo,
 
+        int? Cantidad,
+        decimal? OpGravadas,
+        decimal? OpExoneradas,
+        decimal? OpInafectas,
+        decimal? OpGratuitas,
+        decimal? TotalDescuento,
+        decimal? TotalIGV,
+        decimal? TotalICBPER,
+        decimal? ImporteTotal,
+
+        int? IdUsuario,
+        
         List<DetalleVentaCommand>? Detalles,
         List<VentaFormaPagoCommand>? FormasPago
 

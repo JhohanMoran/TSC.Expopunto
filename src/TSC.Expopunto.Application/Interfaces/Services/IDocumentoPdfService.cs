@@ -9,7 +9,7 @@ namespace TSC.Expopunto.Application.Interfaces.Services
 {
     public interface IDocumentoPdfService
     {
-        byte[] GenerarPdf(VentaDTO parametro);
+        byte[] GenerarPdf(ImpresionVentaDTO parametro);
         byte[] GenerarGuiaEntradaPdf(GuiaEntradaDTO parametro, List<ParametrosModel> dataEmpresa, PersonaTodosModel? dataProveedor, UsuariosTodosModel dataUsuario);
     }
 }

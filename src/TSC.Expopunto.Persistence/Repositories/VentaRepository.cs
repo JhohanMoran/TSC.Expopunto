@@ -1,7 +1,4 @@
-﻿using DocumentFormat.OpenXml.Office2010.Excel;
-using DocumentFormat.OpenXml.Office2016.Drawing.ChartDrawing;
-using System.Numerics;
-using TSC.Expopunto.Application.DataBase;
+﻿using TSC.Expopunto.Application.DataBase;
 using TSC.Expopunto.Application.DataBase.DetalleVenta.DTO;
 using TSC.Expopunto.Application.DataBase.Venta.DTO;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentas.Params;
@@ -35,23 +32,29 @@ namespace TSC.Expopunto.Persistence.Repositories
             {
                 var parameters = new
                 {
-                    pOpcion = venta.Id > 0 ? (int)OperationType.Update : (int)OperationType.Create,
-                    pId = venta.Id,
-                    pFecha = venta.Fecha,
-                    pHora = venta.Hora,
-                    pIdSede = venta.IdSede,
-                    pIdTipoComprobante = venta.IdTipoComprobante,
-                    pSerie = venta.Serie,
-                    pNumero = venta.Numero,
-                    pIdPersona = venta.IdPersona,
-                    pIdTipoMoneda = venta.IdTipoMoneda,
-                    pIdUsuarioVendedor = venta.IdUsuarioVendedor,
-                    pDescuentoTotal = venta.DescuentoTotal,
-                    pSubTotal = venta.SubTotal,
-                    pImpuesto = venta.Impuesto,
-                    pTotal = venta.Total,
-                    pIdUsuario = venta.IdUsuario,
-                    pActivo = venta.Activo
+                    Opcion = venta.Id > 0 ? (int)OperationType.Update : (int)OperationType.Create,
+                    Id = venta.Id,
+                    Fecha = venta.Fecha,
+                    Hora = venta.Hora,
+                    IdSede = venta.IdSede,
+                    IdTipoComprobante = venta.IdTipoComprobante,
+                    Serie = venta.Serie,
+                    Numero = venta.Numero,
+                    IdPersona = venta.IdPersona,
+                    IdTipoMoneda = venta.IdTipoMoneda,
+                    IdUsuarioVendedor = venta.IdUsuarioVendedor,
+
+                    Cantidad = venta.Cantidad,
+                    OpGravadas = venta.OpGravadas,
+                    OpExoneradas = venta.OpExoneradas,
+                    OpInafectas = venta.OpInafectas,
+                    OpGratuitas = venta.OpGratuitas,
+                    TotalDescuento = venta.TotalDescuento,
+                    TotalIGV = venta.TotalIGV,
+                    TotalICBPER = venta.TotalICBPER,
+                    ImporteTotal = venta.ImporteTotal,
+                    
+                    IdUsuario = venta.IdUsuario
                 };
 
                 var ventaId = await _dapperCommandService.ExecuteScalarAsync(

@@ -9,6 +9,7 @@ namespace TSC.Expopunto.Persistence.Repositories
     {
         public readonly IDapperCommandService _dapperCommandService;
         public readonly IDapperQueryService _dapperQueryService;
+
         public DocumentoEstadoRepository(
             IDapperCommandService dapperCommandService,
             IDapperQueryService dapperQueryService

@@ -39,6 +39,7 @@ namespace TSC.Expopunto.Api.Controllers
         {
             var command = new GuardarVentaCommand(
                 request.Id,
+
                 request.Fecha,
                 request.Hora,
                 request.IdSede,
@@ -48,12 +49,18 @@ namespace TSC.Expopunto.Api.Controllers
                 request.IdPersona,
                 request.IdTipoMoneda,
                 request.IdUsuarioVendedor,
-                request.DescuentoTotal,
-                request.SubTotal,
-                request.Impuesto,
-                request.Total,
+
+                request.Cantidad,
+                request.OpGravadas,
+                request.OpExoneradas,
+                request.OpInafectas,
+                request.OpGratuitas,
+                request.TotalDescuento,
+                request.TotalIGV,
+                request.TotalICBPER,
+                request.ImporteTotal,
                 request.IdUsuario,
-                true,
+                
                 request.Detalles.Select(d => new DetalleVentaCommand(
                     d.Id,
                     d.IdVenta,
@@ -69,6 +76,7 @@ namespace TSC.Expopunto.Api.Controllers
                     d.SubTotal,
                     true
                 )).ToList(),
+
                 request.FormasPago.Select(d => new VentaFormaPagoCommand(
                     d.Id,
                     d.IdVenta,
@@ -161,9 +169,9 @@ namespace TSC.Expopunto.Api.Controllers
         [HttpGet("generar-documento-pdf/{idVenta:int}")]
         public async Task<IActionResult> GetBoletaPdf(int idVenta)
         {
-            var pdfBytes = await _mediator.Send(new GenerarDocumentoPdfQuery(idVenta));
+            var respuesta = await _mediator.Send(new GenerarDocumentoPdfQuery(idVenta));
 
-            return File(pdfBytes, "application/pdf", $"documento-{idVenta.ToString()}.pdf");
+            return File(respuesta.ArchivoPdf, "application/pdf", $"{respuesta.NombreArchivo}.pdf");
         }
 
         [HttpPost("obtener-venta-por-serie-numero")]

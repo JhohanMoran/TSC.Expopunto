@@ -7,6 +7,6 @@ namespace TSC.Expopunto.Application.DataBase.Parametro.Queries
         Task<List<ParametrosModel>> ListarParametrosAsync(ParametrosListaParametros parametro);
         Task<List<ParametrosModel>> ListarParametrosPorCodigoAsync(ParametrosListaParametros parametro);
         Task<ParametrosFormulaVenta> ObtenerParametrosFormulaVenta();
-
+        Task<DatosEmpresaModel> ObtenerDatosEmpresa();
     }
 }

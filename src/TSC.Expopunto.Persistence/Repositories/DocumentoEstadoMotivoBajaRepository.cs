@@ -1,4 +1,5 @@
 ﻿using TSC.Expopunto.Application.DataBase;
+using TSC.Expopunto.Application.DataBase.DocumentoEstadoMotivoBaja.DTO;
 using TSC.Expopunto.Application.Interfaces.Repositories.DocumentoEstadoMotivoBaja;
 using TSC.Expopunto.Common;
 using TSC.Expopunto.Domain.Entities.DocumentoEstadoMotivoBaja;
@@ -8,9 +9,14 @@ namespace TSC.Expopunto.Persistence.Repositories
     public class DocumentoEstadoMotivoBajaRepository : IDocumentoEstadoMotivoBajaRepository
     {
         public readonly IDapperCommandService _dapperCommandService;
-        public DocumentoEstadoMotivoBajaRepository(IDapperCommandService dapperCommandService)
+        public readonly IDapperQueryService _dapperQueryService;
+        public DocumentoEstadoMotivoBajaRepository(
+            IDapperCommandService dapperCommandService,
+            IDapperQueryService dapperQueryService
+        )
         {
-            _dapperCommandService = dapperCommandService;   
+            _dapperCommandService = dapperCommandService;
+            _dapperQueryService = dapperQueryService;
         }
         public async Task<DocumentoEstadoMotivoBajaEntity> GuardarAsync(DocumentoEstadoMotivoBajaEntity parametros)
         {
@@ -29,6 +35,21 @@ namespace TSC.Expopunto.Persistence.Repositories
 
             parametros.AsignarId(idEstadoBaja);
             return parametros;
+        }
+
+        public async Task<DocumentoEstadoBajaMotivoDTO> ObtenerMotivoBajaPorIdDocEstadoAsync(int idDocumentoEstado)
+        {
+            var parameters = new
+            {
+                Opcion = 2,
+                IdDocumentoEstado = idDocumentoEstado
+            };
+
+            var response =
+                await _dapperQueryService
+                    .QueryFirstOrDefaultAsync<DocumentoEstadoBajaMotivoDTO>("uspGetDocumentoEstadoMotivoBaja", parameters);
+
+            return response;
         }
     }
 }
