@@ -15,17 +15,26 @@ namespace TSC.Expopunto.Domain.Entities.Venta
         public string? Numero { get; set; }
         public int? IdPersona { get; set; }
         public string? NombrePersona { get; set; }
+
         public string? DocumentoPersona { get; set; }
+
         public int? IdTipoMoneda { get; set; }
         public string? SimboloDocumento { get; set; }
         public int? IdUsuarioVendedor { get; set; }
-        public string? NombreVendedor { get; set; }
-        public decimal? DescuentoTotal { get; set; }
-        public decimal? SubTotal { get; set; }
-        public decimal? Impuesto { get; set; }
-        public decimal? Total { get; set; }
+        public string NombreVendedor { get; set; }
+        
+        public int? Cantidad { get; set; }
+        public decimal? OpGravadas { get; set; }
+        public decimal? OpExoneradas { get; set; }
+        public decimal? OpInafectas { get; set; }
+        public decimal? OpGratuitas { get; set; }
+        public decimal? TotalDescuento { get; set; }
+        public decimal? TotalIGV { get; set; }
+        public decimal? TotalICBPER { get; set; }
+        public decimal? ImporteTotal { get; set; }
+
         public int? IdUsuario { get; set; }
-        public bool? Activo { get; set; }
+
 
         private readonly List<DetalleVentaEntity> _detalles = new();
         public IReadOnlyCollection<DetalleVentaEntity> Detalles => _detalles;
@@ -47,8 +56,17 @@ namespace TSC.Expopunto.Domain.Entities.Venta
             int? idPersona,
             int? idTipoMoneda,
             int? idUsuarioVendedor,
-            int? idUsuario,
-            bool? activo
+
+            int? cantidad,
+            decimal? opGravadas,
+            decimal? opExoneradas,
+            decimal? opInafectas,
+            decimal? opGratuitas,
+            decimal? totalDescuento,
+            decimal? totalIGV,
+            decimal? totalICBPER,
+            decimal? importeTotal,
+            int? idUsuario
         )
         {
             Id = id;
@@ -61,8 +79,18 @@ namespace TSC.Expopunto.Domain.Entities.Venta
             IdPersona = idPersona;
             IdTipoMoneda = idTipoMoneda;
             IdUsuarioVendedor = idUsuarioVendedor;
+
+            Cantidad = cantidad;
+            OpGravadas = opGravadas;
+            OpExoneradas = opExoneradas;
+            OpInafectas = opInafectas;
+            OpGratuitas = opGratuitas;
+            TotalDescuento = totalDescuento;
+            TotalIGV = totalIGV;
+            TotalICBPER = totalICBPER;
+            ImporteTotal = importeTotal;
+
             IdUsuario = idUsuario;
-            Activo = activo;
         }
 
         public void AsignarId(int id)
@@ -73,20 +101,32 @@ namespace TSC.Expopunto.Domain.Entities.Venta
         public void AgregarDetalle(
             int id,
             int idVenta,
-            int idProducto,
+            int idProductoVariante,
+            int idTipoOperacion,
+            int codigoTipoOperacion, 
+            string descripcion,
             int cantidad,
             decimal precioUnitario,
+            bool aplicaICBP,    
             int idDescuento,
+            decimal valorDescuento, 
+            decimal subTotal,
             bool activo
         )
         {
             _detalles.Add(new DetalleVentaEntity(
                 id,
                 idVenta,
-                idProducto,
+                idProductoVariante,
+                idTipoOperacion,
+                codigoTipoOperacion,
+                descripcion,
                 cantidad,
                 precioUnitario,
+                aplicaICBP,
                 idDescuento,
+                valorDescuento,
+                subTotal,
                 activo
             ));
         }
@@ -95,18 +135,18 @@ namespace TSC.Expopunto.Domain.Entities.Venta
             int id,
             int idVenta,
             int idFormaPago,
-            string descripcionFormaPago,
             decimal monto,
-            string referenciaPago
+            string referenciaPago,
+            string rutaIcono    
        )
         {
             _formasPago.Add(new VentaFormasPagoEntity(
                 id,
                 idVenta,
                 idFormaPago,
-                descripcionFormaPago,
                 monto,
-                referenciaPago
+                referenciaPago,
+                rutaIcono
             ));
         }
 
@@ -121,6 +161,10 @@ namespace TSC.Expopunto.Domain.Entities.Venta
             int? idPersona,
             int? idTipoMoneda,
             int? idUsuarioVendedor,
+            decimal? descuentoTotal,
+            decimal? subTotal,
+            decimal? impuesto,
+            decimal? total,
             int? idUsuario,
             bool? activo,
             List<DetalleVentaEntity>? nuevosDetalles,
@@ -138,8 +182,7 @@ namespace TSC.Expopunto.Domain.Entities.Venta
             IdTipoMoneda = idTipoMoneda;
             IdUsuarioVendedor = idUsuarioVendedor;
             IdUsuario = idUsuario;
-            Activo = activo;
-
+            
             _detalles.Clear();
             _detalles.AddRange(nuevosDetalles);
 

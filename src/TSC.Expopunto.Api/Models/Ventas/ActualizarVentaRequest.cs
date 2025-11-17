@@ -16,6 +16,17 @@ namespace TSC.Expopunto.Api.Models.Ventas
         public int IdPersona { get; set; }
         public int IdTipoMoneda { get; set; }
         public int IdUsuarioVendedor { get; set; }
+
+        public int? Cantidad { get; set; }
+        public decimal? OpGravadas { get; set; }
+        public decimal? OpExoneradas { get; set; }
+        public decimal? OpInafectas { get; set; }
+        public decimal? OpGratuitas { get; set; }
+        public decimal? TotalDescuento { get; set; }
+        public decimal? TotalIGV { get; set; }
+        public decimal? TotalICBPER { get; set; }
+        public decimal? ImporteTotal { get; set; }
+
         public int IdUsuario { get; set; }
         public bool Activo { get; set; }
 

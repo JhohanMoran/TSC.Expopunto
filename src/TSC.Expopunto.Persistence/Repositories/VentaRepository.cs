@@ -22,61 +22,7 @@ namespace TSC.Expopunto.Persistence.Repositories
             _dapperQueryService = dapperQueryService;
         }
 
-        public async Task<VentaEntity> ActualizarVentaAsync(
-            VentaEntity venta
-        )
-        {
-            var parameters = new
-            {
-                pOpcion = (int)OperationType.Update,
-
-                pId = venta.Id,
-                pFecha = venta.Fecha,
-                pHora = venta.Hora,
-                pIdSede = venta.IdSede,
-                pIdTipoComprobante = venta.IdTipoComprobante,
-                pSerie = venta.Serie,
-                pNumero = venta.Numero,
-                pIdPersona = venta.IdPersona,
-                pIdTipoMoneda = venta.IdTipoMoneda,
-                pIdUsuarioVendedor = venta.IdUsuarioVendedor,
-
-                pIdUsuario = venta.IdUsuario,
-                pActivo = venta.Activo
-            };
-
-            var ventaId = await _dapperCommandService.ExecuteScalarAsync(
-                "uspSetVenta",
-                parameters
-            );
-
-            venta.AsignarId(ventaId);
-
-            int index = 0;
-            foreach (var d in venta.Detalles)
-            {
-                var detalleId = await _dapperCommandService.ExecuteScalarAsync(
-                    "uspSetDetalleVenta",
-                    new
-                    {
-                        pOpcion = d.Id == 0 ? (int)OperationType.Create : (int)OperationType.Update,
-                        pId = d.Id,
-                        pIdVenta = ventaId,
-                        pIdProductoVariante = d.IdProductoVariante,
-                        pCantidad = d.Cantidad,
-                        pIdDescuento = d.IdDescuento,
-                        pPrecioUnitario = d.PrecioUnitario,
-                        pActivo = d.Activo
-                    });
-
-                venta.AsignarIdDetalle(index, detalleId, ventaId);
-                index++;
-            }
-
-            return venta;
-        }
-
-        public async Task<VentaEntity> CrearVentaAsync(
+        public async Task<VentaEntity> GuardarVentaAsync(
             VentaEntity venta
         )
         {
@@ -84,25 +30,31 @@ namespace TSC.Expopunto.Persistence.Repositories
 
             try
             {
-
-
                 var parameters = new
                 {
-                    pOpcion = (int)OperationType.Create,
+                    Opcion = venta.Id > 0 ? (int)OperationType.Update : (int)OperationType.Create,
+                    Id = venta.Id,
+                    Fecha = venta.Fecha,
+                    Hora = venta.Hora,
+                    IdSede = venta.IdSede,
+                    IdTipoComprobante = venta.IdTipoComprobante,
+                    Serie = venta.Serie,
+                    Numero = venta.Numero,
+                    IdPersona = venta.IdPersona,
+                    IdTipoMoneda = venta.IdTipoMoneda,
+                    IdUsuarioVendedor = venta.IdUsuarioVendedor,
 
-                    pId = venta.Id,
-                    pFecha = venta.Fecha,
-                    pHora = venta.Hora,
-                    pIdSede = venta.IdSede,
-                    pIdTipoComprobante = venta.IdTipoComprobante,
-                    pSerie = venta.Serie,
-                    pNumero = venta.Numero,
-                    pIdPersona = venta.IdPersona,
-                    pIdTipoMoneda = venta.IdTipoMoneda,
-                    pIdUsuarioVendedor = venta.IdUsuarioVendedor,
-
-                    pIdUsuario = venta.IdUsuario,
-                    pActivo = venta.Activo
+                    Cantidad = venta.Cantidad,
+                    OpGravadas = venta.OpGravadas,
+                    OpExoneradas = venta.OpExoneradas,
+                    OpInafectas = venta.OpInafectas,
+                    OpGratuitas = venta.OpGratuitas,
+                    TotalDescuento = venta.TotalDescuento,
+                    TotalIGV = venta.TotalIGV,
+                    TotalICBPER = venta.TotalICBPER,
+                    ImporteTotal = venta.ImporteTotal,
+                    
+                    IdUsuario = venta.IdUsuario
                 };
 
                 var ventaId = await _dapperCommandService.ExecuteScalarAsync(
@@ -119,13 +71,20 @@ namespace TSC.Expopunto.Persistence.Repositories
                         "uspSetDetalleVenta",
                         new
                         {
-                            pOpcion = (int)OperationType.Create,
-                            pId = 0,
+                            pOpcion = d.Id > 0 ? (int)OperationType.Update : (int)OperationType.Create,
+                            pId = d.Id,
                             pIdVenta = ventaId,
                             pIdProductoVariante = d.IdProductoVariante,
+                            pIdTipoOperacion = d.IdTipoOperacion,
+                            pCodigoTipoOperacion = d.CodigoTipoOperacion,
+                            pDescripcion = d.Descripcion,
                             pCantidad = d.Cantidad,
+                            pPrecioUnitario = d.PrecioUnitario,
+                            pAplicaICBP = d.AplicaICBP,
                             pIdDescuento = d.IdDescuento,
-                            pPrecioUnitario = d.PrecioUnitario
+                            pValorDescuento = d.ValorDescuento,
+                            pSubtotal = d.SubTotal,
+                            pActivo = d.Activo
                         });
 
                     venta.AsignarIdDetalle(index, detalleId, ventaId);
@@ -139,11 +98,10 @@ namespace TSC.Expopunto.Persistence.Repositories
                         "uspSetVentaFormaPago",
                         new
                         {
-                            pOpcion = (int)OperationType.Create,
-                            pId = 0,
+                            pOpcion = d.Id > 0 ? (int)OperationType.Update : (int)OperationType.Create,
+                            pId = d.Id,
                             pIdVenta = ventaId,
                             pIdFormaPago = d.IdFormaPago,
-                            pDescripcionFormaPago = d.DescripcionFormaPago,
                             pMonto = d.Monto,
                             pReferenciaPago = d.ReferenciaPago
                         });
@@ -159,9 +117,7 @@ namespace TSC.Expopunto.Persistence.Repositories
             {
                 throw;
             }
-
         }
-
         public async Task<int> EliminarVentaAsync(int id, int idUsuario)
         {
             var parameters = new
@@ -267,6 +223,30 @@ namespace TSC.Expopunto.Persistence.Repositories
                     .QueryAsync<VentaMontoDTO>("uspGetVentas", parameters);
 
             return response.ToList();
+        }
+
+        public async Task<VentaDTO> ObtenerVentaPorSerieNumeroAsync(string serie, string numero)
+        {
+            try
+            {
+                var parameters = new
+                {
+                    pOpcion = 6,
+                    pSerie = serie,
+                    pNumero = numero
+                };
+
+                var response =
+                    await _dapperQueryService
+                        .QueryFirstOrDefaultAsync<VentaDTO>("uspGetVentas", parameters);
+
+                return response;
+            }
+            catch (Exception ex)
+            {
+
+                throw;
+            }
         }
     }
 }
