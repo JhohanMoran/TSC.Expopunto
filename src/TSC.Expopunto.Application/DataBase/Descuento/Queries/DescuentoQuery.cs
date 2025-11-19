@@ -86,6 +86,23 @@ namespace TSC.Expopunto.Application.DataBase.Descuento.Queries
             var response = await _dapperService.QueryAsync<DescuentosTodosModel>("uspGetDescuentos", parameters);
             return response.ToList();
         }
+        public List<DescuentoExcelDto> ListarExcel(DescuentosListaParametros parametros)
+        {
+            var parameters = new
+            {
+                pOpcion = 4,
+                pPagina = parametros.Pagina,
+                pFilasPorPagina = parametros.FilasPorPagina,
+                pOrdenPor = parametros.OrdenarPor,
+                pOrdenDireccion = parametros.OrdenDireccion,
+                pFiltroNombre = parametros.Nombre
+            };
+
+            var response = _dapperService.Query<DescuentoExcelDto>("uspGetDescuentos", parameters);
+            return response.ToList();
+        }
+
+
 
     }
 }
