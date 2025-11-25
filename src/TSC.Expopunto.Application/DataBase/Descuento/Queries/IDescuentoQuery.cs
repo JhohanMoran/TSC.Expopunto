@@ -10,5 +10,7 @@ namespace TSC.Expopunto.Application.DataBase.Descuento.Queries
         Task<List<DescuentosTodosModel>> ListarComboDescuentosAsync();
         Task<DescuentosTodosModel> ListarDescuentosPorIdAsync(int idDescuento);
 
+        List<DescuentoExcelDto> ListarExcel(DescuentosListaParametros parametros);
+
     }
 }

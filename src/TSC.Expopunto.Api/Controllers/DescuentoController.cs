@@ -6,6 +6,7 @@ using TSC.Expopunto.Application.DataBase.Descuento.Queries.Models;
 using TSC.Expopunto.Application.Exceptions;
 using TSC.Expopunto.Application.Features;
 using TSC.Expopunto.Common;
+using TSC.Expopunto.Common.ModelExcel;
 
 namespace TSC.Expopunto.Api.Controllers
 {
@@ -18,10 +19,12 @@ namespace TSC.Expopunto.Api.Controllers
 
         private readonly IDescuentoCommand _descuentoCommand;
         private readonly IDescuentoQuery _descuentoQuery;
-        public DescuentoController(IDescuentoCommand descuentoCommand, IDescuentoQuery descuentoQuery)
+        private readonly IModelExcelRepository _modelExcelRepository;
+        public DescuentoController(IDescuentoCommand descuentoCommand, IDescuentoQuery descuentoQuery , IModelExcelRepository modelExcelRepository)
         {
             _descuentoCommand = descuentoCommand;
             _descuentoQuery = descuentoQuery;
+            _modelExcelRepository = modelExcelRepository;
         }
 
         [HttpPost("listar")]
@@ -188,6 +191,17 @@ namespace TSC.Expopunto.Api.Controllers
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
                 );
+        }
+
+        [HttpGet("exportar")]
+        public FileResult ExportarExcel([FromQuery] DescuentosListaParametros parametros)
+        {
+       
+            var data = _descuentoQuery.ListarExcel(parametros);
+
+            
+            var stream = _modelExcelRepository.ExportExcelDefault(data, "Descuentos");
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Descuentos.xlsx");
         }
     }
 }
