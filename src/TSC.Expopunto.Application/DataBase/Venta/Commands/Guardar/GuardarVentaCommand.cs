@@ -10,6 +10,7 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands.Crear
         DateTime? Fecha,
         string Hora,
         int? IdSede,
+        string? TipoVenta,
         int? IdTipoComprobante,
         string? Serie,
         string? Numero,

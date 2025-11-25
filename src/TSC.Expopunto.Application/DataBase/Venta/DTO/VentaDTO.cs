@@ -7,7 +7,7 @@ namespace TSC.Expopunto.Application.DataBase.Venta.DTO
     {
         public int Id { get; set; }
         public DateTime? Fecha { get; set; }
-        public string FechaDisplay { get; set; }
+        public string FechaDisplay { get; set; } = string.Empty;
         public string Hora { get; set; } = string.Empty;
         public int? IdSede { get; set; }
         public string Sede { get; set; } = string.Empty;

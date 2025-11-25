@@ -7,6 +7,7 @@
         public string Direccion { get; set; } = null!;
         public string TiposComprobante { get; set; } = null!; // "Factura, Boleta"
         public string Series { get; set; } = null!;         // "F001, B001"
+        public string Numeros { get; set; } = string.Empty;
         public string Auditoria { get; set; } = null!;
     }
 }

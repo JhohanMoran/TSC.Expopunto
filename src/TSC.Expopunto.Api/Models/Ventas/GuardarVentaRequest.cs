@@ -10,6 +10,7 @@ namespace TSC.Expopunto.Api.Models.Ventas
         public DateTime Fecha { get; set; }
         public string Hora { get; set; } = string.Empty;
         public int IdSede { get; set; }
+        public string TipoVenta { get; set; } = string.Empty;
         public int IdTipoComprobante { get; set; }
         public string Serie { get; set; } = string.Empty;
         public string Numero { get; set; } = string.Empty;

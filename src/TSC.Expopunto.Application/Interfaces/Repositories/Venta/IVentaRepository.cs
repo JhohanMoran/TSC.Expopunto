@@ -12,7 +12,7 @@ namespace TSC.Expopunto.Application.Interfaces.Repositories.Venta
         // Procesos
         Task<VentaEntity> GuardarVentaAsync(VentaEntity venta);
         Task<int> EliminarVentaAsync(int id, int idUsuario);
-
+        
         // Listas
         Task<PagedResult<VentaDTO>> ObtenerVentasAsync(ObtenerVentasParams parametro);
         Task<List<DetalleVentaDTO>> ObtenerDetalleVentaPorIdVentaAsync(int idVenta);
@@ -20,6 +20,7 @@ namespace TSC.Expopunto.Application.Interfaces.Repositories.Venta
         Task<List<VentaMontoDTO>> ObtenerVentasPorIdPersonaAsync(int id);
         Task<List<VentasFormaPagoDTO>> ObtenerVentasFormaPagoPorIdVentaAsync(int idVenta);
         Task<VentaDTO> ObtenerVentaPorSerieNumeroAsync(string serie, string numero);
+        Task<List<VentaAprobacionDTO>> ListarVentasParaAprobacionAsync(DateTime fecha);
 
     }
 }

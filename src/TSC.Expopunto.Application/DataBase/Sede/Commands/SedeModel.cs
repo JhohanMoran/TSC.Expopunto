@@ -27,5 +27,6 @@
         public int? Id { get; set; }
         public int IdTipoComprobante { get; set; }
         public string Serie { get; set; } = null!;
+        public int Numero { get; set; }
     }
 }

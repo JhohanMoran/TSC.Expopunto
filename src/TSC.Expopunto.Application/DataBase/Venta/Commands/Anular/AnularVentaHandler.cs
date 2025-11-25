@@ -35,7 +35,7 @@ namespace TSC.Expopunto.Application.DataBase.Venta.Commands.AnularVenta
             int idReferencia = request.IdVenta ?? 0;
 
             var estados = await _estadoRepository.ListarTodosAsync();
-            var estadoAnulado = estados.Find(x => x.CodigoEstadosBase == "ANUL" && x.Activo);
+            var estadoAnulado = estados.Find(x => x.CodigoEstadosBase == "ANUL" && x.IdTipoProceso == idTipoProceso && x.Activo);
 
             var parametroEstado = new DocumentoEstadoEntity(
                 0, 

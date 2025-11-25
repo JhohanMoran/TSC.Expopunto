@@ -2,6 +2,8 @@
 {
     public interface ILineaCreditoCommand
     {
-        Task ProcesarAsync(LineaCreditoModel model);
+        Task<int> ProcesarAsync(LineaCreditoModel model);
+        Task<int> AplicarMontoConsumido(LineaCreditoModel model);
+        Task<int> DescontarMontoConsumido(LineaCreditoModel model);
     }
 }

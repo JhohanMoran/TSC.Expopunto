@@ -5,8 +5,10 @@ using TSC.Expopunto.Api.Models.Ventas;
 using TSC.Expopunto.Application.DataBase.DetalleVenta.Commands;
 using TSC.Expopunto.Application.DataBase.DetalleVenta.Queries;
 using TSC.Expopunto.Application.DataBase.Venta.Commands.AnularVenta;
+using TSC.Expopunto.Application.DataBase.Venta.Commands.Aprobar;
 using TSC.Expopunto.Application.DataBase.Venta.Commands.Crear;
 using TSC.Expopunto.Application.DataBase.Venta.Commands.EliminarVenta;
+using TSC.Expopunto.Application.DataBase.Venta.Queries.ListarVentasParaAprobacion;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentaPorSerieNumero;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentas;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentas.Params;
@@ -43,6 +45,7 @@ namespace TSC.Expopunto.Api.Controllers
                 request.Fecha,
                 request.Hora,
                 request.IdSede,
+                request.TipoVenta,
                 request.IdTipoComprobante,
                 request.Serie,
                 request.Numero,
@@ -60,7 +63,7 @@ namespace TSC.Expopunto.Api.Controllers
                 request.TotalICBPER,
                 request.ImporteTotal,
                 request.IdUsuario,
-                
+
                 request.Detalles.Select(d => new DetalleVentaCommand(
                     d.Id,
                     d.IdVenta,
@@ -212,6 +215,38 @@ namespace TSC.Expopunto.Api.Controllers
             return StatusCode(
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+        }
+
+        [HttpPost("listar-ventas-para-aprobacion")]
+        public async Task<IActionResult> ListarVentasParaAprobacion(
+           [FromBody] FiltroVentaAprobacionRequest parametros
+        )
+        {
+            var data = await _mediator.Send(new ListarVentasParaAprobacionQuery(parametros.Fecha));
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+        }
+
+        [HttpPost("aprobar")]
+        public async Task<IActionResult> Aprobar([FromBody] VentaAprobacionRequest request)
+        {
+            if (request.Ids == null || request.Ids.Count == 0)
+            {
+                return StatusCode(
+                   StatusCodes.Status400BadRequest,
+                   ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "No hay venta seleccionada para aprobar")
+                );
+            }
+
+            var data = await _mediator.Send(new AprobarVentaCommand(request.IdUsuario, request.Ids));
+
+            return StatusCode(
+              StatusCodes.Status200OK,
+              ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
             );
         }
 
