@@ -10,16 +10,17 @@ namespace TSC.Expopunto.Application.Interfaces.Repositories.Venta
     public interface IVentaRepository
     {
         // Procesos
-        Task<VentaEntity> CrearVentaAsync(VentaEntity venta);
-        Task<VentaEntity> ActualizarVentaAsync(VentaEntity venta);
+        Task<VentaEntity> GuardarVentaAsync(VentaEntity venta);
         Task<int> EliminarVentaAsync(int id, int idUsuario);
-
+        
         // Listas
         Task<PagedResult<VentaDTO>> ObtenerVentasAsync(ObtenerVentasParams parametro);
         Task<List<DetalleVentaDTO>> ObtenerDetalleVentaPorIdVentaAsync(int idVenta);
         Task<VentaDTO> ObtenerVentaPorIdAsync(int id);
         Task<List<VentaMontoDTO>> ObtenerVentasPorIdPersonaAsync(int id);
         Task<List<VentasFormaPagoDTO>> ObtenerVentasFormaPagoPorIdVentaAsync(int idVenta);
+        Task<VentaDTO> ObtenerVentaPorSerieNumeroAsync(string serie, string numero);
+        Task<List<VentaAprobacionDTO>> ListarVentasParaAprobacionAsync(DateTime fecha);
 
     }
 }

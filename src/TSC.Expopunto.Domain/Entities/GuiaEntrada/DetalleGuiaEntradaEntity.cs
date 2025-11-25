@@ -6,12 +6,15 @@
         public int IdGuiaEntrada { get; private set; }
         public int IdProducto { get; set; }
         public int IdUnidadMedida { get; private set; }
+        public string CodUniMed { get; set; } = string.Empty;
         public decimal Cantidad { get; set; }
-        public int NumCaja { get; set; }
+        public string NumCaja { get; set; }
+        public string CodProducto { get; set; }
         public string Nombre { get; set; } = string.Empty;
         public string CodigoEstilo { get; set; } = string.Empty;
         public string CodigoPedido { get; set; } = string.Empty;
         public string Categoria { get; set; } = string.Empty;
+        public int IdCategoria { get; set; }
         public string Genero { get; set; } = string.Empty;
         public string Color { get; set; } = string.Empty;
         public string CodigoSku { get; set; } = string.Empty;
@@ -24,11 +27,14 @@
             int idGuiaEntrada,
             int idProducto,
             int idUnidadMedida,
+            string codUniMed,
             decimal cantidad,
-            int caja,
+            string numCaja,
+            string codProducto,
             string nombre,
             string codEstilo,
             string codPedido,
+            int idCategoria,
             string categoria,
             string genero,
             string color,
@@ -41,12 +47,15 @@
             this.IdGuiaEntrada = idGuiaEntrada;
             this.IdProducto = idProducto;
             this.IdUnidadMedida = idUnidadMedida;
+            this.CodUniMed = codUniMed;
             this.Cantidad = cantidad;
-            this.NumCaja = caja;
+            this.NumCaja = numCaja;
+            this.CodProducto = codProducto;
             this.Nombre = nombre;
             this.CodigoEstilo = codEstilo;
             this.CodigoPedido = codPedido;
             this.Categoria = categoria;
+            this.IdCategoria = idCategoria;
             this.Genero = genero;
             this.Color = color;
             this.CodigoSku = codigoSku;

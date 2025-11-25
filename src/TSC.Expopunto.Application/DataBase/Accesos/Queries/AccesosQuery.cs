@@ -40,5 +40,18 @@ namespace TSC.Expopunto.Application.DataBase.Accesos.Queries
 
             return menuRaiz;
         }
+
+        public async Task<List<AccesosSedesModel>> ObtenerSedesPorIdUsuarioAsync(int idUsuario)
+        {
+            var parameters = new
+            {
+                Opcion = 2,
+                IdUsuario = idUsuario
+            };
+
+            var response = await _dapperService.QueryAsync<AccesosSedesModel>("uspGetAccesos", parameters);
+
+            return response.ToList();
+        }
     }
 }

@@ -1,11 +1,15 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using TSC.Expopunto.Api.Models.DocumentoEstado;
 using TSC.Expopunto.Api.Models.Ventas;
 using TSC.Expopunto.Application.DataBase.DetalleVenta.Commands;
 using TSC.Expopunto.Application.DataBase.DetalleVenta.Queries;
-using TSC.Expopunto.Application.DataBase.Venta.Commands.Actualizar;
+using TSC.Expopunto.Application.DataBase.Venta.Commands.AnularVenta;
+using TSC.Expopunto.Application.DataBase.Venta.Commands.Aprobar;
 using TSC.Expopunto.Application.DataBase.Venta.Commands.Crear;
 using TSC.Expopunto.Application.DataBase.Venta.Commands.EliminarVenta;
+using TSC.Expopunto.Application.DataBase.Venta.Queries.ListarVentasParaAprobacion;
+using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentaPorSerieNumero;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentas;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentas.Params;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentasPorIdPersona;
@@ -30,87 +34,60 @@ namespace TSC.Expopunto.Api.Controllers
             _mediator = mediator;
         }
 
-        [HttpPost("crear")]
-        public async Task<IActionResult> Crear(
-            [FromBody] CrearVentaRequest request
+        [HttpPost("guardar")]
+        public async Task<IActionResult> Guardar(
+            [FromBody] GuardarVentaRequest request
         )
         {
-            var command = new CrearVentaCommand(
-                OperationType.Create,
+            var command = new GuardarVentaCommand(
                 request.Id,
+
                 request.Fecha,
                 request.Hora,
                 request.IdSede,
+                request.TipoVenta,
                 request.IdTipoComprobante,
                 request.Serie,
                 request.Numero,
                 request.IdPersona,
                 request.IdTipoMoneda,
                 request.IdUsuarioVendedor,
+
+                request.Cantidad,
+                request.OpGravadas,
+                request.OpExoneradas,
+                request.OpInafectas,
+                request.OpGratuitas,
+                request.TotalDescuento,
+                request.TotalIGV,
+                request.TotalICBPER,
+                request.ImporteTotal,
                 request.IdUsuario,
-                true,
+
                 request.Detalles.Select(d => new DetalleVentaCommand(
                     d.Id,
                     d.IdVenta,
                     d.IdProductoVariante,
+                    d.IdTipoOperacion,
+                    d.CodigoTipoOperacion,
+                    d.Descripcion,
                     d.Cantidad,
                     d.PrecioUnitario,
+                    d.AplicaICBP,
                     d.IdDescuento,
+                    d.ValorDescuento,
+                    d.SubTotal,
                     true
                 )).ToList(),
+
                 request.FormasPago.Select(d => new VentaFormaPagoCommand(
                     d.Id,
                     d.IdVenta,
                     d.IdFormaPago,
-                    d.DescripcionFormaPago,
                     d.Monto,
-                    d.ReferenciaPago
-                )).ToList()
-            );
-
-            var data = await _mediator.Send(command);
-
-            return StatusCode(
-                StatusCodes.Status201Created,
-                ResponseApiService.Response(StatusCodes.Status201Created, data, "Exitoso")
-            );
-        }
-
-        [HttpPost("actualizar")]
-        public async Task<IActionResult> Actualizar(
-            [FromBody] ActualizarVentaRequest request
-        )
-        {
-            var command = new ActualizarVentaCommand(
-                OperationType.Update,
-                request.Id,
-                request.Fecha,
-                request.Hora,
-                request.IdSede,
-                request.IdTipoComprobante,
-                request.Serie,
-                request.Numero,
-                request.IdPersona,
-                request.IdTipoMoneda,
-                request.IdUsuarioVendedor,
-                request.IdUsuario,
-                request.Activo,
-                request.Detalles.Select(d => new DetalleVentaCommand(
-                    d.Id,
-                    d.IdVenta,
-                    d.IdProductoVariante,
-                    d.Cantidad,
-                    d.PrecioUnitario,
-                    d.IdDescuento,
+                    d.ReferenciaPago,
+                    d.RutaIcono,
                     d.Activo
-                )).ToList(),
-                request.FormasPago.Select(d => new VentaFormaPagoCommand(
-                    d.Id,
-                    d.IdVenta,
-                    d.IdFormaPago,
-                    d.DescripcionFormaPago,
-                    d.Monto,
-                    d.ReferenciaPago
                 )).ToList()
             );
 
@@ -118,7 +95,8 @@ namespace TSC.Expopunto.Api.Controllers
 
             return StatusCode(
                 StatusCodes.Status200OK,
-                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso"));
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
         }
 
         [HttpPost("eliminar")]
@@ -138,7 +116,6 @@ namespace TSC.Expopunto.Api.Controllers
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso"));
         }
-
 
         [HttpPost("listar")]
         public async Task<IActionResult> Listar(
@@ -195,9 +172,82 @@ namespace TSC.Expopunto.Api.Controllers
         [HttpGet("generar-documento-pdf/{idVenta:int}")]
         public async Task<IActionResult> GetBoletaPdf(int idVenta)
         {
-            var pdfBytes = await _mediator.Send(new GenerarDocumentoPdfQuery(idVenta));
+            var respuesta = await _mediator.Send(new GenerarDocumentoPdfQuery(idVenta));
 
-            return File(pdfBytes, "application/pdf", $"documento-{idVenta.ToString()}.pdf");
+            return File(respuesta.ArchivoPdf, "application/pdf", $"{respuesta.NombreArchivo}.pdf");
+        }
+
+        [HttpPost("obtener-venta-por-serie-numero")]
+        public async Task<IActionResult> ObtenerVentaPorSerieNumero(
+           [FromBody] VentaPorSerieNumeroRequest parametros
+        )
+        {
+            var data = await _mediator.Send(new ObtenerVentaPorSerieNumeroQuery(parametros.Serie, parametros.Numero));
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+        }
+
+        [HttpPost("anular")]
+        public async Task<IActionResult> Anular(
+            [FromBody] AnularVentaRequest request
+        )
+        {
+            var command = new AnularVentaCommand(
+                request.IdVenta,
+                request.IdMotivoBaja,
+                request.Observacion,
+                request.IdUsuario
+            );
+
+            var data = await _mediator.Send(command);
+
+            if (data == null)
+            {
+                return StatusCode(
+                    StatusCodes.Status400BadRequest,
+                    ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "No se pudo realizar la anulación de la venta")
+                );
+            }
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+        }
+
+        [HttpPost("listar-ventas-para-aprobacion")]
+        public async Task<IActionResult> ListarVentasParaAprobacion(
+           [FromBody] FiltroVentaAprobacionRequest parametros
+        )
+        {
+            var data = await _mediator.Send(new ListarVentasParaAprobacionQuery(parametros.Fecha));
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+        }
+
+        [HttpPost("aprobar")]
+        public async Task<IActionResult> Aprobar([FromBody] VentaAprobacionRequest request)
+        {
+            if (request.Ids == null || request.Ids.Count == 0)
+            {
+                return StatusCode(
+                   StatusCodes.Status400BadRequest,
+                   ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "No hay venta seleccionada para aprobar")
+                );
+            }
+
+            var data = await _mediator.Send(new AprobarVentaCommand(request.IdUsuario, request.Ids));
+
+            return StatusCode(
+              StatusCodes.Status200OK,
+              ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
         }
 
     }

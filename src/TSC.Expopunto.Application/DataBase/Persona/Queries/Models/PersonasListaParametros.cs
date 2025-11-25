@@ -52,6 +52,14 @@ namespace TSC.Expopunto.Application.DataBase.Persona.Queries.Models
             set => ParametrosAdicionales["TipoBusquedaPersonal"] = value;
         }
 
+        public int? IdUsuario
+        {
+            get => ParametrosAdicionales.ContainsKey("IdUsuario")
+                   ? ParametrosAdicionales["IdUsuario"] as int?
+                   : null;
+            set => ParametrosAdicionales["IdUsuario"] = value;
+        }
+
         public bool? Activo
         {
             get => ParametrosAdicionales.ContainsKey("Activo")

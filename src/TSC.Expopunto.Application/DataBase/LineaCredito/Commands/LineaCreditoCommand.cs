@@ -7,7 +7,34 @@
         {
             _dapperService = dapperService;
         }
-        public async Task ProcesarAsync(LineaCreditoModel model)
+
+        public async Task<int> AplicarMontoConsumido(LineaCreditoModel model)
+        {
+            var parameter = new
+            {
+                pOpcion = 3,
+                pId = model.Id,
+                pMontoConsumido = model.MontoConsumido,
+                pIdUsuario = model.IdUsuario
+            };
+            var respuesta = await _dapperService.ExecuteScalarAsync("uspSetLineasCredito", parameter);
+            return respuesta;   
+        }
+
+        public async Task<int> DescontarMontoConsumido(LineaCreditoModel model)
+        {
+            var parameter = new
+            {
+                pOpcion = 4,
+                pId = model.Id,
+                pMontoConsumido = model.MontoConsumido,
+                pIdUsuario = model.IdUsuario
+            };
+            var respuesta = await _dapperService.ExecuteScalarAsync("uspSetLineasCredito", parameter);
+            return respuesta;
+        }
+
+        public async Task<int> ProcesarAsync(LineaCreditoModel model)
         {
             var parameter = new
             {
@@ -17,7 +44,9 @@
                 pMontoConsumido = model.MontoConsumido,
                 pIdUsuario = model.IdUsuario
             };
-            await _dapperService.ExecuteScalarAsync("uspSetLineasCredito", parameter);
+            var respuesta = await _dapperService.ExecuteScalarAsync("uspSetLineasCredito", parameter);
+            return respuesta;
         }
+
     }
 }

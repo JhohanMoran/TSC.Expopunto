@@ -87,32 +87,5 @@ namespace TSC.Expopunto.Application.DataBase.Persona.Queries
             var response = await _dapperService.QueryAsync<PersonaTodosModel>("uspGetPersonas", parameters);
             return response.ToList();
         }
-
-        public async Task<PagedResult<PersonaTodosModel>> ListarPersonasModalBusquedaAsync(PersonasListaParametros parametro)
-        {
-            var parameters = new
-            {
-                pOpcion = 5,
-                pFiltroModalBusqueda = parametro.FiltroModalBusqueda,
-                pTipoBusquedaPersonal = parametro.TipoBusquedaPersonal,
-                pPagina = parametro.Pagina,
-                pFilasPorPagina = parametro.FilasPorPagina,
-                pOrdenPor = parametro.OrdenarPor,
-                pOrdenDireccion = parametro.OrdenDireccion
-            };
-
-            var response = await _dapperService.QueryAsync<PersonaTodosModel>("uspGetPersonas", parameters);
-
-            var responseList = response.ToList();
-            var totalRegistros = responseList.FirstOrDefault()?.TotalRegistros ?? 0;
-
-            return new PagedResult<PersonaTodosModel>
-            {
-                Data = responseList,
-                Total = totalRegistros,
-                Pagina = parametro.Pagina,
-                FilasPorPagina = parametro.FilasPorPagina
-            };
-        }
     }
 }

@@ -4,9 +4,15 @@
         int Id,
         int IdVenta,
         int IdProductoVariante,
+        int IdTipoOperacion,
+        int CodigoTipoOperacion, 
+        string Descripcion, 
         int Cantidad,
         decimal PrecioUnitario,
+        bool AplicaICBP,    
         int IdDescuento,
+        decimal ValorDescuento,
+        decimal SubTotal,
         bool Activo
     );
 }
