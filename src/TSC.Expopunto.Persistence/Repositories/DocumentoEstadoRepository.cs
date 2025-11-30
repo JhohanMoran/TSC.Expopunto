@@ -1,4 +1,5 @@
-﻿using TSC.Expopunto.Application.DataBase;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using TSC.Expopunto.Application.DataBase;
 using TSC.Expopunto.Application.DataBase.DocumentoEstado.DTO;
 using TSC.Expopunto.Application.Interfaces.Repositories.DocumentoEstado;
 using TSC.Expopunto.Domain.Entities.DocumentoEstado;
@@ -17,6 +18,26 @@ namespace TSC.Expopunto.Persistence.Repositories
         {
             _dapperCommandService = dapperCommandService;
             _dapperQueryService = dapperQueryService;
+        }
+
+        public async Task<bool> AprobarVentaAsync(DocumentoEstadoEntity documentoEstado, string idsJson)
+        {
+            var parameters = new
+            {
+                Opcion = 2,
+                IdTipoProceso = documentoEstado.IdTipoProceso,
+                IdReferencia = documentoEstado.IdReferencia,
+                IdEstado = documentoEstado.IdEstado,
+                IdUsuario = documentoEstado.IdUsuario,
+                IdsJson = idsJson
+            };
+
+            var rpta = await _dapperCommandService.ExecuteScalarAsync(
+                "uspSetDocumentoEstado",
+                parameters
+            );
+
+            return (rpta > 0);
         }
 
         public async Task<DocumentoEstadoEntity> GuardarAsync(DocumentoEstadoEntity parametros)

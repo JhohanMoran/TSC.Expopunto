@@ -1,4 +1,5 @@
-﻿using TSC.Expopunto.Application.DataBase;
+﻿using DocumentFormat.OpenXml.Office2010.Excel;
+using TSC.Expopunto.Application.DataBase;
 using TSC.Expopunto.Application.DataBase.DetalleVenta.DTO;
 using TSC.Expopunto.Application.DataBase.Venta.DTO;
 using TSC.Expopunto.Application.DataBase.Venta.Queries.ObtenerVentas.Params;
@@ -37,6 +38,7 @@ namespace TSC.Expopunto.Persistence.Repositories
                     Fecha = venta.Fecha,
                     Hora = venta.Hora,
                     IdSede = venta.IdSede,
+                    TipoVenta = venta.TipoVenta,
                     IdTipoComprobante = venta.IdTipoComprobante,
                     Serie = venta.Serie,
                     Numero = venta.Numero,
@@ -245,6 +247,28 @@ namespace TSC.Expopunto.Persistence.Repositories
             catch (Exception ex)
             {
 
+                throw;
+            }
+        }
+
+        public async Task<List<VentaAprobacionDTO>> ListarVentasParaAprobacionAsync(DateTime fecha)
+        {
+            try
+            {
+                var parameters = new
+                {
+                    pOpcion = 7,
+                    pFechaInicio = fecha
+                };
+
+                var response =
+                    await _dapperQueryService
+                        .QueryAsync<VentaAprobacionDTO>("uspGetVentas", parameters);
+
+                return response.ToList();
+            }
+            catch (Exception ex)
+            {
                 throw;
             }
         }

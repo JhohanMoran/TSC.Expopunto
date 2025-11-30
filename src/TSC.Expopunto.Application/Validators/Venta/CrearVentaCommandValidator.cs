@@ -3,7 +3,7 @@ using TSC.Expopunto.Application.DataBase.Venta.Commands.Crear;
 
 namespace TSC.Expopunto.Application.Validators.Venta
 {
-    public class CrearVentaCommandValidator : AbstractValidator<CrearVentaCommand>
+    public class CrearVentaCommandValidator : AbstractValidator<GuardarVentaCommand>
     {
         public CrearVentaCommandValidator()
         {

@@ -9,6 +9,7 @@ namespace TSC.Expopunto.Domain.Entities.Venta
         public string? Hora { get; set; }
         public int? IdSede { get; set; }
         public string? Sede { get; set; }
+        public string? TipoVenta { get; set; }
         public int? IdTipoComprobante { get; set; }
         public string? TipoComprobante { get; set; }
         public string? Serie { get; set; }
@@ -50,6 +51,7 @@ namespace TSC.Expopunto.Domain.Entities.Venta
             DateTime? fecha,
             string? hora,
             int? idSede,
+            string? tipoVenta,
             int? idTipoComprobante,
             string? serie,
             string? numero,
@@ -73,6 +75,7 @@ namespace TSC.Expopunto.Domain.Entities.Venta
             Fecha = fecha;
             Hora = hora;
             IdSede = idSede;
+            TipoVenta = tipoVenta;
             IdTipoComprobante = idTipoComprobante;
             Serie = serie;
             Numero = numero;

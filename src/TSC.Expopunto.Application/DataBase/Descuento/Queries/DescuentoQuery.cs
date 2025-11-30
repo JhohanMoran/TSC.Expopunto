@@ -29,6 +29,8 @@ namespace TSC.Expopunto.Application.DataBase.Descuento.Queries
            
         }
 
+
+
         public async Task<List<DescuentosTodosModel>> ListarComboDescuentosAsync()
         {
             var parameters = new
@@ -74,6 +76,7 @@ namespace TSC.Expopunto.Application.DataBase.Descuento.Queries
             return descuento;
 
         }
+
 
         public async Task<List<DescuentosTodosModel>> ListarDescuentosPorEstadoAsync(bool? activo)
         {

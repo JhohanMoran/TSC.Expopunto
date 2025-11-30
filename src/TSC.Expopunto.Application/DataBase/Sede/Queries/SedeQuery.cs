@@ -1,4 +1,7 @@
-﻿using TSC.Expopunto.Application.DataBase.Sede.Queries.Models;
+﻿using Dapper;
+using System.Data;
+using TSC.Expopunto.Application.DataBase.Sede.Commands;
+using TSC.Expopunto.Application.DataBase.Sede.Queries.Models;
 
 namespace TSC.Expopunto.Application.DataBase.Sede.Queries
 {
@@ -22,6 +25,7 @@ namespace TSC.Expopunto.Application.DataBase.Sede.Queries
             return response.ToList();
         }
 
+     
         public async Task<List<SedesTodosModel>> ListarTodosAsync()
         {
             var parameters = new
@@ -41,6 +45,34 @@ namespace TSC.Expopunto.Application.DataBase.Sede.Queries
             };
             var response = await _dapperService.QueryFirstOrDefaultAsync<SedesTodosModel>("uspGetSedes", parameters);
             return response;
+        }
+
+
+        public async Task<List<SedeCompletaReporteModel>> ListarReporteAsync(string? nombre = null)
+        {
+            var parameters = new { pFiltroNombre = nombre };
+            var response = await _dapperService.QueryAsync<SedeCompletaReporteModel>("uspGetSedesReporte", parameters);
+            return response.ToList();
+        }
+
+        public async Task<SedeCompletaDetalleModel> ObtenerParaEditarAsync(int id)
+        {
+            using var connection = _dapperService.CreateConnection();
+
+            using var multi = await connection.QueryMultipleAsync(
+                "uspGetSedeCompletaById",
+                new { Id = id },
+                commandType: CommandType.StoredProcedure
+            );
+
+            var sede = await multi.ReadSingleOrDefaultAsync<SedeCompletaDetalleModel>();
+            if (sede == null)
+                throw new Exception($"Sede con ID {id} no encontrada o inactiva");
+
+            var series = await multi.ReadAsync<SedeSerieItem>();
+            sede.Series = series.ToList();
+
+            return sede;
         }
 
     }

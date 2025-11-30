@@ -13,5 +13,6 @@ namespace TSC.Expopunto.Application.DataBase.SedeSerie.Queries
         Task<List<SedeSerieTodosModel>> ListarAsync(int? idSede = null);
         Task<SedeSerieTodosModel> ObtenerPorIdAsync(int id);
         Task<List<SedeSerieTodosModel>> ListarTodosAsync();
+        Task<List<SedeSerieTodosModel>> ListarSeriesPorSedeTipoComprobanteAsync(int idSede, int idTipoComprobante);
     }
 }

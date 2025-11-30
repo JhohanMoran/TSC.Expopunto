@@ -52,5 +52,15 @@ namespace TSC.Expopunto.Persistence.DataBase
             using var gridReader = await connection.QueryMultipleAsync(procedureName, parameters, commandType: CommandType.StoredProcedure, commandTimeout: timeOut);
             return await map(gridReader);
         }
+        public async Task ExecuteAsync(string sql, object param = null, CommandType commandType = CommandType.StoredProcedure)
+        {
+            using var connection = new SqlConnection(_connectionString);
+            await connection.ExecuteAsync(sql, param, commandType: commandType);
+        }
+        public IDbConnection CreateConnection()
+        {
+            return new SqlConnection(_connectionString);
+        }
+
     }
 }

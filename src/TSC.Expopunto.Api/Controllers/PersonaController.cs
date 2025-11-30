@@ -1,8 +1,11 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using TSC.Expopunto.Application.DataBase.Persona.Commands;
+using TSC.Expopunto.Api.Models.Persona;
+using TSC.Expopunto.Application.DataBase.Persona.Commands.RegistrarPersona;
 using TSC.Expopunto.Application.DataBase.Persona.Queries;
 using TSC.Expopunto.Application.DataBase.Persona.Queries.Models;
+using TSC.Expopunto.Application.DataBase.Persona.Queries.ObtenerPersonaPorNumDoc;
 using TSC.Expopunto.Application.Exceptions;
 using TSC.Expopunto.Application.Features;
 using TSC.Expopunto.Common;
@@ -15,13 +18,13 @@ namespace TSC.Expopunto.Api.Controllers
     [TypeFilter(typeof(ExceptionManager))]
     public class PersonaController : Controller
     {
-        private readonly IPersonaCommand _personaCommand;
         private readonly IPersonaQuery _personaQuery;
+        private readonly IMediator _mediator;
 
-        public PersonaController(IPersonaCommand personaCommand, IPersonaQuery personaQuery)
+        public PersonaController(IPersonaQuery personaQuery, IMediator mediator)
         {
-            _personaCommand = personaCommand;
             _personaQuery = personaQuery;
+            _mediator = mediator;
         }
 
         [HttpPost("listar")]
@@ -86,11 +89,25 @@ namespace TSC.Expopunto.Api.Controllers
 
 
         [HttpPost("crear")]
-        public async Task<IActionResult> Crear([FromBody] PersonaModel model)
+        public async Task<IActionResult> Crear([FromBody] GuardarPersonaRequest request)
         {
-            model.Opcion = (int)OperationType.Create;
+            var command = new RegistrarPersonaCommand(
+                (int)OperationType.Create,
+                request.Id,
+                request.CodTipoPersona,
+                request.IdTipoDocumento,
+                request.NumeroDocumento,
+                request.RazonSocial,
+                request.Nombres,
+                request.Apellidos,
+                request.Direccion,
+                request.Celular,
+                request.IdUsuario,
+                request.Activo,
+                request.DetalleMotivoBaja
+            );
 
-            var data = await _personaCommand.ProcesarAsync(model);
+            var data = await _mediator.Send(command);
 
             return StatusCode(
                 StatusCodes.Status201Created,
@@ -99,18 +116,33 @@ namespace TSC.Expopunto.Api.Controllers
         }
 
         [HttpPost("actualizar")]
-        public async Task<IActionResult> Actualizar([FromBody] PersonaModel model)
+        public async Task<IActionResult> Actualizar([FromBody] GuardarPersonaRequest request)
         {
-            if (model.Id == 0)
+            if (request.Id == 0)
             {
                 return StatusCode(
                     StatusCodes.Status400BadRequest,
-                    ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El idPersona no es válido")
+                    ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El ID de la Persona no es válido")
                 );
             }
 
-            model.Opcion = (int)OperationType.Update;
-            var data = await _personaCommand.ProcesarAsync(model);
+            var command = new RegistrarPersonaCommand(
+                (int)OperationType.Update,
+                request.Id,
+                request.CodTipoPersona,
+                request.IdTipoDocumento,
+                request.NumeroDocumento,
+                request.RazonSocial,
+                request.Nombres,
+                request.Apellidos,
+                request.Direccion,
+                request.Celular,
+                request.IdUsuario,
+                request.Activo,
+                request.DetalleMotivoBaja
+            );
+
+            var data = await _mediator.Send(command);
 
             return StatusCode(
                 StatusCodes.Status200OK,
@@ -119,18 +151,33 @@ namespace TSC.Expopunto.Api.Controllers
         }
 
         [HttpPost("eliminar")]
-        public async Task<IActionResult> Eliminar([FromBody] PersonaModel model)
+        public async Task<IActionResult> Eliminar([FromBody] GuardarPersonaRequest request)
         {
-            if (model.Id == 0)
+            if (request.Id == 0)
             {
                 return StatusCode(
                     StatusCodes.Status400BadRequest,
-                    ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El idPersona no es válido")
+                    ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El ID Persona no es válido")
                 );
             }
 
-            model.Opcion = (int)OperationType.Delete;
-            var data = await _personaCommand.ProcesarAsync(model);
+            var command = new RegistrarPersonaCommand(
+                (int)OperationType.Delete,
+                request.Id,
+                request.CodTipoPersona,
+                request.IdTipoDocumento,
+                request.NumeroDocumento,
+                request.RazonSocial,
+                request.Nombres,
+                request.Apellidos,
+                request.Direccion,
+                request.Celular,
+                request.IdUsuario,
+                request.Activo,
+                request.DetalleMotivoBaja
+            );
+
+            var data = await _mediator.Send(command);
 
             return StatusCode(
                 StatusCodes.Status200OK,
@@ -168,8 +215,7 @@ namespace TSC.Expopunto.Api.Controllers
         [HttpPost("listar-modal-busqueda")]
         public async Task<IActionResult> ListarPersonasModalBusqueda([FromBody] PersonasListaParametros parametro)
         {
-
-            var data = await _personaQuery.ListarPersonasModalBusquedaAsync(parametro);
+            var data = await _mediator.Send(new ObtenerPersonaPorNumDocQuery(parametro));
 
             return StatusCode(
                 StatusCodes.Status200OK,
@@ -178,9 +224,9 @@ namespace TSC.Expopunto.Api.Controllers
         }
 
         [HttpPost("activar")]
-        public async Task<IActionResult> Activar([FromBody] PersonaModel model)
+        public async Task<IActionResult> Activar([FromBody] GuardarPersonaRequest request)
         {
-            if (model.Id == 0)
+            if (request.Id == 0)
             {
                 return StatusCode(
                     StatusCodes.Status400BadRequest,
@@ -188,8 +234,23 @@ namespace TSC.Expopunto.Api.Controllers
                 );
             }
 
-            model.Opcion = 4;
-            var data = await _personaCommand.ProcesarAsync(model);
+            var command = new RegistrarPersonaCommand(
+              4,
+              request.Id,
+              request.CodTipoPersona,
+              request.IdTipoDocumento,
+              request.NumeroDocumento,
+              request.RazonSocial,
+              request.Nombres,
+              request.Apellidos,
+              request.Direccion,
+              request.Celular,
+              request.IdUsuario,
+              request.Activo,
+              request.DetalleMotivoBaja
+            );
+
+            var data = await _mediator.Send(command);
 
             return StatusCode(
                 StatusCodes.Status200OK,

@@ -5,6 +5,7 @@ using TSC.Expopunto.Application.DataBase.Producto.Queries.Models;
 using TSC.Expopunto.Application.Exceptions;
 using TSC.Expopunto.Application.Features;
 using TSC.Expopunto.Common;
+using TSC.Expopunto.Common.ModelExcel;
 
 namespace TSC.Expopunto.Api.Controllers
 {
@@ -15,11 +16,13 @@ namespace TSC.Expopunto.Api.Controllers
     {
         private readonly IProductoQuery _productoQuery;
         private readonly IProductoCommand _productoCommand;
+        private readonly IModelExcelRepository _modelExcelRepository;
 
-        public ProductoController(IProductoQuery productoQuery, IProductoCommand productoCommand)
+        public ProductoController(IProductoQuery productoQuery, IProductoCommand productoCommand, IModelExcelRepository modelExcelRepository)
         {
             _productoQuery = productoQuery;
             _productoCommand = productoCommand;
+            _modelExcelRepository = modelExcelRepository;
         }
         [HttpGet("listar-paginado")]
         public async Task<IActionResult> ListarPaginado([FromQuery] ProductoParams param)
@@ -115,6 +118,88 @@ namespace TSC.Expopunto.Api.Controllers
                 ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
             );
 
+        }
+        [HttpGet("listar-prod-variantes")]
+        public async Task<IActionResult> ListarProdVariantes([FromQuery] ProductoParams param)
+        {
+            var response = await _productoQuery.ListarProdVariantesAsync(param);
+
+            return StatusCode(
+                   StatusCodes.Status200OK,
+                   ResponseApiService.Response(StatusCodes.Status200OK, response, "Exitoso")
+                );
+        }
+        [HttpGet("listar-tallas")]
+        public async Task<IActionResult> ListarTallas()
+        {
+            var response = await _productoQuery.ListarTallasAsync();
+
+            return StatusCode(
+                   StatusCodes.Status200OK,
+                   ResponseApiService.Response(StatusCodes.Status200OK, response, "Exitoso")
+                );
+        }
+        [HttpGet("listar-colores")]
+        public async Task<IActionResult> ListarColores()
+        {
+            var response = await _productoQuery.ListarColoresAsync();
+
+            return StatusCode(
+                   StatusCodes.Status200OK,
+                   ResponseApiService.Response(StatusCodes.Status200OK, response, "Exitoso")
+                );
+        }
+        [HttpPost("crear-variante")]
+        public async Task<IActionResult> CrearVariante([FromBody] ProductoModel model
+        )
+        {
+            model.Opcion = 4;
+            var data = await _productoCommand.ProcesarAsync(model);
+            return StatusCode(
+                StatusCodes.Status201Created,
+                ResponseApiService.Response(StatusCodes.Status201Created, data, "Exitoso"));
+        }
+        [HttpPost("actualizar-variante")]
+        public async Task<IActionResult> ActualizarVariante([FromBody] ProductoModel model)
+        {
+            model.Opcion = 5;
+            var data = await _productoCommand.ProcesarAsync(model);
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+                );
+
+        }
+        [HttpPost("eliminar-variante")]
+        public async Task<IActionResult> EliminarVariante([FromBody] ProductoModel model)
+        {
+            if (model.IdProductoVariante == 0)
+            {
+                return StatusCode(
+                StatusCodes.Status400BadRequest,
+                ResponseApiService.Response(StatusCodes.Status400BadRequest, null, "El id del producto no es válido")
+                );
+            }
+
+            model.Opcion = 6;
+
+            var data = await _productoCommand.ProcesarAsync(model);
+
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+
+        }
+
+        [HttpGet("exportar")]
+        public IActionResult ExportarExcelVariantes([FromQuery] ProductoParams param)
+        {
+            var data = _productoQuery.ListarProdVariantesExcel(param);
+            var stream = _modelExcelRepository.ExportExcelDefault(data, "Reporte de Prendas");
+            return File(stream, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Reporte_prendas.xlsx");
         }
     }
 }

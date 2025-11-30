@@ -43,6 +43,14 @@ namespace TSC.Expopunto.Application.DataBase.Parametro.Queries.Models
                    : null;
             set => ParametrosAdicionales["Activo"] = value;
         }
+
+        public string? Codigos
+        {
+            get => ParametrosAdicionales.ContainsKey("Codigos")
+                   ? ParametrosAdicionales["Codigos"]?.ToString()
+                   : null;
+            set => ParametrosAdicionales["Codigos"] = value;
+        }
     }
 }
 
