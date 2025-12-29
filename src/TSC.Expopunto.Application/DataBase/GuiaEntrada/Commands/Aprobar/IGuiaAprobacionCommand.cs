@@ -3,5 +3,6 @@
     public interface IGuiaAprobacionCommand
     {
         Task AprobarGuiasEntradaAsync(GuiaAprobacionModel model);
+        Task GuiaConformidadSigeAsync(GuiaConformidadSigeModel model);
     }
 }

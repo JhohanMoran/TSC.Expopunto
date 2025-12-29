@@ -1,6 +1,8 @@
 ﻿using DocumentFormat.OpenXml.Spreadsheet;
 using TSC.Expopunto.Application.DataBase;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.DTO;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasConformeSige.Params;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasConformeSigeDetalle.Params;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEntrada.Params;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasPendientesAprobar.Params;
 using TSC.Expopunto.Application.Interfaces.Repositories.GuiaEntrada;
@@ -278,6 +280,57 @@ namespace TSC.Expopunto.Persistence.Repositories
                 Total = totalRegistros,
                 Pagina = parametros.Pagina,
                 FilasPorPagina = parametros.FilasPorPagina
+            };
+        }
+
+        public async Task<PagedResult<GuiaConformeSigeDto>> ObtenerGuiasConformeSigeAsync(ObtenerGuiasConformeSigeParams parametros)
+        {
+            var parameters = new
+            {
+                OPCION = parametros.Opcion,
+                SER_GUIA = parametros.Serie,
+                NUMERO_GUIA = parametros.Numero,
+                pOrdenColumna = parametros.OrdenarPor,
+                pOrdenDireccion = parametros.OrdenDireccion,
+                pPagina = parametros.Pagina,
+                pFilasPorPagina = parametros.FilasPorPagina,
+                pFiltroNombre = parametros.Nombre
+            };
+
+            _dapperQueryService.UsarConexion("SQLConnectionSigeMigraString");
+
+            var response = await _dapperQueryService
+                                .QueryAsync<GuiaConformeSigeDto>("UP_GET_BANDEJA_EXPOPUNTO", parameters);
+            var guiasConformeSigeLista = response.ToList();
+            return new PagedResult<GuiaConformeSigeDto>
+            {
+                Data = guiasConformeSigeLista,
+                Total = guiasConformeSigeLista.Count,
+                Pagina = 1,
+                FilasPorPagina = guiasConformeSigeLista.Count
+            };
+        }
+
+        public async Task<PagedResult<GuiaConformeSigeDetalleDto>> ObtenerGuiasConformeSigeDetalleAsync(ObtenerGuiasConformeSigeDetalleParams parametros)
+        {
+            var parameters = new
+            {
+                OPCION = parametros.Opcion,
+                COD_ALMACEN = parametros.CodAlmacen,
+                NUM_MOVSTK = parametros.NumMovstk
+            };
+
+            _dapperQueryService.UsarConexion("SQLConnectionSigeMigraString");
+
+            var response = await _dapperQueryService
+                                .QueryAsync<GuiaConformeSigeDetalleDto>("UP_GET_BANDEJA_EXPOPUNTO_DETALLE", parameters);
+            var guiasConformeSigeDetalleLista = response.ToList();
+            return new PagedResult<GuiaConformeSigeDetalleDto>
+            {
+                Data = guiasConformeSigeDetalleLista,
+                Total = guiasConformeSigeDetalleLista.Count,
+                Pagina = 1,
+                FilasPorPagina = guiasConformeSigeDetalleLista.Count
             };
         }
     }

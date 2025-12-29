@@ -2,7 +2,7 @@
 
 namespace TSC.Expopunto.Application.DataBase
 {
-    public interface IDapperCommandService
+    public interface IDapperCommandService: IDapperBaseService
     {
         Task<int> ExecuteScalarAsync(string procedureName, object parameters);
         Task<T> QueryFirstOrDefaultAsync<T>(string v, object parameters);

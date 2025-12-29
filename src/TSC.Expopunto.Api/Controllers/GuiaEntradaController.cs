@@ -9,6 +9,10 @@ using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Eliminar;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerDetallesGuiaEntradaPorIdGuia;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiaEntradaPorNumeroSerie;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasConformeSige;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasConformeSige.Params;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasConformeSigeDetalle;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasConformeSigeDetalle.Params;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEntrada;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEntrada.Params;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasPendientesAprobar;
@@ -70,7 +74,7 @@ namespace TSC.Expopunto.Api.Controllers
                     d.Color,
                     d.CodigoSku,
                     d.IdUsuario
-                
+
 
                 )).ToList()
             );
@@ -281,6 +285,61 @@ namespace TSC.Expopunto.Api.Controllers
                 StatusCodes.Status200OK,
                 ResponseApiService.Response(StatusCodes.Status200OK, message: "Exitoso"));
         }
+
+        [HttpGet("listar-guia-conforme-sige")]
+        public async Task<IActionResult> ListarGuiaConformeSige(
+            [FromQuery] ObtenerGuiasConformeSigeParams parametros
+        )
+        {
+            parametros.Opcion = "V"; // Opcion V para ver
+            var data = await _mediator.Send(new ObtenerGuiasConformeSigeQuery(parametros));
+
+            if (data == null || data.Data == null || data.Data.Count == 0)
+            {
+                return StatusCode(
+                    StatusCodes.Status204NoContent,
+                    ResponseApiService.Response(StatusCodes.Status204NoContent, null, "No se encontraron resultados")
+                );
+            }
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+        }
+
+        [HttpGet("listar-guia-conforme-sige-detalle")]
+        public async Task<IActionResult> ListarGuiaConformeSigeDetalle(
+            [FromQuery] ObtenerGuiasConformeSigeDetalleParams parametros
+        )
+        {
+            parametros.Opcion = "V"; // Opcion V para ver
+            var data = await _mediator.Send(new ObtenerGuiasConformeSigeDetalleQuery(parametros));
+
+            if (data == null || data.Data == null || data.Data.Count == 0)
+            {
+                return StatusCode(
+                    StatusCodes.Status204NoContent,
+                    ResponseApiService.Response(StatusCodes.Status204NoContent, null, "No se encontraron resultados")
+                );
+            }
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+        }
+
+        [HttpPost("conformidad-guia-sige")]
+        public async Task<IActionResult> ConformidadGuiaSige(
+            [FromBody] GuiaConformidadSigeModel model
+        )
+        {
+            model.Opcion = "C"; // Opcion C para conformidad de guias
+            await _guiaAprobacionCommand.GuiaConformidadSigeAsync(model);
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, message: "Exitoso"));
+        }
     }
 }
-
