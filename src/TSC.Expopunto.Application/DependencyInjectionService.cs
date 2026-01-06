@@ -15,6 +15,7 @@ using TSC.Expopunto.Application.DataBase.Descuento.Queries;
 using TSC.Expopunto.Application.DataBase.DescuentoProductoVariante.Commands;
 using TSC.Expopunto.Application.DataBase.DescuentoProductoVariante.Queries;
 using TSC.Expopunto.Application.DataBase.FormaPago.Queries;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Aprobar;
 using TSC.Expopunto.Application.DataBase.Kardex.Queries;
 using TSC.Expopunto.Application.DataBase.LineaCredito.Commands;
 using TSC.Expopunto.Application.DataBase.LineaCredito.Queries;
@@ -163,6 +164,8 @@ namespace TSC.Expopunto.Application
             services.AddTransient<IProductoVarianteCommand, ProductoVarianteCommand>();
 
             services.AddTransient<IDashboardQuery, DashboardQuery>();
+
+            services.AddTransient<IGuiaAprobacionCommand, GuiaAprobacionCommand>();
 
             return services;
         }

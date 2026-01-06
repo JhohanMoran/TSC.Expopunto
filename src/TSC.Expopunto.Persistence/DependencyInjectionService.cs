@@ -4,6 +4,7 @@ using TSC.Expopunto.Application.DataBase;
 using TSC.Expopunto.Application.Interfaces.Repositories.DocumentoEstado;
 using TSC.Expopunto.Application.Interfaces.Repositories.DocumentoEstadoBaja;
 using TSC.Expopunto.Application.Interfaces.Repositories.DocumentoEstadoMotivoBaja;
+using TSC.Expopunto.Application.Interfaces.Repositories.EmisionComprobanteSunat;
 using TSC.Expopunto.Application.Interfaces.Repositories.Estado;
 using TSC.Expopunto.Application.Interfaces.Repositories.GuiaEntrada;
 using TSC.Expopunto.Application.Interfaces.Repositories.MotivoBaja;
@@ -34,6 +35,7 @@ namespace TSC.Expopunto.Persistence
             services.AddScoped<IDocumentoEstadoBajaRepository, DocumentoEstadoBajaRepository>();
             services.AddScoped<IDocumentoEstadoMotivoBajaRepository, DocumentoEstadoMotivoBajaRepository>();
             services.AddScoped<IEstadoRepository, EstadoRepository>();
+            services.AddScoped<IEmisionComprobanteSunatRepository, EmisionComprobanteSunatRepository>();
 
             return services;
         }

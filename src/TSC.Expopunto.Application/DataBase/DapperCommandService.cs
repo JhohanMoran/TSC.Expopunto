@@ -8,12 +8,14 @@ namespace TSC.Expopunto.Infrastructure.DataBase
 {
     public class DapperCommandService : IDapperCommandService
     {
-        private readonly string _connectionString;
+        private string _connectionString;
+        private readonly IConfiguration _configuration;
 
         public DapperCommandService(IConfiguration configuration)
         {
+            _configuration = configuration;
             // Usa el nombre de tu cadena de conexión en appsettings.json
-            _connectionString = configuration.GetConnectionString("DefaultConnection");
+            _connectionString = _configuration.GetConnectionString("DefaultConnection");
         }
 
         public Task ExecuteAsync(string sql, object param = null, CommandType commandType = CommandType.StoredProcedure)
@@ -35,6 +37,11 @@ namespace TSC.Expopunto.Infrastructure.DataBase
         public Task<T> QueryFirstOrDefaultAsync<T>(string v, object parameters)
         {
             throw new NotImplementedException();
+        }
+
+        public void UsarConexion(string connectionName)
+        {
+            _connectionString = _configuration.GetConnectionString(connectionName);
         }
     }
 }

@@ -4,12 +4,19 @@ using TSC.Expopunto.Api.Models.GuiasEntrada;
 
 using TSC.Expopunto.Application.DataBase.DetalleGuiaEntrada.Commands;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Actualizar;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Aprobar;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Crear;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Commands.Eliminar;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerDetallesGuiaEntradaPorIdGuia;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiaEntradaPorNumeroSerie;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasConformeSige;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasConformeSige.Params;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasConformeSigeDetalle;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasConformeSigeDetalle.Params;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEntrada;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEntrada.Params;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasPendientesAprobar;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasPendientesAprobar.Params;
 using TSC.Expopunto.Application.Exceptions;
 using TSC.Expopunto.Application.Features;
 using TSC.Expopunto.Application.Features.GuiaEntrada.Queries.ObtenerGuiaEntradaPorNumeroSerie;
@@ -23,10 +30,12 @@ namespace TSC.Expopunto.Api.Controllers
     public class GuiaEntradaController : Controller
     {
         private readonly IMediator _mediator;
+        private readonly IGuiaAprobacionCommand _guiaAprobacionCommand;
 
-        public GuiaEntradaController(IMediator mediator)
+        public GuiaEntradaController(IMediator mediator, IGuiaAprobacionCommand guiaAprobacionCommand)
         {
             _mediator = mediator;
+            _guiaAprobacionCommand = guiaAprobacionCommand;
         }
 
         [HttpPost("crear")]
@@ -65,7 +74,7 @@ namespace TSC.Expopunto.Api.Controllers
                     d.Color,
                     d.CodigoSku,
                     d.IdUsuario
-                
+
 
                 )).ToList()
             );
@@ -241,6 +250,96 @@ namespace TSC.Expopunto.Api.Controllers
                     ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
                 );
         }
+
+
+        [HttpPost("listar-pendientes-aprobar")]
+        public async Task<IActionResult> ListarPendientesAprobar(
+            [FromBody] ObtenerGuiasPendientesAprobarParams parametros
+        )
+        {
+            var data = await _mediator.Send(new ObtenerGuiasPendientesAprobarQuery(parametros));
+
+            if (data == null || data.Data == null || data.Data.Count == 0)
+            {
+                return StatusCode(
+                    StatusCodes.Status200OK,
+                    ResponseApiService.Response(StatusCodes.Status204NoContent, null, "No se encontraron resultados")
+                );
+            }
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+
+        }
+
+        [HttpPost("aprobar-guia")]
+        public async Task<IActionResult> AprobarGuia(
+            [FromBody] GuiaAprobacionModel model
+        )
+        {
+            model.Opcion = 1; // Opcion 1 para aprobar guias
+            await _guiaAprobacionCommand.AprobarGuiasEntradaAsync(model);
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, message: "Exitoso"));
+        }
+
+        [HttpGet("listar-guia-conforme-sige")]
+        public async Task<IActionResult> ListarGuiaConformeSige(
+            [FromQuery] ObtenerGuiasConformeSigeParams parametros
+        )
+        {
+            parametros.Opcion = "V"; // Opcion V para ver
+            var data = await _mediator.Send(new ObtenerGuiasConformeSigeQuery(parametros));
+
+            if (data == null || data.Data == null || data.Data.Count == 0)
+            {
+                return StatusCode(
+                    StatusCodes.Status204NoContent,
+                    ResponseApiService.Response(StatusCodes.Status204NoContent, null, "No se encontraron resultados")
+                );
+            }
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+        }
+
+        [HttpGet("listar-guia-conforme-sige-detalle")]
+        public async Task<IActionResult> ListarGuiaConformeSigeDetalle(
+            [FromQuery] ObtenerGuiasConformeSigeDetalleParams parametros
+        )
+        {
+            parametros.Opcion = "V"; // Opcion V para ver
+            var data = await _mediator.Send(new ObtenerGuiasConformeSigeDetalleQuery(parametros));
+
+            if (data == null || data.Data == null || data.Data.Count == 0)
+            {
+                return StatusCode(
+                    StatusCodes.Status204NoContent,
+                    ResponseApiService.Response(StatusCodes.Status204NoContent, null, "No se encontraron resultados")
+                );
+            }
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+        }
+
+        [HttpPost("conformidad-guia-sige")]
+        public async Task<IActionResult> ConformidadGuiaSige(
+            [FromBody] GuiaConformidadSigeModel model
+        )
+        {
+            model.Opcion = "C"; // Opcion C para conformidad de guias
+            await _guiaAprobacionCommand.GuiaConformidadSigeAsync(model);
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, message: "Exitoso"));
+        }
     }
 }
-

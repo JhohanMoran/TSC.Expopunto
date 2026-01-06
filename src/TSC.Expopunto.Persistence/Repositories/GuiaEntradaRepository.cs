@@ -1,6 +1,10 @@
-﻿using TSC.Expopunto.Application.DataBase;
+﻿using DocumentFormat.OpenXml.Spreadsheet;
+using TSC.Expopunto.Application.DataBase;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.DTO;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasConformeSige.Params;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasConformeSigeDetalle.Params;
 using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasEntrada.Params;
+using TSC.Expopunto.Application.DataBase.GuiaEntrada.Queries.ObtenerGuiasPendientesAprobar.Params;
 using TSC.Expopunto.Application.Interfaces.Repositories.GuiaEntrada;
 using TSC.Expopunto.Common;
 using TSC.Expopunto.Domain.Entities.GuiaEntrada;
@@ -244,6 +248,90 @@ namespace TSC.Expopunto.Persistence.Repositories
                 , 0);
 
             return responseMulti;
+        }
+
+        public async Task<PagedResult<GuiaEntradaDTO>> ObtenerGuiasPendientesAprobarAsync(ObtenerGuiasPendientesAprobarParams parametros)
+        {
+            var parameters = new
+            {
+                pOpcion = parametros.Opcion,
+
+                pPagina = parametros.Pagina,
+                pFilasPorPagina = parametros.FilasPorPagina,
+                pOrdenPor = parametros.OrdenarPor,
+                pOrdenDireccion = parametros.OrdenDireccion,
+
+                pSerie = parametros.Serie,
+                pNumero = parametros.Numero,
+                pIdProveedor = parametros.IdProveedor,
+                pFechaDesde = parametros.FechaDesde,
+                pFechaHasta = parametros.FechaHasta
+            };
+
+            var response = await _dapperQueryService
+                                .QueryAsync<GuiaEntradaDTO>("uspGetGuiasEntrada", parameters);
+
+            var guiasEntradaLista = response.ToList();
+            var totalRegistros = guiasEntradaLista.FirstOrDefault()?.TotalRegistros ?? 0;
+
+            return new PagedResult<GuiaEntradaDTO>
+            {
+                Data = guiasEntradaLista,
+                Total = totalRegistros,
+                Pagina = parametros.Pagina,
+                FilasPorPagina = parametros.FilasPorPagina
+            };
+        }
+
+        public async Task<PagedResult<GuiaConformeSigeDto>> ObtenerGuiasConformeSigeAsync(ObtenerGuiasConformeSigeParams parametros)
+        {
+            var parameters = new
+            {
+                OPCION = parametros.Opcion,
+                SER_GUIA = parametros.Serie,
+                NUMERO_GUIA = parametros.Numero,
+                pOrdenColumna = parametros.OrdenarPor,
+                pOrdenDireccion = parametros.OrdenDireccion,
+                pPagina = parametros.Pagina,
+                pFilasPorPagina = parametros.FilasPorPagina,
+                pFiltroNombre = parametros.Nombre
+            };
+
+            _dapperQueryService.UsarConexion("SQLConnectionSigeMigraString");
+
+            var response = await _dapperQueryService
+                                .QueryAsync<GuiaConformeSigeDto>("UP_GET_BANDEJA_EXPOPUNTO", parameters);
+            var guiasConformeSigeLista = response.ToList();
+            return new PagedResult<GuiaConformeSigeDto>
+            {
+                Data = guiasConformeSigeLista,
+                Total = guiasConformeSigeLista.Count,
+                Pagina = 1,
+                FilasPorPagina = guiasConformeSigeLista.Count
+            };
+        }
+
+        public async Task<PagedResult<GuiaConformeSigeDetalleDto>> ObtenerGuiasConformeSigeDetalleAsync(ObtenerGuiasConformeSigeDetalleParams parametros)
+        {
+            var parameters = new
+            {
+                OPCION = parametros.Opcion,
+                COD_ALMACEN = parametros.CodAlmacen,
+                NUM_MOVSTK = parametros.NumMovstk
+            };
+
+            _dapperQueryService.UsarConexion("SQLConnectionSigeMigraString");
+
+            var response = await _dapperQueryService
+                                .QueryAsync<GuiaConformeSigeDetalleDto>("UP_GET_BANDEJA_EXPOPUNTO_DETALLE", parameters);
+            var guiasConformeSigeDetalleLista = response.ToList();
+            return new PagedResult<GuiaConformeSigeDetalleDto>
+            {
+                Data = guiasConformeSigeDetalleLista,
+                Total = guiasConformeSigeDetalleLista.Count,
+                Pagina = 1,
+                FilasPorPagina = guiasConformeSigeDetalleLista.Count
+            };
         }
     }
 }
