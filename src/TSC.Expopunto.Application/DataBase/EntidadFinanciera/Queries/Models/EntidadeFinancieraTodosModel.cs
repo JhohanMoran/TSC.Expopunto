@@ -1,0 +1,10 @@
+﻿namespace TSC.Expopunto.Application.DataBase.EntidadFinanciera.Queries.Models
+{
+    public class EntidadeFinancieraTodosModel
+    {
+        public int Id { get; set; }
+        public string Codigo { get; set; }
+        public string Descripcion { get; set; }
+        public string Estado { get; set; } // 'Activo' o 'Inactivo'
+    }
+}

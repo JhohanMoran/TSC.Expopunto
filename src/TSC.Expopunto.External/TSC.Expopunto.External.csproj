@@ -1,0 +1,31 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="itext7" Version="7.2.6" />
+    <PackageReference Include="itext7.bouncy-castle-adapter" Version="8.0.0" />
+    <PackageReference Include="itext7.bouncy-castle-fips-adapter" Version="8.0.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.20" />
+    <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.9" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.9" />
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.14.0" />
+    <PackageReference Include="ZXing.Net" Version="0.16.11" />
+    <PackageReference Include="ZXing.Net.Bindings.ImageSharp.V2" Version="0.16.18" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TSC.Expopunto.Application\TSC.Expopunto.Application.csproj" />
+    <ProjectReference Include="..\TSC.Expopunto.Domain\TSC.Expopunto.Domain.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\TSC.Expopunto.Application\TSC.Expopunto.Application.csproj" />
+    <ProjectReference Include="..\TSC.Expopunto.Domain\TSC.Expopunto.Domain.csproj" />
+  </ItemGroup>
+
+</Project>

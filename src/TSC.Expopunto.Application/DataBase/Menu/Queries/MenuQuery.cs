@@ -1,0 +1,82 @@
+﻿using TSC.Expopunto.Application.DataBase.Menu.Queries.Models;
+
+namespace TSC.Expopunto.Application.DataBase.Menu.Queries
+{
+    public class MenuQuery : IMenuQuery
+    {
+        private readonly IDapperQueryService _dapperService;
+
+        public MenuQuery(IDapperQueryService dapperService)
+        {
+            _dapperService = dapperService;
+        }
+        public async Task<List<MenusTodos>> ListarMenusPorEstadoAsync(bool? activo)
+        {
+            var parameters = new
+            {
+                pOpcion = 1,
+                pActivo = activo
+            };
+            var response = await _dapperService.QueryAsync<MenusTodos>("uspGetMenus", parameters);
+            return response.ToList();
+        }
+
+        public async Task<MenusTodos> ListarMenusPorIdAsync(int idMenu)
+        {
+            var parameters = new
+            {
+                pOpcion = 3,
+                pId = idMenu
+            };
+            var response = await _dapperService.QueryFirstOrDefaultAsync<MenusTodos>("uspGetMenus", parameters);
+            return response;
+        }
+
+        public async Task<List<MenusTodos>> ListarMenusSubMenusAsync()
+        {
+            var parameters = new
+            {
+                pOpcion = 2
+            };
+            var response = await _dapperService.QueryAsync<MenusTodos>("uspGetMenus", parameters);
+
+            var menusFormateados = FormatearMenus(response.ToList());
+
+            return menusFormateados;
+        }
+
+        public List<MenusTodos> FormatearMenus(List<MenusTodos> menus)
+        {
+            List<MenusTodos> menusPadres = menus.Where(m => m.IdMenuPadre == null).OrderBy(m => m.Orden).ToList();
+
+            foreach (var menu in menusPadres)
+            {
+                menu.MenuHijo = ObtenerHijos(menus, menu.Id);
+            }
+
+            return menusPadres.ToList();
+        }
+
+        public List<MenusTodos> ObtenerHijos(List<MenusTodos> menus, int idPadre)
+        {
+            List<MenusTodos> menusHijos = menus.Where(m => m.IdMenuPadre == idPadre).OrderBy(m => m.Orden).ToList();
+
+            foreach (var menu in menusHijos)
+            {
+                menu.MenuHijo = ObtenerHijos(menus, menu.Id);
+            }
+
+            return menusHijos.ToList();
+        }
+        public async Task<List<MenusTodos>> ListarMenusSubMenusPlanoAsync()
+        {
+            var parameters = new
+            {
+                pOpcion = 2
+            };
+            var response = await _dapperService.QueryAsync<MenusTodos>("uspGetMenus", parameters);
+
+            return response.ToList();
+        }
+    }
+}
