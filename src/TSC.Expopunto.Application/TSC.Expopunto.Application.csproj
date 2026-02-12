@@ -11,14 +11,17 @@
     <Compile Remove="DataBase\Comprobante\**" />
     <Compile Remove="DataBase\NewFolder1\**" />
     <Compile Remove="DataBase\Reporte\Queries\Models\NewFolder\**" />
+    <Compile Remove="DataBase\Venta\Commands\NewFolder\**" />
     <EmbeddedResource Remove="DataBase\Cliente\**" />
     <EmbeddedResource Remove="DataBase\Comprobante\**" />
     <EmbeddedResource Remove="DataBase\NewFolder1\**" />
     <EmbeddedResource Remove="DataBase\Reporte\Queries\Models\NewFolder\**" />
+    <EmbeddedResource Remove="DataBase\Venta\Commands\NewFolder\**" />
     <None Remove="DataBase\Cliente\**" />
     <None Remove="DataBase\Comprobante\**" />
     <None Remove="DataBase\NewFolder1\**" />
     <None Remove="DataBase\Reporte\Queries\Models\NewFolder\**" />
+    <None Remove="DataBase\Venta\Commands\NewFolder\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -43,6 +46,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.7" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Abstractions" Version="9.0.9" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="9.0.9" />
+    <PackageReference Include="Unipluss.Sign.Client" Version="1.0.2876" />
   </ItemGroup>
 
   <ItemGroup>
