@@ -272,5 +272,39 @@ namespace TSC.Expopunto.Persistence.Repositories
                 throw;
             }
         }
+        // 1. Implementación para Listar Ventas
+        public async Task<List<VentaDepositoDTO>> ListarVentasParaDepositoAsync(DateTime fecha)
+        {
+            var parameters = new
+            {
+                Opcion = 1,
+                Fecha = fecha
+            };
+
+            // Llamamos directamente al servicio inyectado
+            var result = await _dapperQueryService
+                .QueryAsync<VentaDepositoDTO>("uspGetDepositos", parameters);
+
+            return result.ToList();
+        }
+
+        // 2. Implementación para Registrar el Depósito
+        public async Task<bool> RegistrarDepositoAsync(string nroOperacion, DateTime fecha, int idUsuario, string idsVentas)
+        {
+            var parameters = new
+            {
+                Opcion = 1,
+                NroOperacion = nroOperacion,
+                Fecha = fecha,
+                IdUsuario = idUsuario,
+                IdsVentas = idsVentas
+            };
+
+            // Usamos QueryFirstOrDefaultAsync directamente sobre el servicio
+            var result = await _dapperQueryService
+                .QueryFirstOrDefaultAsync<dynamic>("uspSetDepositos", parameters);
+
+            return result != null && result.Success == 1;
+        }
     }
 }

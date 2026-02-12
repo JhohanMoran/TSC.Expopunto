@@ -22,5 +22,8 @@ namespace TSC.Expopunto.Application.Interfaces.Repositories.Venta
         Task<VentaDTO> ObtenerVentaPorSerieNumeroAsync(string serie, string numero);
         Task<List<VentaAprobacionDTO>> ListarVentasParaAprobacionAsync(DateTime fecha);
 
+        Task<List<VentaDepositoDTO>> ListarVentasParaDepositoAsync(DateTime fecha);
+
+        Task<bool> RegistrarDepositoAsync(string nroOperacion, DateTime fecha, int idUsuario, string idsVentas);
     }
 }
