@@ -14,6 +14,7 @@
         public string? Apellidos { get; set; }
         public string? Direccion { get; set; }
         public string? Celular { get; set; }
+        public decimal ValorDescuento { get; set; }
         public bool Activo { get; set; }
         public string Auditoria { get; set; } = string.Empty;
         public int TotalRegistros { get; set; }
