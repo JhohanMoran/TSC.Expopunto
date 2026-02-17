@@ -8,5 +8,7 @@
         public DateTime? FechaFin { get; set; }
         public decimal? ValorDescuento { get; set; }
         public int? IdUsuario { get; set; }
+
+        
     }
 }

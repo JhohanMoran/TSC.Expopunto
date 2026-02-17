@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using TSC.Expopunto.Api.Models.PersonaDescuento;
+using TSC.Expopunto.Application.DataBase.Persona.Queries.Models;
 using TSC.Expopunto.Application.DataBase.PersonaDescuento.Commands;
 using TSC.Expopunto.Application.DataBase.PersonaDescuento.Queries.ListarDescuentosPorIdPersona;
 using TSC.Expopunto.Application.DataBase.PersonaDescuento.Queries.ObtenerDescuentoPersonaPorId;
@@ -71,6 +72,27 @@ namespace TSC.Expopunto.Api.Controllers
             );
         }
 
+        [HttpPost("guardar-descuento-masivo")]
+        public async Task<IActionResult> GuardarDescuentoMasivo(
+         [FromBody] GuardarPersonasDsctoMasivoRequest request
+        )
+        {
+            var command = new GuardarPersonaDsctoMasivoCommand(
+                request.Id,
+                request.IdPersona,
+                request.FechaInicio.Value,
+                request.FechaFin.Value,
+                request.ValorDescuento,
+                request.IdUsuario
+            );
+
+            var data = await _mediator.Send(command);
+
+            return StatusCode(
+                StatusCodes.Status200OK,
+                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
+            );
+        }
 
     }
 }
