@@ -13,6 +13,7 @@
         public string? Apellidos { get; set; }
         public string? Direccion { get; set; }
         public string? Celular { get; set; }
+        public decimal ValorDescuento { get; set; }
 
         public int? IdUsuario { get; set; }
         public bool? Activo { get; set; } = true;
