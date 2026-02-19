@@ -1,4 +1,5 @@
 ﻿using TSC.Expopunto.Application.DataBase;
+using TSC.Expopunto.Application.DataBase.PersonaDescuento.Commands;
 using TSC.Expopunto.Application.DataBase.PersonaDescuento.DTO;
 using TSC.Expopunto.Application.Interfaces.Repositories.PersonaDescuento;
 using TSC.Expopunto.Common;
@@ -76,6 +77,28 @@ namespace TSC.Expopunto.Persistence.Repositories
             parametros.Id = id;
 
             return parametros;
+        }
+        public async Task<bool> GuardarMasivoAsync(GuardarPersonaDsctoMasivoCommand request)
+        {
+            // Dentro de GuardarMasivoAsync
+            var parameters = new
+            {
+                pSeleccionoTodos = request.SeleccionoTodos,
+                pIdsSeleccionados = request.IdsSeleccionados != null ? string.Join(",", request.IdsSeleccionados) : null,
+                pIdsExcluidos = request.IdsExcluidos != null ? string.Join(",", request.IdsExcluidos) : null,
+                pFechaInicio = request.FechaInicio,
+                pFechaFin = request.FechaFin,
+                pValorDescuento = request.ValorDescuento,
+                pIdUsuario = request.IdUsuario,
+                pNombre = request.ListarParametros?.Nombre,
+                pCodTipoPersona = request.ListarParametros?.CodTipoPersona,
+                pIdTipoDocumento = request.ListarParametros?.IdTipoDocumento,
+                pNumeroDocumento = request.ListarParametros?.NumeroDocumento
+            };
+
+            var result = await _dapperCommandService.ExecuteScalarAsync("uspSetPersonaDescuentoMasivo", parameters);
+
+            return result > 0;
         }
     }
 }

@@ -25,6 +25,6 @@
         public string FechaProximaAltaDisplay { get; set; } = string.Empty;
         public string NombrePersonaDisplay { get; set; } = string.Empty;
         public string FechaAltaDisplay { get; set; } = string.Empty;
-        public decimal ValorDescuento { get; set; }
+        
     }
 }

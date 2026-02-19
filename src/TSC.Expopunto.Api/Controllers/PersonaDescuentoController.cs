@@ -73,25 +73,24 @@ namespace TSC.Expopunto.Api.Controllers
         }
 
         [HttpPost("guardar-descuento-masivo")]
-        public async Task<IActionResult> GuardarDescuentoMasivo(
-         [FromBody] GuardarPersonasDsctoMasivoRequest request
-        )
+        public async Task<IActionResult> GuardarDescuentoMasivo([FromBody] GuardarPersonasDsctoMasivoRequest request)
         {
+            // Construimos el comando con los datos del Request actualizado
             var command = new GuardarPersonaDsctoMasivoCommand(
-                request.Id,
-                request.IdPersona,
-                request.FechaInicio.Value,
-                request.FechaFin.Value,
-                request.ValorDescuento,
-                request.IdUsuario
+                request.guardarDsctoRequest.Id ?? 0,
+                request.guardarDsctoRequest.FechaInicio.Value,
+                request.guardarDsctoRequest.FechaFin.Value,
+                request.guardarDsctoRequest.ValorDescuento ?? 0,
+                request.guardarDsctoRequest.IdUsuario ?? 0,
+                request.seleccionoTodos,
+                request.idsSeleccionados, //
+                request.idsExcluidos,     //
+                request.listarParametros
             );
 
             var data = await _mediator.Send(command);
 
-            return StatusCode(
-                StatusCodes.Status200OK,
-                ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso")
-            );
+            return Ok(ResponseApiService.Response(StatusCodes.Status200OK, data, "Exitoso"));
         }
 
     }
